@@ -1,32 +1,158 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Blessed Amusements</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; background: #f8f8f8; }
-        header { background: #ffcc00; padding: 20px; }
-        header h1 { margin: 0; }
-        section { padding: 20px; }
-        footer { background: #333; color: white; padding: 10px; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blessed Amusements • Claw & Arcade Placement</title>
+  <meta name="description" content="Free, hands-off claw and arcade machine placement for your venue. We deliver, stock, clean, and maintain. You earn commission from every play." />
+  <style>
+    :root{
+      --bg:#0b0b0f;
+      --panel:#12121a;
+      --ink:#e9eef5;
+      --muted:#b9c3cf;
+      --brand:#ffcc00;
+      --brand-ink:#111;
+      --accent:#00e0ff;
+      --card:#151722;
+      --radius:16px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:var(--max);margin:auto;padding:24px}
+    header{position:relative;overflow:hidden}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px;background:rgba(0,0,0,.35);backdrop-filter:saturate(140%) blur(8px);position:sticky;top:0;z-index:10;border-bottom:1px solid rgba(255,255,255,.06)}
+    .logo{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}
+    .logo-badge{width:36px;height:36px;border-radius:10px;background:var(--brand);box-shadow:inset 0 -8px 18px rgba(0,0,0,.25)}
+    .nav a.btn{color:#000;background:var(--brand);padding:10px 16px;border-radius:999px;font-weight:700;box-shadow:var(--shadow)}
+    .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center;padding:32px 24px}
+    .hero h1{font-size:clamp(28px,5vw,44px);line-height:1.1;margin:0 0 10px}
+    .hero p{color:var(--muted);margin:0 0 18px}
+    .cta{display:flex;flex-wrap:wrap;gap:12px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;font-weight:700}
+    .btn-primary{background:var(--brand);color:var(--brand-ink)}
+    .btn-ghost{border:1px solid rgba(255,255,255,.15);color:var(--ink);background:transparent}
+    .panel{background:var(--panel);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero-media{position:relative;border-radius:var(--radius);overflow:hidden}
+    .hero-media img,.hero-media video{display:block;width:100%;height:100%;object-fit:cover}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .card{background:var(--card);border-radius:14px;border:1px solid rgba(255,255,255,.06);overflow:hidden}
+    .card img{width:100%;height:220px;object-fit:cover;display:block}
+    .card .pad{padding:14px;color:var(--muted)}
+    h2{font-size:clamp(20px,3.4vw,28px);margin:0 0 12px}
+    section{padding:36px 24px}
+    .list{margin:0;padding:0 0 0 18px;color:var(--muted)}
+    .testis{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .quote{padding:16px;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:14px}
+    .quote strong{color:var(--ink)}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .kpi{padding:18px;text-align:center;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:14px}
+    .kpi b{display:block;font-size:28px;letter-spacing:.3px}
+    .cta-band{display:grid;place-items:center;padding:26px;margin:26px 24px;background:linear-gradient(90deg,rgba(255,204,0,.15),rgba(0,224,255,.15));border:1px dashed rgba(255,255,255,.15);border-radius:16px}
+    footer{padding:22px 24px;color:var(--muted);border-top:1px solid rgba(255,255,255,.08)}
+    .grid img.lazy{filter:saturate(85%) brightness(.95)}
+    @media (max-width:1000px){
+      .hero{grid-template-columns:1fr;gap:20px}
+      .grid{grid-template-columns:1fr 1fr}
+      .testis{grid-template-columns:1fr}
+      .kpis{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:620px){
+      .nav{flex-wrap:wrap;gap:8px}
+      .grid{grid-template-columns:1fr}
+      .kpis{grid-template-columns:1fr 1fr}
+    }
+  </style>
 </head>
 <body>
 
-<header>
-    <h1>Welcome to Blessed Amusements</h1>
-    <p>Claw Machines & Arcade Fun Delivered to You!</p>
-</header>
+  <!-- Top bar -->
+  <div class="nav">
+    <div class="logo">
+      <div class="logo-badge" aria-hidden="true"></div>
+      <span>Blessed Amusements</span>
+    </div>
+    <div class="cta">
+      <a class="btn btn-ghost" href="#contact">Get a Machine</a>
+      <a class="btn" href="mailto:hello@blessedamusements.com">Email Us</a>
+    </div>
+  </div>
 
-<section>
-    <h2>About Us</h2>
-    <p>We provide free claw machine and arcade game placement — delivered, stocked, cleaned, and maintained at no cost to venues. Partners earn commission from every play.</p>
-</section>
+  <!-- Hero -->
+  <header class="wrap hero panel" id="top">
+    <div>
+      <h1>Free, hands-off <span style="color:var(--brand)">claw & arcade</span> placement for your venue</h1>
+      <p>We deliver, stock, clean, and maintain every machine at no cost to you. You simply earn commission from every play.</p>
+      <div class="cta" style="margin-top:8px">
+        <a class="btn btn-primary" href="mailto:hello@blessedamusements.com">Book a 10-min call</a>
+        <a class="btn btn-ghost" href="https://instagram.com/blessedamusements" target="_blank" rel="noopener">@blessedamusements</a>
+      </div>
+    </div>
 
-<footer>
-    <p>Contact us: info@blessedamusements.com</p>
-</footer>
+    <figure class="hero-media panel" aria-label="Machines in action">
+      <!-- If your MP4 exists and is small enough, this will play; otherwise the poster image shows. -->
+      <video src="Assets/20250718_001005.mp4" poster="Assets/IMG_3387.jpeg" playsinline autoplay muted loop></video>
+    </figure>
+  </header>
 
+  <!-- What we offer -->
+  <section class="wrap panel" id="offer">
+    <h2>Machines We Offer</h2>
+    <ul class="list">
+      <li>Mini & full-size claw machines with high-quality prizes</li>
+      <li>Capsule / prize cube machines</li>
+      <li><em>Cut the Rope</em> skill game</li>
+      <li>Boxer / strength tester machines</li>
+      <li>Seasonal and themed arcade attractions</li>
+    </ul>
+    <div class="kpis" style="margin-top:16px">
+      <div class="kpi"><b>100%</b>Hands-off for venues</div>
+      <div class="kpi"><b>$0</b>Delivery & maintenance</div>
+      <div class="kpi"><b>Weekly</b>Restock & clean</div>
+      <div class="kpi"><b>Commission</b>Paid monthly</div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="wrap panel" id="gallery">
+    <h2>Our Machines in Action</h2>
+    <div class="grid" style="margin-top:10px">
+      <figure class="card"><img src="Assets/IMG_3404.png" alt="Claw machine at venue" class="lazy"><figcaption class="pad">High-traffic placement</figcaption></figure>
+      <figure class="card"><img src="Assets/IMG_3405.png" alt="Closeup of plush and card reader" class="lazy"><figcaption class="pad">Card & cash ready</figcaption></figure>
+      <figure class="card"><img src="Assets/IMG_3409.png" alt="Claw machine near entry" class="lazy"><figcaption class="pad">Great for families</figcaption></figure>
+      <figure class="card"><img src="Assets/IMG_3411.png" alt="Multiple machines together" class="lazy"><figcaption class="pad">Scalable setups</figcaption></figure>
+      <figure class="card"><img src="Assets/IMG_3387.jpeg" alt="Prize variety" class="lazy"><figcaption class="pad">Premium prizes</figcaption></figure>
+      <figure class="card"><img src="Assets/IMG_3404.png" alt="Another machine angle" class="lazy"><figcaption class="pad">Clean installs</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="wrap panel" id="testimonials">
+    <h2>Partner Highlights</h2>
+    <div class="testis" style="margin-top:10px">
+      <div class="quote"><strong>Vinny – Vinny's NY Pizza</strong><br/>“Gave us our first big break — still a hit with their guests.”</div>
+      <div class="quote"><strong>Coco – Hunan Garden</strong><br/>“Great experience. Owner loved the hands-off setup.”</div>
+      <div class="quote"><strong>Joe – Pizza Margherita</strong><br/>“Instant success. Guests play while they wait.”</div>
+      <div class="quote"><strong>Taco Chinoz & Bar</strong><br/>“Two locations — both top performers.”</div>
+    </div>
+  </section>
+
+  <!-- Call to action -->
+  <section class="wrap cta-band" id="contact">
+    <h2 style="margin:0 0 8px">Ready to add a money-making attraction to your venue?</h2>
+    <div class="cta">
+      <a class="btn btn-primary" href="mailto:hello@blessedamusements.com">hello@blessedamusements.com</a>
+      <a class="btn btn-ghost" href="https://instagram.com/blessedamusements" target="_blank" rel="noopener">@blessedamusements</a>
+    </div>
+  </section>
+
+  <footer class="wrap">
+    <p>© <span id="y"></span> Blessed Amusements • Claw & Arcade Placement</p>
+    <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+  </footer>
 </body>
 </html>
