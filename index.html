@@ -3,41 +3,37 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Blessed Amusements — Family-Owned Fun Across NOVA</title>
-<meta name="description" content="Family-Owned claw machine placements across Northern Virginia (NOVA). We install, stock, and service — you enjoy happier customers and extra revenue." />
+<title>Blessed Amusements — Background</title>
 <style>
   :root{
-    --text:#0b1630; --muted:#5a6b8a;
-    --brand:#7cf0ff; --brand-2:#8b5cff; --accent:#20ffa0;
-    --card:#ffffff; --shadow:0 12px 36px rgba(9,25,49,.14);
-    --radius:16px; --radius-sm:12px;
+    --blue-0:#0a1478;  /* deep base */
+    --blue-1:#0a1360;
+    --blue-2:#08124a;
+    --glow-a:rgba(124,240,255,.28);
+    --glow-b:rgba(155,120,255,.24);
+    --mint:rgba(32,255,160,.14);
   }
   *{box-sizing:border-box}
+  html,body{height:100%}
   html,body{
-    margin:0;color:var(--text);
-    font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif;
-    /* base gradient; wallpaper layers add on top */
+    margin:0; overflow-x:hidden;
     background:
       radial-gradient(1600px 1000px at 50% -20%, #1632ff 0%, rgba(22,50,255,0) 55%),
-      radial-gradient(1200px 800px at 90% 0%, rgba(139,92,255,.28), transparent 60%),
-      radial-gradient(900px 700px at 10% 15%, rgba(32,255,160,.14), transparent 60%),
-      linear-gradient(180deg, #0a1478 0%, #0a1360 50%, #08124a 100%);
-    overflow-x:hidden;
+      radial-gradient(1200px 800px at 90% 0%, var(--glow-b), transparent 60%),
+      radial-gradient(900px 700px at 10% 15%, var(--mint), transparent 60%),
+      linear-gradient(180deg, var(--blue-0) 0%, var(--blue-1) 50%, var(--blue-2) 100%);
   }
-  a{color:inherit;text-decoration:none}
-  img{max-width:100%;display:block}
 
-  /* ===== Confetti + Wallpaper (behind everything) ===== */
-  .bg-wrap{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
-  #confetti{position:absolute; inset:0; width:100%; height:100%; display:block; filter:saturate(115%)}
-  .wallpaper{ position:absolute; inset:0; z-index:-1; }
+  /* Background stack (behind everything) */
+  .bg{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+  #confetti{position:absolute; inset:0; width:100%; height:100%; filter:saturate(115%)}
 
   /* Party wallpaper: glows + scallop waves + spikes + tiny hearts */
   .wallpaper{
+    position:absolute; inset:0; z-index:-1;
     background:
-      /* soft glows */
-      radial-gradient(1000px 600px at 85% 5%, rgba(124,240,255,.25), transparent 60%),
-      radial-gradient(900px 600px at 15% 10%, rgba(155,120,255,.20), transparent 60%),
+      radial-gradient(1000px 600px at 85% 5%, var(--glow-a), transparent 60%),
+      radial-gradient(900px 600px at 15% 10%, var(--glow-b), transparent 60%),
 
       /* scallop wave band near top */
       radial-gradient(70px 70px at 0% 0%, #0b1370 98%, transparent 100%) 0 110px/140px 70px repeat-x,
@@ -57,245 +53,94 @@
     opacity:.9;
   }
   @keyframes wallpaperFloat{
-    0%{ transform:translateY(0) scale(1); filter:hue-rotate(0deg) }
-    100%{ transform:translateY(-2%) scale(1.02); filter:hue-rotate(8deg) }
+    0%   { transform:translateY(0) scale(1);    filter:hue-rotate(0deg) }
+    100% { transform:translateY(-2%) scale(1.02); filter:hue-rotate(8deg) }
   }
 
-  /* Content wrapper above background */
-  .page{ position:relative; z-index:1; }
-
-  /* ===== Header ===== */
-  .nav{
-    position:sticky; top:0; z-index:5;
-    background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.74));
-    border-bottom:1px solid rgba(9,25,49,.08);
-    backdrop-filter:saturate(160%) blur(10px);
-  }
-  .nav-wrap{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:20px}
-  .logo{display:flex;align-items:center;gap:12px}
-  .logo img{height:38px}
-  .logo span{font-weight:800;letter-spacing:.2px}
-  .nav-links{margin-left:auto;display:flex;gap:18px;align-items:center}
-  .nav-links a{padding:10px 12px;border-radius:10px;color:#0e1f3d;font-weight:600}
-  .nav-links a:hover{background:rgba(14,31,61,.08)}
-
-  /* ===== Buttons ===== */
-  .btn{
-    --bgc:linear-gradient(90deg,var(--brand),var(--accent));
-    background:var(--bgc); color:#04121f; font-weight:800; border:none;
-    border-radius:14px; padding:14px 18px; box-shadow:0 10px 30px rgba(32,255,160,.25);
-    position:relative; overflow:hidden; cursor:pointer; display:inline-flex; align-items:center; gap:.45rem;
-    transition:box-shadow .2s ease, transform .1s ease
-  }
-  .btn:hover{box-shadow:0 16px 38px rgba(32,255,160,.35); transform:translateY(-1px)}
-  .btn:active{transform:translateY(1px)}
-  .btn.secondary{background:transparent;color:var(--text);border:1px solid rgba(9,25,49,.12);box-shadow:none}
-  .btn .shine{position:absolute; inset:0; background:linear-gradient(120deg,transparent 0 35%,rgba(255,255,255,.6) 45% 55%,transparent 65% 100%); transform:translateX(-120%); transition:transform .9s ease; mix-blend:overlay}
-  .btn:hover .shine{transform:translateX(120%)}
-
-  /* ===== Hero ===== */
-  .hero{position:relative}
-  .hero-inner{
-    max-width:1200px;margin:0 auto;
-    padding: clamp(68px, 8vw, 120px) 20px 90px; /* extra bottom to avoid overlap */
-    display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center
-  }
-  .kicker{display:inline-flex;align-items:center;gap:10px;padding:6px 12px;border-radius:999px;background:rgba(139,92,255,.14);border:1px solid rgba(139,92,255,.28);font-size:13px;color:#4b3f72}
-  h1{font-size: clamp(34px, 4.6vw, 62px);line-height:1.04;margin:14px 0 14px}
-  .sub{font-size: clamp(16px,1.5vw,18px);color:var(--muted);max-width:58ch}
-  .hero-actions{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
-
-  /* Hero image — fixed alignment, no bleed */
-  .hero-art{display:flex; justify-content:flex-end; align-items:center; overflow:hidden}
-  .claw{
-    position:relative; width:min(540px, 100%); max-height:540px; object-fit:contain;
-    margin-right:-8px;
-    filter:drop-shadow(0 20px 60px rgba(9,25,49,.28));
-    animation: floaty 6s ease-in-out infinite;
-  }
-  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-
-  /* Trust strip */
-  .strip{padding:12px 14px;margin:0 auto 8px;max-width:1200px;border-radius:12px;background:linear-gradient(90deg,rgba(124,240,255,.25),rgba(139,92,255,.22));border:1px solid rgba(9,25,49,.08);display:flex;flex-wrap:wrap;gap:10px;justify-content:center;color:#13264a}
-
-  /* Feature cards */
-  .band{padding:38px 20px}
-  .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .card{background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid rgba(9,25,49,.08);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease}
-  .card:hover{transform:translateY(-4px);box-shadow:0 18px 48px rgba(9,25,49,.18);border-color:rgba(124,240,255,.5)}
-  .card h3{margin:6px 0 8px}
-  .pill{display:inline-flex;gap:8px;align-items:center;border:1px dashed rgba(9,25,49,.18);padding:6px 10px;border-radius:999px;font-size:13px;color:#3b4d75}
-
-  /* Service block */
-  #service img{border-radius:16px;filter:drop-shadow(0 18px 44px rgba(9,25,49,.18))}
-
-  /* Lead capture */
-  .cta-section{padding:64px 20px 90px}
-  .cta-wrap{max-width:1100px;margin:0 auto;background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid rgba(9,25,49,.10);border-radius:20px;padding:28px;display:grid;grid-template-columns:1.4fr .6fr;gap:18px;align-items:center}
-  .cta-box h2{margin:6px 0 12px;font-size:clamp(24px,3.2vw,40px)}
-  .tagline{color:var(--muted)}
-  .cta-panel{background:#ffffff;border:1px solid rgba(9,25,49,.12);border-radius:16px;padding:18px;display:grid;gap:12px}
-  .cta-panel .row{display:flex;gap:10px;align-items:center}
-  .cta-panel input,.cta-panel textarea{padding:12px 14px;border-radius:12px;border:1px solid rgba(9,25,49,.14);background:#ffffff;color:var(--text)}
-  .cta-panel button{border:none}
-  .fine{font-size:12px;color:var(--muted)}
-
-  /* Footer */
-  footer{padding:26px 20px;color:#66769a;border-top:1px solid rgba(9,25,49,.08)}
-  .foot-wrap{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
-  .foot-wrap a{text-decoration:underline dotted rgba(9,25,49,.3);color:#2a3d66}
-
-  /* Reveal */
-  .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
-  .reveal.in{opacity:1;transform:none}
-
-  @media (max-width:960px){
-    .hero-inner{grid-template-columns:1fr; padding-bottom:48px}
-    .claw{margin:20px auto 0; max-height:440px}
-    .grid{grid-template-columns:1fr}
-    .cta-wrap{grid-template-columns:1fr}
-  }
+  /* A tall invisible stage so you can scroll and see the background */
+  .stage{min-height:220vh}
   @media (prefers-reduced-motion:reduce){
-    .claw{animation:none}
-    .btn .shine{display:none}
-    .reveal{transition:none}
     .wallpaper{animation:none}
   }
 </style>
 </head>
 <body>
-  <!-- Background layers -->
-  <div class="bg-wrap" aria-hidden="true">
+  <div class="bg" aria-hidden="true">
     <canvas id="confetti"></canvas>
     <div class="wallpaper"></div>
   </div>
 
-  <!-- PAGE CONTENT -->
-  <div class="page">
-    <header class="nav">
-      <div class="nav-wrap">
-        <a class="logo" href="/"><img src="Assets/logo.png" alt="Blessed Amusements logo" /><span>Blessed Amusements</span></a>
-        <nav class="nav-links">
-          <a href="#features">Why Us</a><a href="#service">Service</a><a href="#contact">Contact</a>
-          <a class="btn" href="#contact">Get A Machine <span class="shine"></span></a>
-        </nav>
-      </div>
-    </header>
+  <!-- empty stage (no text/content) -->
+  <main class="stage"></main>
 
-    <section class="hero" id="home">
-      <div class="hero-inner">
-        <div>
-          <span class="kicker">🎉 Family-Owned • <b>Blessed Amusements</b></span>
-          <h1>Bring the Fun In-House — Claw Machines That
-            <span style="background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent">Pay for Themselves</span>
-          </h1>
-          <p class="sub">We handle everything — install, stock, and service — while you enjoy happier customers and an extra stream of revenue.
-            <br><b>Serving the entire Northern Virginia Area (NOVA).</b></p>
-          <div class="hero-actions">
-            <a class="btn" href="#contact">Book a Free Placement <span class="shine"></span></a>
-            <a class="btn secondary" href="#features">See How It Works</a>
-          </div>
-        </div>
-        <div class="hero-art" aria-hidden="true">
-          <img class="claw" src="Assets/Attachment-1.png" alt="" />
-        </div>
-      </div>
-    </section>
-
-    <div class="strip">
-      <span>✅ Fast, clean installs</span><span>🧸 Premium plush & prizes</span>
-      <span>🧰 Proactive maintenance</span><span>💳 Card + cash payments</span><span>📍 NOVA coverage</span>
-    </div>
-
-    <section class="band" id="features">
-      <div class="grid">
-        <article class="card reveal"><span class="pill">No Cost To You</span><h3>We Install & Service</h3><p style="color:var(--muted)">Placement is hassle-free. We set up, stock regularly, and handle repairs so you don’t have to.</p></article>
-        <article class="card reveal"><span class="pill">More Happy Guests</span><h3>Drive Dwell Time</h3><p style="color:var(--muted)">Engaging machines keep families around longer — boosting average spend and repeat visits.</p></article>
-        <article class="card reveal"><span class="pill">Transparent Split</span><h3>Win-Win Revenue</h3><p style="color:var(--muted)">Simple, transparent commissions with detailed collections — easy to track, easy to trust.</p></article>
-      </div>
-    </section>
-
-    <section class="band" id="service">
-      <div class="grid" style="grid-template-columns:1.2fr .8fr;align-items:center">
-        <div class="reveal">
-          <h2 style="margin:0 0 8px">A Clean, Modern Setup</h2>
-          <p class="tagline">A small footprint with big smiles — perfect for restaurants, family venues, and entertainment spaces.</p>
-          <ul style="margin:14px 0 0;line-height:1.8;color:var(--muted)">
-            <li>Tailored prize mix to match your audience</li>
-            <li>Card & tap payments + bill acceptor</li>
-            <li>Fast swaps for any out-of-order unit</li>
-            <li>Professional branding that fits your space</li>
-          </ul>
-          <div class="hero-actions" style="margin-top:18px">
-            <a class="btn" href="#contact"><span class="shine"></span>Check Availability</a>
-            <a class="btn secondary" href="#contact">Ask A Question</a>
-          </div>
-        </div>
-        <div class="reveal" aria-hidden="true">
-          <img src="Assets/Attachment-3.png" alt="" style="border-radius:16px;filter:drop-shadow(0 18px 44px rgba(9,25,49,.18))" />
-        </div>
-      </div>
-    </section>
-
-    <section class="cta-section" id="contact">
-      <div class="cta-wrap reveal">
-        <div class="cta-box">
-          <span class="kicker">Serving NOVA</span>
-          <h2>Ready to place a machine?</h2>
-          <p class="tagline">Tell us about your location and we’ll recommend the perfect setup — usually installed within days.</p>
-        </div>
-        <form class="cta-panel" onsubmit="event.preventDefault(); alert('Thanks! We\\'ll reach out ASAP.');">
-          <div class="row"><input type="text" placeholder="Your name" required aria-label="Your name" /><input type="tel" placeholder="Phone" aria-label="Phone" /></div>
-          <div class="row"><input type="email" placeholder="Email" required aria-label="Email" /><input type="text" placeholder="Business name" aria-label="Business name" /></div>
-          <input type="text" placeholder="Address / City in NOVA" aria-label="Address or city" />
-          <textarea rows="3" placeholder="Tell us about your space (foot traffic, hours, etc.)" aria-label="Details" style="resize:vertical"></textarea>
-          <button type="submit" class="btn">Request Placement <span class="shine"></span></button>
-          <span class="fine">By submitting, you agree to be contacted about placement availability.</span>
-        </form>
-      </div>
-    </section>
-
-    <footer>
-      <div class="foot-wrap">
-        <span>© <span id="yr"></span> Blessed Amusements — Family-Owned</span>
-        <span>Serving the entire Northern Virginia Area (NOVA)</span>
-        <a href="mailto:info@blessedamusements.com">info@blessedamusements.com</a>
-      </div>
-    </footer>
-  </div><!-- /.page -->
-
-  <script>
-    // Year
-    document.getElementById('yr').textContent = new Date().getFullYear();
-
-    // Reveal on scroll
+<script>
+  // Confetti particles (respects reduced motion)
+  (function(){
+    const canvas = document.getElementById('confetti');
+    if(!canvas) return;
     const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const io = reduced ? null : new IntersectionObserver((entries)=>entries.forEach(e=>{
-      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-    }),{threshold:.12});
-    document.querySelectorAll('.reveal').forEach(el=> io && io.observe(el));
+    const ctx = canvas.getContext('2d');
+    let W,H,parts=[];
 
-    // Magnetic CTA hovers
-    document.querySelectorAll('.btn:not(.secondary)').forEach(btn=>{
-      btn.addEventListener('mousemove', e=>{
-        const r = btn.getBoundingClientRect(); const x = e.clientX - r.left; const y = e.clientY - r.top;
-        btn.style.transform = `translateY(-1px) translate(${(x-r.width/2)/30}px, ${(y-r.height/2)/30}px)`;
-      });
-      btn.addEventListener('mouseleave', ()=> btn.style.transform = '');
-    });
-
-    // Confetti background
-    (function(){
-      const canvas = document.getElementById('confetti');
-      if(!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let W,H,parts=[];
-      function size(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; if(parts.length===0){ const n=Math.min(140,Math.floor(W*H/12000)); for(let i=0;i<n;i++) parts.push(make()); } }
-      function make(){ const s=['rect','tri','circle']; return {x:Math.random()*W,y:Math.random()*-H,sz:4+Math.random()*7,spd:.6+Math.random()*1.2,rot:Math.random()*Math.PI*2,rps:(Math.random()-.5)*.02,h:[190,210,250,280][(Math.random()*4)|0],shape:s[(Math.random()*3)|0],a:.5+Math.random()*.5}; }
-      function draw(p){ ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=p.a; ctx.fillStyle=`hsla(${p.h},95%,65%,1)`; if(p.shape==='rect'){ctx.fillRect(-p.sz/2,-p.sz/2,p.sz,p.sz*.6);} else if(p.shape==='tri'){ctx.beginPath();ctx.moveTo(0,-p.sz/2);ctx.lineTo(p.sz/2,p.sz/2);ctx.lineTo(-p.sz/2,p.sz/2);ctx.closePath();ctx.fill();} else {ctx.beginPath();ctx.arc(0,0,p.sz/2,0,Math.PI*2);ctx.fill();} ctx.restore(); }
-      function tick(){ if(reduced) return; ctx.clearRect(0,0,W,H); for(const p of parts){ p.y+=p.spd; p.x+=Math.sin(p.y*.01)*.3; p.rot+=p.rps; if(p.y>H+20){ p.y=-20; p.x=Math.random()*W; } draw(p); } requestAnimationFrame(tick); }
-      addEventListener('resize', size); size(); if(!reduced) tick();
-    })();
-  </script>
+    function size(){
+      W = canvas.width  = innerWidth;
+      H = canvas.height = innerHeight;
+      if(parts.length===0){
+        const n = Math.min(160, Math.floor(W*H/10000));
+        for(let i=0;i<n;i++) parts.push(make());
+      }
+    }
+    function make(){
+      const shapes = ['rect','tri','circle'];
+      const hues = [190,210,250,280,330];
+      return {
+        x:Math.random()*W,
+        y:Math.random()*-H,
+        sz:4+Math.random()*8,
+        spd:.6+Math.random()*1.4,
+        rot:Math.random()*Math.PI*2,
+        rps:(Math.random()-.5)*.03,
+        h:hues[(Math.random()*hues.length)|0],
+        shape:shapes[(Math.random()*shapes.length)|0],
+        a:.5+Math.random()*.5
+      };
+    }
+    function draw(p){
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot);
+      ctx.globalAlpha = p.a;
+      ctx.fillStyle = `hsla(${p.h},95%,65%,1)`;
+      if(p.shape==='rect'){
+        ctx.fillRect(-p.sz/2,-p.sz/2,p.sz,p.sz*.6);
+      }else if(p.shape==='tri'){
+        ctx.beginPath();
+        ctx.moveTo(0,-p.sz/2);
+        ctx.lineTo(p.sz/2,p.sz/2);
+        ctx.lineTo(-p.sz/2,p.sz/2);
+        ctx.closePath(); ctx.fill();
+      }else{
+        ctx.beginPath();
+        ctx.arc(0,0,p.sz/2,0,Math.PI*2); ctx.fill();
+      }
+      ctx.restore();
+    }
+    function tick(){
+      if(reduced) return;
+      ctx.clearRect(0,0,W,H);
+      for(const p of parts){
+        p.y += p.spd;
+        p.x += Math.sin(p.y*.01)*.35;
+        p.rot += p.rps;
+        if(p.y>H+20){ p.y=-20; p.x=Math.random()*W; }
+        draw(p);
+      }
+      requestAnimationFrame(tick);
+    }
+    addEventListener('resize', size);
+    size();
+    if(!reduced) tick();
+  })();
+</script>
 </body>
 </html>
