@@ -4,24 +4,18 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Blessed Amusements — Family-Owned Fun Across NOVA</title>
-<meta name="description" content="Family-Owned arcade & claw machine experiences. Serving the entire Northern Virginia Area (NOVA). We install, stock, and service — you keep your customers smiling." />
+<meta name="description" content="Family-Owned claw machine placements across Northern Virginia (NOVA). We install, stock, and service — you enjoy happier customers and extra revenue." />
 <style>
   :root{
-    --text:#0b1630;
-    --muted:#5a6b8a;
-    --brand:#7cf0ff;
-    --brand-2:#8b5cff;
-    --accent:#20ffa0;
-    --card:#ffffff;
-    --shadow:0 12px 36px rgba(9,25,49,.14);
-    --radius:16px;
-    --radius-sm:12px;
+    --text:#0b1630; --muted:#5a6b8a;
+    --brand:#7cf0ff; --brand-2:#8b5cff; --accent:#20ffa0;
+    --card:#ffffff; --shadow:0 12px 36px rgba(9,25,49,.14);
+    --radius:16px; --radius-sm:12px;
   }
   *{box-sizing:border-box}
   html,body{
     margin:0;color:var(--text);
     font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif;
-    /* Bright blue gradient base */
     background:
       radial-gradient(1200px 800px at 80% -20%, rgba(124,240,255,.35), transparent 60%),
       radial-gradient(900px 600px at -20% 10%, rgba(139,92,255,.25), transparent 60%),
@@ -31,77 +25,73 @@
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
 
-  /* Confetti canvas sits behind content */
-  .bg-wrap{position:fixed;inset:0;z-index:-1;overflow:hidden}
-  #confetti{position:absolute;inset:0;filter:saturate(115%)}
+  /* ===== Confetti layer (always behind) ===== */
+  .bg-wrap{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+  #confetti{position:absolute; inset:0; width:100%; height:100%; display:block; filter:saturate(115%)}
+  /* Static confetti fallback in case animation is off */
+  .bg-wrap::after{
+    content:""; position:absolute; inset:0; z-index:-1; opacity:.35;
+    background:
+      radial-gradient(circle 3px at 10% 15%, #72d1ff 0 2px, transparent 3px),
+      radial-gradient(circle 3px at 30% 60%, #9a79ff 0 2px, transparent 3px),
+      radial-gradient(circle 3px at 70% 25%, #20ffa0 0 2px, transparent 3px),
+      radial-gradient(circle 3px at 85% 75%, #72d1ff 0 2px, transparent 3px),
+      radial-gradient(circle 3px at 45% 85%, #9a79ff 0 2px, transparent 3px);
+    background-size: 220px 220px;
+  }
+
+  /* Content wrapper sits above confetti */
+  .page{ position:relative; z-index:1; }
 
   /* Header */
   .nav{
-    position:sticky;top:0;z-index:50;
-    background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,255,255,.68));
+    position:sticky; top:0; z-index:5;
+    background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.7));
     border-bottom:1px solid rgba(9,25,49,.08);
     backdrop-filter:saturate(160%) blur(10px);
   }
   .nav-wrap{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:20px}
   .logo{display:flex;align-items:center;gap:12px}
-  .logo img{height:38px;width:auto}
+  .logo img{height:38px}
   .logo span{font-weight:800;letter-spacing:.2px}
   .nav-links{margin-left:auto;display:flex;gap:18px;align-items:center}
-  .nav-links a{padding:10px 12px;border-radius:10px}
-  .nav-links a:hover{background:rgba(9,25,49,.06)}
+  .nav-links a{padding:10px 12px;border-radius:10px;color:#0e1f3d;font-weight:600}
+  .nav-links a:hover{background:rgba(14,31,61,.08)}
 
   /* Buttons */
   .btn{
     --bgc:linear-gradient(90deg,var(--brand),var(--accent));
-    background:var(--bgc);color:#04121f;font-weight:800;border:none;border-radius:14px;
-    padding:14px 18px;box-shadow:0 10px 30px rgba(32,255,160,.25);position:relative;overflow:hidden;
-    transition:box-shadow .2s ease, transform .1s ease;cursor:pointer;display:inline-flex;align-items:center;gap:.45rem
+    background:var(--bgc); color:#04121f; font-weight:800; border:none;
+    border-radius:14px; padding:14px 18px; box-shadow:0 10px 30px rgba(32,255,160,.25);
+    position:relative; overflow:hidden; cursor:pointer; display:inline-flex; align-items:center; gap:.45rem;
+    transition:box-shadow .2s ease, transform .1s ease
   }
-  .btn:hover{box-shadow:0 16px 38px rgba(32,255,160,.35);transform:translateY(-1px)}
+  .btn:hover{box-shadow:0 16px 38px rgba(32,255,160,.35); transform:translateY(-1px)}
   .btn:active{transform:translateY(1px)}
-  .btn.secondary{
-    background:transparent;color:var(--text);border:1px solid rgba(9,25,49,.12);box-shadow:none
-  }
-  .btn .shine{position:absolute;inset:0;background:linear-gradient(120deg,transparent 0 35%,rgba(255,255,255,.6) 45% 55%,transparent 65% 100%);transform:translateX(-120%);transition:transform .9s ease;mix-blend:overlay;pointer-events:none}
+  .btn.secondary{background:transparent;color:var(--text);border:1px solid rgba(9,25,49,.12);box-shadow:none}
+  .btn .shine{position:absolute; inset:0; background:linear-gradient(120deg,transparent 0 35%,rgba(255,255,255,.6) 45% 55%,transparent 65% 100%); transform:translateX(-120%); transition:transform .9s ease; mix-blend:overlay}
   .btn:hover .shine{transform:translateX(120%)}
 
   /* Hero */
-  .hero{position:relative}
-  .hero-inner{
-    max-width:1200px;margin:0 auto;padding: clamp(68px, 8vw, 120px) 20px;
-    display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center
-  }
+  .hero-inner{max-width:1200px;margin:0 auto;padding: clamp(68px, 8vw, 120px) 20px; display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center}
   .kicker{display:inline-flex;align-items:center;gap:10px;padding:6px 12px;border-radius:999px;background:rgba(139,92,255,.14);border:1px solid rgba(139,92,255,.28);font-size:13px;color:#4b3f72}
-  .kicker b{color:#1c2550}
   h1{font-size: clamp(34px, 4.6vw, 62px);line-height:1.04;margin:14px 0 14px}
   .sub{font-size: clamp(16px,1.5vw,18px);color:var(--muted);max-width:58ch}
   .hero-actions{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
-
-  /* Hero art */
   .hero-art{position:relative;min-height:360px}
   .claw{
-    position:absolute;right:-4%;top:-2%;
-    width:min(560px, 92%);opacity:.95;
-    filter:drop-shadow(0 20px 60px rgba(9,25,49,.25));
-    animation: floaty 6s ease-in-out infinite
+    position:absolute; right:-4%; top:-2%; width:min(560px, 92%); opacity:.98;
+    filter:drop-shadow(0 20px 60px rgba(9,25,49,.25)); animation: floaty 6s ease-in-out infinite
   }
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
   /* Trust strip */
-  .strip{
-    padding:12px 14px;margin:8px auto 0;max-width:1200px;border-radius:12px;
-    background:linear-gradient(90deg,rgba(124,240,255,.25),rgba(139,92,255,.22));
-    border:1px solid rgba(9,25,49,.08);display:flex;flex-wrap:wrap;gap:10px;justify-content:center;color:#13264a
-  }
+  .strip{padding:12px 14px;margin:8px auto 0;max-width:1200px;border-radius:12px;background:linear-gradient(90deg,rgba(124,240,255,.25),rgba(139,92,255,.22));border:1px solid rgba(9,25,49,.08);display:flex;flex-wrap:wrap;gap:10px;justify-content:center;color:#13264a}
 
   /* Feature cards */
   .band{padding:48px 20px}
   .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .card{
-    background:linear-gradient(180deg,#ffffff,#f7fbff);
-    border:1px solid rgba(9,25,49,.08);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);
-    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease
-  }
+  .card{background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid rgba(9,25,49,.08);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease}
   .card:hover{transform:translateY(-4px);box-shadow:0 18px 48px rgba(9,25,49,.18);border-color:rgba(124,240,255,.5)}
   .card h3{margin:6px 0 8px}
   .pill{display:inline-flex;gap:8px;align-items:center;border:1px dashed rgba(9,25,49,.18);padding:6px 10px;border-radius:999px;font-size:13px;color:#3b4d75}
@@ -111,10 +101,7 @@
 
   /* Lead capture */
   .cta-section{padding:64px 20px 90px}
-  .cta-wrap{
-    max-width:1100px;margin:0 auto;background:linear-gradient(180deg,#ffffff,#f7fbff);
-    border:1px solid rgba(9,25,49,.10);border-radius:20px;padding:28px;display:grid;grid-template-columns:1.4fr .6fr;gap:18px;align-items:center
-  }
+  .cta-wrap{max-width:1100px;margin:0 auto;background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid rgba(9,25,49,.10);border-radius:20px;padding:28px;display:grid;grid-template-columns:1.4fr .6fr;gap:18px;align-items:center}
   .cta-box h2{margin:6px 0 12px;font-size:clamp(24px,3.2vw,40px)}
   .tagline{color:var(--muted)}
   .cta-panel{background:#ffffff;border:1px solid rgba(9,25,49,.12);border-radius:16px;padding:18px;display:grid;gap:12px}
@@ -128,20 +115,17 @@
   .foot-wrap{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
   .foot-wrap a{text-decoration:underline dotted rgba(9,25,49,.3);color:#2a3d66}
 
-  /* Reveal on scroll */
+  /* Reveal */
   .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
   .reveal.in{opacity:1;transform:none}
 
-  /* Responsive */
-  @media (max-width: 960px){
+  @media (max-width:960px){
     .hero-inner{grid-template-columns:1fr}
     .claw{position:relative;right:auto;top:auto;margin:20px auto 0;width:min(520px,92%)}
     .grid{grid-template-columns:1fr}
     .cta-wrap{grid-template-columns:1fr}
   }
-
-  /* Respect reduced motion */
-  @media (prefers-reduced-motion: reduce){
+  @media (prefers-reduced-motion:reduce){
     .claw{animation:none}
     .btn .shine{display:none}
     .reveal{transition:none}
@@ -149,31 +133,23 @@
 </style>
 </head>
 <body>
-<body>
-  <!-- Animated confetti background (behind everything) -->
+  <!-- Confetti (always behind) -->
   <div class="bg-wrap" aria-hidden="true">
     <canvas id="confetti"></canvas>
   </div>
 
-  <!-- All page content sits inside this wrapper -->
+  <!-- PAGE CONTENT -->
   <div class="page">
-    <!-- Header -->
     <header class="nav">
       <div class="nav-wrap">
-        <a class="logo" href="/">
-          <img src="Assets/logo.png" alt="Blessed Amusements logo" />
-          <span>Blessed Amusements</span>
-        </a>
+        <a class="logo" href="/"><img src="Assets/logo.png" alt="Blessed Amusements logo" /><span>Blessed Amusements</span></a>
         <nav class="nav-links">
-          <a href="#features">Why Us</a>
-          <a href="#service">Service</a>
-          <a href="#contact">Contact</a>
+          <a href="#features">Why Us</a><a href="#service">Service</a><a href="#contact">Contact</a>
           <a class="btn" href="#contact">Get A Machine <span class="shine"></span></a>
         </nav>
       </div>
     </header>
 
-    <!-- Hero -->
     <section class="hero" id="home">
       <div class="hero-inner">
         <div>
@@ -181,53 +157,32 @@
           <h1>Bring the Fun In-House — Claw Machines That
             <span style="background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent">Pay for Themselves</span>
           </h1>
-          <p class="sub">
-            We handle everything — install, stock, and service — while you enjoy happier customers and an extra stream of revenue.
-            <br><b>Serving the entire Northern Virginia Area (NOVA).</b>
-          </p>
+          <p class="sub">We handle everything — install, stock, and service — while you enjoy happier customers and an extra stream of revenue.
+            <br><b>Serving the entire Northern Virginia Area (NOVA).</b></p>
           <div class="hero-actions">
             <a class="btn" href="#contact">Book a Free Placement <span class="shine"></span></a>
             <a class="btn secondary" href="#features">See How It Works</a>
           </div>
         </div>
-
         <div class="hero-art" aria-hidden="true">
           <img class="claw" src="Assets/claw-hero.png" alt="" />
         </div>
       </div>
     </section>
 
-    <!-- Trust strip -->
     <div class="strip">
-      <span>✅ Fast, clean installs</span>
-      <span>🧸 Premium plush & prizes</span>
-      <span>🧰 Proactive maintenance</span>
-      <span>💳 Card + cash payments</span>
-      <span>📍 NOVA coverage</span>
+      <span>✅ Fast, clean installs</span><span>🧸 Premium plush & prizes</span>
+      <span>🧰 Proactive maintenance</span><span>💳 Card + cash payments</span><span>📍 NOVA coverage</span>
     </div>
 
-    <!-- Feature Cards -->
     <section class="band" id="features">
       <div class="grid">
-        <article class="card reveal">
-          <span class="pill">No Cost To You</span>
-          <h3>We Install & Service</h3>
-          <p style="color:var(--muted)">Placement is hassle-free. We set up, stock regularly, and handle repairs so you don’t have to.</p>
-        </article>
-        <article class="card reveal">
-          <span class="pill">More Happy Guests</span>
-          <h3>Drive Dwell Time</h3>
-          <p style="color:var(--muted)">Engaging machines keep families around longer — boosting average spend and repeat visits.</p>
-        </article>
-        <article class="card reveal">
-          <span class="pill">Transparent Split</span>
-          <h3>Win-Win Revenue</h3>
-          <p style="color:var(--muted)">Simple, transparent commissions with detailed collections — easy to track, easy to trust.</p>
-        </article>
+        <article class="card reveal"><span class="pill">No Cost To You</span><h3>We Install & Service</h3><p style="color:var(--muted)">Placement is hassle-free. We set up, stock regularly, and handle repairs so you don’t have to.</p></article>
+        <article class="card reveal"><span class="pill">More Happy Guests</span><h3>Drive Dwell Time</h3><p style="color:var(--muted)">Engaging machines keep families around longer — boosting average spend and repeat visits.</p></article>
+        <article class="card reveal"><span class="pill">Transparent Split</span><h3>Win-Win Revenue</h3><p style="color:var(--muted)">Simple, transparent commissions with detailed collections — easy to track, easy to trust.</p></article>
       </div>
     </section>
 
-    <!-- Service Blurb -->
     <section class="band" id="service">
       <div class="grid" style="grid-template-columns:1.2fr .8fr;align-items:center">
         <div class="reveal">
@@ -239,20 +194,17 @@
             <li>Fast swaps for any out-of-order unit</li>
             <li>Professional branding that fits your space</li>
           </ul>
-
           <div class="hero-actions" style="margin-top:18px">
             <a class="btn" href="#contact"><span class="shine"></span>Check Availability</a>
             <a class="btn secondary" href="#contact">Ask A Question</a>
           </div>
         </div>
         <div class="reveal" aria-hidden="true">
-          <!-- swap this if you want a different photo -->
           <img src="Assets/Attachment-4.png" alt="" style="border-radius:16px;filter:drop-shadow(0 18px 44px rgba(9,25,49,.18))" />
         </div>
       </div>
     </section>
 
-    <!-- Lead Capture -->
     <section class="cta-section" id="contact">
       <div class="cta-wrap reveal">
         <div class="cta-box">
@@ -261,14 +213,8 @@
           <p class="tagline">Tell us about your location and we’ll recommend the perfect setup — usually installed within days.</p>
         </div>
         <form class="cta-panel" onsubmit="event.preventDefault(); alert('Thanks! We\\'ll reach out ASAP.');">
-          <div class="row">
-            <input type="text" placeholder="Your name" required aria-label="Your name" />
-            <input type="tel" placeholder="Phone" aria-label="Phone" />
-          </div>
-          <div class="row">
-            <input type="email" placeholder="Email" required aria-label="Email" />
-            <input type="text" placeholder="Business name" aria-label="Business name" />
-          </div>
+          <div class="row"><input type="text" placeholder="Your name" required aria-label="Your name" /><input type="tel" placeholder="Phone" aria-label="Phone" /></div>
+          <div class="row"><input type="email" placeholder="Email" required aria-label="Email" /><input type="text" placeholder="Business name" aria-label="Business name" /></div>
           <input type="text" placeholder="Address / City in NOVA" aria-label="Address or city" />
           <textarea rows="3" placeholder="Tell us about your space (foot traffic, hours, etc.)" aria-label="Details" style="resize:vertical"></textarea>
           <button type="submit" class="btn">Request Placement <span class="shine"></span></button>
@@ -284,80 +230,40 @@
         <a href="mailto:info@blessedamusements.com">info@blessedamusements.com</a>
       </div>
     </footer>
-  </div> <!-- closes .page -->
+  </div><!-- /.page -->
 
-  <!-- Scripts (leave as-is) -->
   <script>
     // Year
     document.getElementById('yr').textContent = new Date().getFullYear();
 
     // Reveal on scroll
-    const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const io = reduce ? null : new IntersectionObserver((entries)=>entries.forEach(e=>{
+    const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const io = reduced ? null : new IntersectionObserver((entries)=>entries.forEach(e=>{
       if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
     }),{threshold:.12});
     document.querySelectorAll('.reveal').forEach(el=> io && io.observe(el));
 
-    // Magnetic hover for primary CTAs
-    const magnets = document.querySelectorAll('.btn:not(.secondary)');
-    magnets.forEach(btn=>{
+    // Magnetic CTA hovers
+    document.querySelectorAll('.btn:not(.secondary)').forEach(btn=>{
       btn.addEventListener('mousemove', e=>{
-        const r = btn.getBoundingClientRect();
-        const x = e.clientX - r.left, y = e.clientY - r.top;
+        const r = btn.getBoundingClientRect(); const x = e.clientX - r.left; const y = e.clientY - r.top;
         btn.style.transform = `translateY(-1px) translate(${(x-r.width/2)/30}px, ${(y-r.height/2)/30}px)`;
       });
       btn.addEventListener('mouseleave', ()=> btn.style.transform = '');
     });
 
-    // Confetti background
+    // Confetti
     (function(){
       const canvas = document.getElementById('confetti');
+      if(!canvas) return;
       const ctx = canvas.getContext('2d');
-      let W = canvas.width = innerWidth;
-      let H = canvas.height = innerHeight;
-      let particles = [];
-      const reduceMotion = reduce;
-
-      function makeParticle(){
-        const shapes = ['rect','tri','circle'];
-        return {
-          x: Math.random()*W, y: Math.random()*-H,
-          s: 4+Math.random()*7, spd: 0.6+Math.random()*1.2,
-          rot: Math.random()*Math.PI*2, rps: (Math.random()-.5)*0.02,
-          hue: [190,210,250,280][(Math.random()*4)|0], shape: shapes[(Math.random()*3)|0],
-          alpha: .5 + Math.random()*.5
-        }
-      }
-      function resize(){
-        W = canvas.width = innerWidth; H = canvas.height = innerHeight;
-        if(particles.length===0){
-          const count = Math.min(140, Math.floor(W*H/12000));
-          for(let i=0;i<count;i++) particles.push(makeParticle());
-        }
-      }
-      addEventListener('resize', resize); resize();
-
-      function drawP(p){
-        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha = p.alpha;
-        ctx.fillStyle = `hsla(${p.hue},95%,65%,1)`;
-        switch(p.shape){
-          case 'rect': ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6); break;
-          case 'tri': ctx.beginPath(); ctx.moveTo(0,-p.s/2); ctx.lineTo(p.s/2,p.s/2); ctx.lineTo(-p.s/2,p.s/2); ctx.closePath(); ctx.fill(); break;
-          default: ctx.beginPath(); ctx.arc(0,0,p.s/2,0,Math.PI*2); ctx.fill();
-        }
-        ctx.restore();
-      }
-      function step(){
-        if(reduceMotion) return;
-        ctx.clearRect(0,0,W,H);
-        for(const p of particles){
-          p.y += p.spd; p.x += Math.sin(p.y*0.01)*0.3; p.rot += p.rps;
-          if(p.y > H+20){ p.y = -20; p.x = Math.random()*W; }
-          drawP(p);
-        }
-        requestAnimationFrame(step);
-      }
-      if(!reduceMotion) step();
+      let W,H,parts=[];
+      function size(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; if(parts.length===0){ const n=Math.min(140,Math.floor(W*H/12000)); for(let i=0;i<n;i++) parts.push(make()); } }
+      function make(){ const s=['rect','tri','circle']; return {x:Math.random()*W,y:Math.random()*-H,sz:4+Math.random()*7,spd:.6+Math.random()*1.2,rot:Math.random()*Math.PI*2,rps:(Math.random()-.5)*.02,h:[190,210,250,280][(Math.random()*4)|0],shape:s[(Math.random()*3)|0],a:.5+Math.random()*.5}; }
+      function draw(p){ ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=p.a; ctx.fillStyle=`hsla(${p.h},95%,65%,1)`; if(p.shape==='rect'){ctx.fillRect(-p.sz/2,-p.sz/2,p.sz,p.sz*.6);} else if(p.shape==='tri'){ctx.beginPath();ctx.moveTo(0,-p.sz/2);ctx.lineTo(p.sz/2,p.sz/2);ctx.lineTo(-p.sz/2,p.sz/2);ctx.closePath();ctx.fill();} else {ctx.beginPath();ctx.arc(0,0,p.sz/2,0,Math.PI*2);ctx.fill();} ctx.restore(); }
+      function tick(){ if(reduced) return; ctx.clearRect(0,0,W,H); for(const p of parts){ p.y+=p.spd; p.x+=Math.sin(p.y*.01)*.3; p.rot+=p.rps; if(p.y>H+20){ p.y=-20; p.x=Math.random()*W; } draw(p); } requestAnimationFrame(tick); }
+      addEventListener('resize', size); size(); if(!reduced) tick();
     })();
   </script>
 </body>
+</html>
