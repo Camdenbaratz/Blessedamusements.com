@@ -11,13 +11,7 @@
     --brand:#7cf0ff; --brand-2:#8b5cff; --accent:#20ffa0;
     --card:#ffffff; --shadow:0 12px 36px rgba(9,25,49,.14);
     --radius:16px; --radius-sm:12px;
-
-    /* 🔧 Easy knobs you can change with the sliders */
-    --duo-width: 420px;     /* base width for you + mascot */
-    --duo-gap: 8px;         /* gap between the two images */
-    --mascot-scale: 1;      /* scale mascot relative to you (1 = same size) */
   }
-
   *{box-sizing:border-box}
   html,body{
     margin:0;color:var(--text);
@@ -83,16 +77,21 @@
     display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center
   }
 
-  /* Hero title — solid radiant color + outline + glow */
+  /* ── HERO TITLE: solid radiant color + crisp outline + subtle glow ── */
   h1.hero-title{
-    color:#00e6ff;
-    -webkit-text-stroke:2px rgba(0,0,0,.85);
+    color:#00e6ff;                           /* radiant cyan */
+    -webkit-text-stroke:2px rgba(0,0,0,.85); /* crisp black outline (WebKit) */
     font-size: clamp(42px,5.6vw,78px);
     line-height:1.02;margin:6px 0 10px; letter-spacing:.2px;
-    text-shadow: 0 0 10px rgba(0,230,255,.60), 0 0 22px rgba(0,230,255,.45), 0 0 40px rgba(0,230,255,.25);
+    text-shadow:
+      0 0 10px rgba(0,230,255,.60),
+      0 0 22px rgba(0,230,255,.45),
+      0 0 40px rgba(0,230,255,.25);
     filter: drop-shadow(0 4px 10px rgba(9,25,49,.12));
     animation: title-breathe 3s ease-in-out infinite;
+    will-change: transform, text-shadow;
   }
+  /* Fallback outline for browsers without -webkit-text-stroke */
   @supports not (-webkit-text-stroke: 2px black){
     h1.hero-title{
       text-shadow:
@@ -104,11 +103,21 @@
     }
   }
   @keyframes title-breathe{
-    50%{ transform:translateY(-1px); text-shadow:0 0 14px rgba(0,230,255,.95), 0 0 30px rgba(0,230,255,.75), 0 0 54px rgba(0,230,255,.55); }
+    50%{
+      text-shadow:
+        0 0 14px rgba(0,230,255,.95),
+        0 0 30px rgba(0,230,255,.75),
+        0 0 54px rgba(0,230,255,.55);
+      transform: translateY(-1px);
+    }
   }
+  /* Interactive wobble */
   .hero-title:hover{ transform: scale(1.015) rotate(-0.2deg); }
 
-  .serve{ font-size: clamp(18px,2.2vw,28px); font-weight:800; color:#0f2d6a; margin:4px 0 10px; }
+  .serve{
+    font-size: clamp(18px,2.2vw,28px);
+    font-weight:800; color:#0f2d6a; margin:4px 0 10px;
+  }
   .sub{font-size: clamp(16px,1.5vw,18px);color:var(--muted);max-width:58ch}
   .hero-actions{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
 
@@ -132,18 +141,16 @@
   .card h3{margin:6px 0 8px}
   .pill{display:inline-flex;gap:8px;align-items:center;border:1px dashed rgba(9,25,49,.18);padding:6px 10px;border-radius:999px;font-size:13px;color:#3b4d75}
 
-  /* My Story — controlled by the knobs above */
+  /* My Story — bigger you + mascot, same size & closer */
   #about .about-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center}
-  #about .duo{display:flex;align-items:flex-end;justify-content:center;gap:var(--duo-gap)}
+  #about .duo{display:flex;gap:8px;align-items:flex-end;justify-content:center}
   #about .about-img,
   #about .mascot{
-    width: var(--duo-width);
-    max-width:none;                 /* let the variable fully control it */
-    height:auto;
+    max-width:45%;
     border-radius:16px;
     filter:drop-shadow(0 18px 44px rgba(9,25,49,.18));
   }
-  #about .mascot{ transform: translateY(6px) scale(var(--mascot-scale)); transform-origin: bottom left; }
+  #about .mascot{ transform:translateY(6px); }
   #about h2{margin:0 0 10px;font-size:clamp(26px,3.2vw,40px)}
   #about p{color:var(--muted);line-height:1.75}
 
@@ -167,14 +174,14 @@
   .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
   .reveal.in{opacity:1;transform:none}
 
-  /* 📐 Responsive */
   @media (max-width:960px){
     .hero-inner{grid-template-columns:1fr; padding-bottom:40px}
     .claw{margin:20px auto 0; max-height:440px}
     .grid{grid-template-columns:1fr}
     #about .about-grid{grid-template-columns:1fr}
     #about .duo{justify-content:flex-start}
-    :root{ --duo-width: 46vw; --duo-gap: 8px; }
+    #about .about-img, #about .mascot{ max-width:48%; }
+    .cta-wrap{grid-template-columns:1fr}
   }
   @media (prefers-reduced-motion:reduce){
     .claw{animation:none}
@@ -183,16 +190,6 @@
     .hero-title{animation:none}
     .hero-title:hover{transform:none}
   }
-
-  /* 🎛️ Tiny tuner panel */
-  .tuner{
-    position:fixed; right:12px; bottom:12px; z-index:10;
-    background:rgba(255,255,255,.92); border:1px solid rgba(9,25,49,.12);
-    box-shadow:0 10px 30px rgba(9,25,49,.15); border-radius:12px; padding:10px 12px;
-    font-size:12px; color:#1c2a4a;
-  }
-  .tuner label{display:flex;gap:6px;align-items:center;justify-content:space-between;margin:6px 0}
-  .tuner input[type="range"]{width:160px}
 </style>
 </head>
 <body>
@@ -256,9 +253,10 @@
           </div>
         </div>
         <div class="reveal" aria-hidden="true">
+          <!-- You + Mascot side-by-side (bigger you, closer mascot) -->
           <div class="duo">
-            <img class="about-img" src="Assets/owner.png"  alt="Owner of Blessed Amusements" />
-            <img class="mascot"    src="Assets/mascot.png" alt="Blessed Amusements mascot" />
+            <img class="about-img" src="Assets/owner.png" alt="Owner of Blessed Amusements" />
+            <img class="mascot" src="Assets/mascot.png" alt="Blessed Amusements mascot" />
           </div>
         </div>
       </div>
@@ -324,20 +322,6 @@
     </footer>
   </div><!-- /.page -->
 
-  <!-- 🎛️ Size Tuner -->
-  <div class="tuner" title="Drag to change sizes (saves automatically)">
-    <div style="font-weight:700;margin-bottom:4px">Size Tuner</div>
-    <label>Image width
-      <input id="w" type="range" min="260" max="560" value="420">
-    </label>
-    <label>Mascot scale
-      <input id="s" type="range" step="0.05" min="0.8" max="1.3" value="1">
-    </label>
-    <label>Gap
-      <input id="g" type="range" min="0" max="40" value="8">
-    </label>
-  </div>
-
   <script>
     // Year
     document.getElementById('yr').textContent = new Date().getFullYear();
@@ -370,33 +354,6 @@
       function tick(){ if(reduced) return; ctx.clearRect(0,0,W,H); for(const p of parts){ p.y+=p.spd; p.x+=Math.sin(p.y*.01)*.3; p.rot+=p.rps; if(p.y>H+20){ p.y=-20; p.x=Math.random()*W; } draw(p); } requestAnimationFrame(tick); }
       addEventListener('resize', size); size(); if(!reduced) tick();
     })();
-
-    // 🎛️ Tuner logic (updates CSS variables & saves to localStorage)
-    const root = document.documentElement.style;
-    const w = document.getElementById('w');
-    const s = document.getElementById('s');
-    const g = document.getElementById('g');
-
-    function setVars(){
-      root.setProperty('--duo-width', `${w.value}px`);
-      root.setProperty('--mascot-scale', s.value);
-      root.setProperty('--duo-gap', `${g.value}px`);
-      localStorage.setItem('tuner', JSON.stringify({w:w.value,s:s.value,g:g.value}));
-    }
-    // Load saved values
-    (function(){
-      const saved = localStorage.getItem('tuner');
-      if(saved){
-        try{
-          const {w:W,s:S,g:G} = JSON.parse(saved);
-          if(W) w.value = W;
-          if(S) s.value = S;
-          if(G) g.value = G;
-        }catch(_){}
-      }
-      setVars();
-    })();
-    w.oninput = s.oninput = g.oninput = setVars;
   </script>
 </body>
 </html>
