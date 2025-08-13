@@ -1,188 +1,275 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Blessed Amusements • Claw & Arcade Placement</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Blessed Amusements — Family-Owned Fun Across NOVA</title>
+<meta name="description" content="Family-Owned claw machine placements across Northern Virginia (NOVA). We install, stock, and service — you enjoy happier customers and extra revenue." />
+<style>
+  :root{
+    --text:#0b1630; --muted:#5a6b8a;
+    --brand:#7cf0ff; --brand-2:#8b5cff; --accent:#20ffa0;
+    --card:#ffffff; --shadow:0 12px 36px rgba(9,25,49,.14);
+    --radius:16px; --radius-sm:12px;
+  }
+  *{box-sizing:border-box}
+  html,body{
+    margin:0;color:var(--text);
+    font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif;
+    /* ✅ Bluer background */
+    background:
+      radial-gradient(1200px 800px at 85% -15%, rgba(124,240,255,.45), transparent 60%),
+      radial-gradient(1000px 700px at -15% 20%, rgba(77,137,255,.28), transparent 60%),
+      linear-gradient(180deg,#d8ecff 0%, #cfe6ff 40%, #e6f4ff 100%);
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
 
-  <!-- Favicon / app icons (uses your logo) -->
-  <link rel="icon" type="image/png" sizes="32x32" href="Assets/logo.png?v=4">
-  <link rel="apple-touch-icon" href="Assets/logo.png?v=4">
+  /* Confetti layer */
+  .bg-wrap{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+  #confetti{position:absolute; inset:0; width:100%; height:100%; display:block; filter:saturate(115%)}
+  .bg-wrap::after{
+    content:""; position:absolute; inset:0; z-index:-1; opacity:.35;
+    background:
+      radial-gradient(circle 3px at 10% 15%, #72d1ff 0 2px, transparent 3px),
+      radial-gradient(circle 3px at 30% 60%, #9a79ff 0 2px, transparent 3px),
+      radial-gradient(circle 3px at 70% 25%, #20ffa0 0 2px, transparent 3px),
+      radial-gradient(circle 3px at 85% 75%, #72d1ff 0 2px, transparent 3px),
+      radial-gradient(circle 3px at 45% 85%, #9a79ff 0 2px, transparent 3px);
+    background-size: 220px 220px;
+  }
+  .page{ position:relative; z-index:1; }
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  /* Header */
+  .nav{
+    position:sticky; top:0; z-index:5;
+    background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.74));
+    border-bottom:1px solid rgba(9,25,49,.08);
+    backdrop-filter:saturate(160%) blur(10px);
+  }
+  .nav-wrap{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:20px}
+  .logo{display:flex;align-items:center;gap:12px}
+  .logo img{height:38px}
+  .logo span{font-weight:800;letter-spacing:.2px}
+  .nav-links{margin-left:auto;display:flex;gap:18px;align-items:center}
+  .nav-links a{padding:10px 12px;border-radius:10px;color:#0e1f3d;font-weight:600}
+  .nav-links a:hover{background:rgba(14,31,61,.08)}
 
-  <style>
-    :root{
-      --bg:#070b13;
-      --ink:#e9f1ff;
-      --muted:#a8bed9;
-      --brand:#3aa6ff;
-      --brand-2:#7cc4ff;
-      --panel:#0f1626;
-      --glow:#6cc6ff;
-      --star:#ffd34d;
-      --ring: rgba(0, 175, 255, .35);
-      --max:1200px;
-      --radius:18px;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-    }
+  /* Buttons */
+  .btn{
+    --bgc:linear-gradient(90deg,var(--brand),var(--accent));
+    background:var(--bgc); color:#04121f; font-weight:800; border:none;
+    border-radius:14px; padding:14px 18px; box-shadow:0 10px 30px rgba(32,255,160,.25);
+    position:relative; overflow:hidden; cursor:pointer; display:inline-flex; align-items:center; gap:.45rem;
+    transition:box-shadow .2s ease, transform .1s ease
+  }
+  .btn:hover{box-shadow:0 16px 38px rgba(32,255,160,.35); transform:translateY(-1px)}
+  .btn:active{transform:translateY(1px)}
+  .btn.secondary{background:transparent;color:var(--text);border:1px solid rgba(9,25,49,.12);box-shadow:none}
+  .btn .shine{position:absolute; inset:0; background:linear-gradient(120deg,transparent 0 35%,rgba(255,255,255,.6) 45% 55%,transparent 65% 100%); transform:translateX(-120%); transition:transform .9s ease; mix-blend:overlay}
+  .btn:hover .shine{transform:translateX(120%)}
 
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif}
-    a{color:var(--brand);text-decoration:none}
-    a:hover{text-decoration:underline}
+  /* Hero */
+  .hero{position:relative}
+  .hero-inner{
+    max-width:1200px;margin:0 auto;
+    padding: clamp(68px, 8vw, 120px) 20px 80px; /* extra bottom to avoid overlap */
+    display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center
+  }
+  .kicker{display:inline-flex;align-items:center;gap:10px;padding:6px 12px;border-radius:999px;background:rgba(139,92,255,.14);border:1px solid rgba(139,92,255,.28);font-size:13px;color:#4b3f72}
+  h1{font-size: clamp(34px, 4.6vw, 62px);line-height:1.04;margin:14px 0 14px}
+  .sub{font-size: clamp(16px,1.5vw,18px);color:var(--muted);max-width:58ch}
+  .hero-actions{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
 
-    /* NAV */
-    .nav{
-      position:sticky;top:0;z-index:50;
-      background:linear-gradient(180deg, rgba(8,12,20,.85), rgba(8,12,20,.6));
-      backdrop-filter: blur(10px);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .nav .wrap{
-      max-width:var(--max);margin:auto;padding:14px 20px;
-      display:flex;align-items:center;gap:18px;justify-content:space-between;
-    }
-    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}
-    .brand img{width:36px;height:36px;border-radius:10px;box-shadow:0 0 0 4px rgba(255,255,255,.04)}
-    .links{display:flex;gap:20px}
-    .links a{color:#cfe6ff;opacity:.9;font-weight:600}
-    .links a:hover{opacity:1}
+  /* ✅ Fixed claw alignment (no bleed) */
+  .hero-art{display:flex; justify-content:flex-end; align-items:center}
+  .claw{
+    position:relative;             /* no absolute */
+    width:min(520px, 100%);
+    max-height: 520px;             /* prevent super tall images */
+    object-fit: contain;
+    margin-right:-8px;             /* nudge right edge a bit */
+    filter:drop-shadow(0 20px 60px rgba(9,25,49,.25));
+    animation: floaty 6s ease-in-out infinite;
+  }
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
-    /* HERO */
-    .hero{
-      position:relative;overflow:hidden;isolation:isolate;
-      background:
-        radial-gradient(1200px 600px at 70% -10%, rgba(58,166,255,.25), transparent 60%),
-        radial-gradient(900px 500px at 20% 0%, rgba(58,166,255,.14), transparent 55%),
-        linear-gradient(180deg, #0b1323 0%, #08101c 100%);
-      border-bottom:1px solid rgba(255,255,255,.05);
-    }
-    .hero .wrap{max-width:var(--max);margin:auto;padding:72px 20px 92px;display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
-    @media (max-width: 950px){ .hero .wrap{grid-template-columns:1fr; padding:56px 18px 28px}}
+  /* Trust strip */
+  .strip{padding:12px 14px;margin:0 auto 8px;max-width:1200px;border-radius:12px;background:linear-gradient(90deg,rgba(124,240,255,.25),rgba(139,92,255,.22));border:1px solid rgba(9,25,49,.08);display:flex;flex-wrap:wrap;gap:10px;justify-content:center;color:#13264a}
 
-    .eyebrow{color:var(--brand-2);font-weight:800;letter-spacing:.2em;text-transform:uppercase;font-size:.78rem}
-    .title{margin:.25rem 0 1rem;font-weight:900;line-height:1.08;letter-spacing:.2px;
-      font-size: clamp(2.2rem, 4.6vw, 4rem);}
-    .title .accent{color:var(--brand)}
-    .sub{color:var(--muted);max-width:46ch;margin:.5rem 0 1.5rem}
+  /* Feature cards */
+  .band{padding:38px 20px}
+  .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid rgba(9,25,49,.08);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease}
+  .card:hover{transform:translateY(-4px);box-shadow:0 18px 48px rgba(9,25,49,.18);border-color:rgba(124,240,255,.5)}
+  .card h3{margin:6px 0 8px}
+  .pill{display:inline-flex;gap:8px;align-items:center;border:1px dashed rgba(9,25,49,.18);padding:6px 10px;border-radius:999px;font-size:13px;color:#3b4d75}
 
-    .ctas{display:flex;flex-wrap:wrap;gap:12px}
-    .btn{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.02);color:#e8f4ff;
-      padding:12px 18px;border-radius:999px;font-weight:700;box-shadow:var(--shadow);transform:translateZ(0)}
-    .btn-primary{background:linear-gradient(180deg,#3aa6ff,#1687ff);border-color:rgba(0,0,0,.2)}
-    .btn:hover{filter:brightness(1.05)}
+  /* Service block */
+  #service img{border-radius:16px;filter:drop-shadow(0 18px 44px rgba(9,25,49,.18))}
 
-    /* Stars layer */
-    .stars, .stars:after{
-      content:"";position:absolute;inset:-10% -10% auto -10%;height:140%;
-      background-image: radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.35) 50%, transparent 51%),
-                       radial-gradient(1px 1px at 30% 10%, rgba(255,255,255,.35) 50%, transparent 51%),
-                       radial-gradient(1px 1px at 50% 25%, rgba(255,255,255,.35) 50%, transparent 51%),
-                       radial-gradient(1px 1px at 70% 18%, rgba(255,255,255,.35) 50%, transparent 51%),
-                       radial-gradient(1px 1px at 85% 30%, rgba(255,255,255,.35) 50%, transparent 51%);
-      opacity:.25;animation: drift 120s linear infinite;
-    }
-    .stars:after{transform:translateY(40%);opacity:.18;filter:blur(0.3px);animation-duration:180s}
-    @keyframes drift{to{transform:translateY(-40%)}}
+  /* Lead capture */
+  .cta-section{padding:64px 20px 90px}
+  .cta-wrap{max-width:1100px;margin:0 auto;background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid rgba(9,25,49,.10);border-radius:20px;padding:28px;display:grid;grid-template-columns:1.4fr .6fr;gap:18px;align-items:center}
+  .cta-box h2{margin:6px 0 12px;font-size:clamp(24px,3.2vw,40px)}
+  .tagline{color:var(--muted)}
+  .cta-panel{background:#ffffff;border:1px solid rgba(9,25,49,.12);border-radius:16px;padding:18px;display:grid;gap:12px}
+  .cta-panel .row{display:flex;gap:10px;align-items:center}
+  .cta-panel input,.cta-panel textarea{padding:12px 14px;border-radius:12px;border:1px solid rgba(9,25,49,.14);background:#ffffff;color:var(--text)}
+  .cta-panel button{border:none}
+  .fine{font-size:12px;color:var(--muted)}
 
-    /* Machine image */
-    .hero-art{
-      position:relative;display:grid;place-items:end;
-    }
-    .machine{
-      position:relative;width:min(540px, 90%);max-width:540px;
-      filter: drop-shadow(0 40px 60px rgba(0,0,0,.55)) drop-shadow(0 0 40px var(--ring));
-      animation: floaty 8s ease-in-out infinite;
-      translate: 0 8px;
-    }
-    @keyframes floaty{50%{translate:0 -8px}}
+  /* Footer */
+  footer{padding:26px 20px;color:#66769a;border-top:1px solid rgba(9,25,49,.08)}
+  .foot-wrap{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+  .foot-wrap a{text-decoration:underline dotted rgba(9,25,49,.3);color:#2a3d66}
 
-    /* little light ring under the machine */
-    .ring{
-      position:absolute;right:8%;bottom:-14px;width:58%;height:18px;border-radius:50%;
-      background: radial-gradient(closest-side, rgba(120,210,255,.55), rgba(120,210,255,.25), transparent 70%);
-      filter: blur(6px);
-    }
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
 
-    /* Feature chips */
-    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
-    .chip{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:8px 12px;border-radius:999px;color:#cfe6ff}
-
-    /* Footer */
-    footer{border-top:1px solid rgba(255,255,255,.06);background:#0a101b;color:#cbd8ea}
-    footer .wrap{max-width:var(--max);margin:auto;padding:28px 20px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-  </style>
+  @media (max-width:960px){
+    .hero-inner{grid-template-columns:1fr; padding-bottom:40px}
+    .claw{margin:20px auto 0; max-height:440px}
+    .grid{grid-template-columns:1fr}
+    .cta-wrap{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .claw{animation:none}
+    .btn .shine{display:none}
+    .reveal{transition:none}
+  }
+</style>
 </head>
 <body>
+  <!-- Confetti (behind everything) -->
+  <div class="bg-wrap" aria-hidden="true">
+    <canvas id="confetti"></canvas>
+  </div>
 
-  <!-- NAV -->
-  <header class="nav">
-    <div class="wrap">
-      <div class="brand">
-        <img src="Assets/logo.png" alt="Blessed Amusements logo" />
-        <div>Blessed Amusements</div>
+  <div class="page">
+    <header class="nav">
+      <div class="nav-wrap">
+        <a class="logo" href="/"><img src="Assets/logo.png" alt="Blessed Amusements logo" /><span>Blessed Amusements</span></a>
+        <nav class="nav-links">
+          <a href="#features">Why Us</a><a href="#service">Service</a><a href="#contact">Contact</a>
+          <a class="btn" href="#contact">Get A Machine <span class="shine"></span></a>
+        </nav>
       </div>
-      <nav class="links">
-        <a href="#">Home</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
+    </header>
 
-  <!-- HERO -->
-  <section class="hero" id="home">
-    <div class="stars"></div>
-
-    <div class="wrap">
-      <div>
-        <div class="eyebrow">Family‑Owned • Blessed Amusements </div>
-        <h1 class="title">
-          We Serve <br />
-          <span class="accent">Northern Virginia NOVA</span>
-        </h1>
-        <p class="sub">
-          Free placement, stocked weekly, cleaned and maintained — and you get a
-          commission on every play. Zero cost. Zero hassle. Pure fun.
-        </p>
-        <div class="ctas">
-          <a class="btn btn-primary" href="mailto:info@blessedamusements.com">Get In Touch</a>
-          <a class="btn" href="gallery.html">See Our Machines</a>
+    <section class="hero" id="home">
+      <div class="hero-inner">
+        <div>
+          <span class="kicker">🎉 Family-Owned • <b>Blessed Amusements</b></span>
+          <h1>Bring the Fun In-House — Claw Machines That
+            <span style="background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent">Pay for Themselves</span>
+          </h1>
+          <p class="sub">We handle everything — install, stock, and service — while you enjoy happier customers and an extra stream of revenue.
+            <br><b>Serving the entire Northern Virginia Area (NOVA).</b></p>
+          <div class="hero-actions">
+            <a class="btn" href="#contact">Book a Free Placement <span class="shine"></span></a>
+            <a class="btn secondary" href="#features">See How It Works</a>
+          </div>
         </div>
-        <div class="chips">
-          <span class="chip">Free Delivery & Install</span>
-          <span class="chip">Cashless Payments</span>
-          <span class="chip">Weekly Restock & Clean</span>
-          <span class="chip">Commission Paid Monthly</span>
+        <div class="hero-art" aria-hidden="true">
+          <img class="claw" src="Assets/claw-hero.png" alt="" />
         </div>
       </div>
+    </section>
 
-      <!-- Right side art -->
-      <div class="hero-art">
-        <!-- Try your IMG_3412 first; if it fails, fall back to clean-machine.png -->
-        <img class="machine"
-             src="Assets/IMG_3412.png"
-             alt="Shooting Star claw with prize locker"
-             onerror="this.onerror=null;this.src='Assets/clean-machine.png';" />
-        <div class="ring" aria-hidden="true"></div>
-      </div>
+    <div class="strip">
+      <span>✅ Fast, clean installs</span><span>🧸 Premium plush & prizes</span>
+      <span>🧰 Proactive maintenance</span><span>💳 Card + cash payments</span><span>📍 NOVA coverage</span>
     </div>
-  </section>
 
-  <!-- Simple contact anchor for the nav -->
-  <footer id="contact">
-    <div class="wrap">
-      <div>© <span id="y"></span> Blessed Amusements • NOVA & the DMV</div>
-      <div>
+    <section class="band" id="features">
+      <div class="grid">
+        <article class="card reveal"><span class="pill">No Cost To You</span><h3>We Install & Service</h3><p style="color:var(--muted)">Placement is hassle-free. We set up, stock regularly, and handle repairs so you don’t have to.</p></article>
+        <article class="card reveal"><span class="pill">More Happy Guests</span><h3>Drive Dwell Time</h3><p style="color:var(--muted)">Engaging machines keep families around longer — boosting average spend and repeat visits.</p></article>
+        <article class="card reveal"><span class="pill">Transparent Split</span><h3>Win-Win Revenue</h3><p style="color:var(--muted)">Simple, transparent commissions with detailed collections — easy to track, easy to trust.</p></article>
+      </div>
+    </section>
+
+    <section class="band" id="service">
+      <div class="grid" style="grid-template-columns:1.2fr .8fr;align-items:center">
+        <div class="reveal">
+          <h2 style="margin:0 0 8px">A Clean, Modern Setup</h2>
+          <p class="tagline">A small footprint with big smiles — perfect for restaurants, family venues, and entertainment spaces.</p>
+          <ul style="margin:14px 0 0;line-height:1.8;color:var(--muted)">
+            <li>Tailored prize mix to match your audience</li>
+            <li>Card & tap payments + bill acceptor</li>
+            <li>Fast swaps for any out-of-order unit</li>
+            <li>Professional branding that fits your space</li>
+          </ul>
+          <div class="hero-actions" style="margin-top:18px">
+            <a class="btn" href="#contact"><span class="shine"></span>Check Availability</a>
+            <a class="btn secondary" href="#contact">Ask A Question</a>
+          </div>
+        </div>
+        <div class="reveal" aria-hidden="true">
+          <img src="Assets/claw-hero.png" alt="" style="border-radius:16px;filter:drop-shadow(0 18px 44px rgba(9,25,49,.18))" />
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="contact">
+      <div class="cta-wrap reveal">
+        <div class="cta-box">
+          <span class="kicker">Serving NOVA</span>
+          <h2>Ready to place a machine?</h2>
+          <p class="tagline">Tell us about your location and we’ll recommend the perfect setup — usually installed within days.</p>
+        </div>
+        <form class="cta-panel" onsubmit="event.preventDefault(); alert('Thanks! We\\'ll reach out ASAP.');">
+          <div class="row"><input type="text" placeholder="Your name" required aria-label="Your name" /><input type="tel" placeholder="Phone" aria-label="Phone" /></div>
+          <div class="row"><input type="email" placeholder="Email" required aria-label="Email" /><input type="text" placeholder="Business name" aria-label="Business name" /></div>
+          <input type="text" placeholder="Address / City in NOVA" aria-label="Address or city" />
+          <textarea rows="3" placeholder="Tell us about your space (foot traffic, hours, etc.)" aria-label="Details" style="resize:vertical"></textarea>
+          <button type="submit" class="btn">Request Placement <span class="shine"></span></button>
+          <span class="fine">By submitting, you agree to be contacted about placement availability.</span>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="foot-wrap">
+        <span>© <span id="yr"></span> Blessed Amusements — Family-Owned</span>
+        <span>Serving the entire Northern Virginia Area (NOVA)</span>
         <a href="mailto:info@blessedamusements.com">info@blessedamusements.com</a>
       </div>
-    </div>
-  </footer>
+    </footer>
+  </div><!-- /.page -->
 
-  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const io = reduced ? null : new IntersectionObserver((entries)=>entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    }),{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=> io && io.observe(el));
+
+    document.querySelectorAll('.btn:not(.secondary)').forEach(btn=>{
+      btn.addEventListener('mousemove', e=>{
+        const r = btn.getBoundingClientRect(); const x = e.clientX - r.left; const y = e.clientY - r.top;
+        btn.style.transform = `translateY(-1px) translate(${(x-r.width/2)/30}px, ${(y-r.height/2)/30}px)`;
+      });
+      btn.addEventListener('mouseleave', ()=> btn.style.transform = '');
+    });
+
+    // Confetti
+    (function(){
+      const canvas = document.getElementById('confetti');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let W,H,parts=[];
+      function size(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; if(parts.length===0){ const n=Math.min(140,Math.floor(W*H/12000)); for(let i=0;i<n;i++) parts.push(make()); } }
+      function make(){ const s=['rect','tri','circle']; return {x:Math.random()*W,y:Math.random()*-H,sz:4+Math.random()*7,spd:.6+Math.random()*1.2,rot:Math.random()*Math.PI*2,rps:(Math.random()-.5)*.02,h:[190,210,250,280][(Math.random()*4)|0],shape:s[(Math.random()*3)|0],a:.5+Math.random()*.5}; }
+      function draw(p){ ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=p.a; ctx.fillStyle=`hsla(${p.h},95%,65%,1)`; if(p.shape==='rect'){ctx.fillRect(-p.sz/2,-p.sz/2,p.sz,p.sz*.6);} else if(p.shape==='tri'){ctx.beginPath();ctx.moveTo(0,-p.sz/2);ctx.lineTo(p.sz/2,p.sz/2);ctx.lineTo(-p.sz/2,p.sz/2);ctx.closePath();ctx.fill();} else {ctx.beginPath();ctx.arc(0,0,p.sz/2,0,Math.PI*2);ctx.fill();} ctx.restore(); }
+      function tick(){ if(reduced) return; ctx.clearRect(0,0,W,H); for(const p of parts){ p.y+=p.spd; p.x+=Math.sin(p.y*.01)*.3; p.rot+=p.rps; if(p.y>H+20){ p.y=-20; p.x=Math.random()*W; } draw(p); } requestAnimationFrame(tick); }
+      addEventListener('resize', size); size(); if(!reduced) tick();
+    })();
+  </script>
 </body>
 </html>
