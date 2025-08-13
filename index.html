@@ -78,7 +78,6 @@
     display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center
   }
 
-  /* ── HERO TITLE ── */
   h1.hero-title{
     color:#00e6ff; -webkit-text-stroke:2px rgba(0,0,0,.85);
     font-size: clamp(42px,5.6vw,78px);
@@ -162,7 +161,6 @@
     overflow:hidden
   }
   .track{display:flex;transition:transform .5s ease;will-change:transform}
-  /* Full-width single-card slide (removes the white bar) */
   .review{min-width:100%;padding:24px 22px;display:block}
   .review-card{
     background:#fff;border:1px solid rgba(9,25,49,.10);border-radius:16px;
@@ -179,11 +177,18 @@
   .dot{width:8px;height:8px;border-radius:999px;background:rgba(9,25,49,.18)}
   .dot.on{background:#8b5cff}
 
-  /* My Story */
-  #about .about-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center}
-  #about .duo{display:flex;gap:8px;align-items:flex-end;justify-content:center}
+  /* My Story (flipped + bigger images + tighter spacing) */
+  #about .about-grid{
+    max-width:1200px;margin:0 auto;
+    display:grid;grid-template-columns:1.1fr .9fr; /* images larger on the left */
+    gap:24px;align-items:center
+  }
+  #about .duo{
+    display:flex;gap:4px; /* tighter, almost touching */
+    align-items:flex-end;justify-content:center
+  }
   #about .about-img, #about .mascot{
-    max-width:45%;
+    max-width:58%; /* larger than before */
     border-radius:16px;
     filter:drop-shadow(0 18px 44px rgba(9,25,49,.18));
   }
@@ -217,7 +222,7 @@
     .grid{grid-template-columns:1fr}
     #about .about-grid{grid-template-columns:1fr}
     #about .duo{justify-content:flex-start}
-    #about .about-img, #about .mascot{ max-width:48%; }
+    #about .about-img, #about .mascot{ max-width:52%; } /* still larger on mobile */
     .cta-wrap{grid-template-columns:1fr}
     .review{padding:20px}
   }
@@ -276,9 +281,17 @@
       <span>🧰 Proactive maintenance</span><span>💳 Card + cash payments</span><span>📍 NOVA coverage</span>
     </div>
 
-    <!-- MY STORY -->
+    <!-- MY STORY (FLIPPED: images left, text right) -->
     <section class="band" id="about">
       <div class="about-grid">
+        <!-- LEFT: images (bigger + tighter) -->
+        <div class="reveal" aria-hidden="false">
+          <div class="duo">
+            <img class="about-img" src="Assets/owner.png" alt="Owner of Blessed Amusements" />
+            <img class="mascot" src="Assets/mascot.png" alt="Blessed Amusements mascot" />
+          </div>
+        </div>
+        <!-- RIGHT: text -->
         <div class="reveal">
           <h2>My Story</h2>
           <p>
@@ -290,12 +303,6 @@
           <div class="hero-actions" style="margin-top:14px">
             <a class="btn" href="#contact"><span class="shine"></span>Get In Touch</a>
             <a class="btn secondary" href="#service">Our Service</a>
-          </div>
-        </div>
-        <div class="reveal" aria-hidden="true">
-          <div class="duo">
-            <img class="about-img" src="Assets/owner.png" alt="Owner of Blessed Amusements" />
-            <img class="mascot" src="Assets/mascot.png" alt="Blessed Amusements mascot" />
           </div>
         </div>
       </div>
@@ -420,30 +427,10 @@
 
     // ===== Reviews data + carousel (single full-width card) =====
     const reviews = [
-      {
-        name: "Vinny",
-        venue: "Vinny’s NY Pizza & Pasta",
-        rating: 5,
-        quote: "Machine has been a hit here! Customers, especially families, love it!"
-      },
-      {
-        name: "Joe",
-        venue: "Pizza Margherita",
-        rating: 5,
-        quote: "Our regulars love the machine — awesome add for a family spot."
-      },
-      {
-        name: "Joo",
-        venue: "Hangry Joe’s",
-        rating: 5,
-        quote: "The machine is a perfect fit while customers wait for their order, and customers love it!"
-      },
-      {
-        name: "Stephen",
-        venue: "Red Robin",
-        rating: 5,
-        quote: "Camden quickly became part of the Red Robin family. He checks in, keeps the machine running great, and really cares about people."
-      }
+      { name: "Vinny", venue: "Vinny’s NY Pizza & Pasta", rating: 5, quote: "Machine has been a hit here! Customers, especially families, love it!" },
+      { name: "Joe", venue: "Pizza Margherita", rating: 5, quote: "Our regulars love the machine — awesome add for a family spot." },
+      { name: "Joo", venue: "Hangry Joe’s", rating: 5, quote: "The machine is a perfect fit while customers wait for their order, and customers love it!" },
+      { name: "Stephen", venue: "Red Robin", rating: 5, quote: "Camden quickly became part of the Red Robin family. He checks in, keeps the machine running great, and really cares about people." }
     ];
 
     const track = document.getElementById('reviewTrack');
@@ -457,7 +444,6 @@
       return wrap;
     }
 
-    // Build slides (single card)
     reviews.forEach((r,i)=>{
       const slide = document.createElement('div');
       slide.className = 'review';
@@ -473,7 +459,6 @@
       const d=document.createElement('div'); d.className='dot'+(i===0?' on':''); dots.appendChild(d);
     });
 
-    // Carousel logic
     let index=0, timer=null;
     const prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn');
 
