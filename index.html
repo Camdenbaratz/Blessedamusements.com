@@ -79,19 +79,15 @@
 
   /* ── HERO TITLE: solid radiant color + crisp outline + subtle glow ── */
   h1.hero-title{
-    color:#00e6ff;                           /* radiant cyan */
-    -webkit-text-stroke:2px rgba(0,0,0,.85); /* crisp black outline (WebKit) */
+    color:#00e6ff;
+    -webkit-text-stroke:2px rgba(0,0,0,.85);
     font-size: clamp(42px,5.6vw,78px);
     line-height:1.02;margin:6px 0 10px; letter-spacing:.2px;
-    text-shadow:
-      0 0 10px rgba(0,230,255,.60),
-      0 0 22px rgba(0,230,255,.45),
-      0 0 40px rgba(0,230,255,.25);
+    text-shadow: 0 0 10px rgba(0,230,255,.60), 0 0 22px rgba(0,230,255,.45), 0 0 40px rgba(0,230,255,.25);
     filter: drop-shadow(0 4px 10px rgba(9,25,49,.12));
     animation: title-breathe 3s ease-in-out infinite;
     will-change: transform, text-shadow;
   }
-  /* Fallback outline for browsers without -webkit-text-stroke */
   @supports not (-webkit-text-stroke: 2px black){
     h1.hero-title{
       text-shadow:
@@ -104,28 +100,54 @@
   }
   @keyframes title-breathe{
     50%{
-      text-shadow:
-        0 0 14px rgba(0,230,255,.95),
-        0 0 30px rgba(0,230,255,.75),
-        0 0 54px rgba(0,230,255,.55);
+      text-shadow: 0 0 14px rgba(0,230,255,.95), 0 0 30px rgba(0,230,255,.75), 0 0 54px rgba(0,230,255,.55);
       transform: translateY(-1px);
     }
   }
-  /* Interactive wobble */
   .hero-title:hover{ transform: scale(1.015) rotate(-0.2deg); }
 
-  .serve{
-    font-size: clamp(18px,2.2vw,28px);
-    font-weight:800; color:#0f2d6a; margin:4px 0 10px;
-  }
+  .serve{font-size: clamp(18px,2.2vw,28px); font-weight:800; color:#0f2d6a; margin:4px 0 10px;}
   .sub{font-size: clamp(16px,1.5vw,18px);color:var(--muted);max-width:58ch}
   .hero-actions{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
 
-  /* Right art */
-  .hero-art{display:flex; justify-content:flex-end; align-items:center}
+  /* Right art + cyan halo behind machine */
+  .hero-art{display:flex; justify-content:flex-end; align-items:center; position:relative;}
+  .machine-glow{
+    position:absolute; right:0; bottom:0;
+    width:72%; height:88%;
+    translate: 8px 6px;
+    background:
+      radial-gradient(60% 70% at 65% 45%,
+        rgba(0,230,255,.55),
+        rgba(0,180,255,.28) 45%,
+        rgba(0,120,220,.12) 64%,
+        transparent 75%);
+    filter: blur(18px);
+    z-index:0; pointer-events:none;
+    animation: machinePulse 6s ease-in-out infinite;
+  }
+  .machine-floor{
+    position:absolute; right:8%; bottom:-8px;
+    width:58%; height:18px; border-radius:50%;
+    background: radial-gradient(closest-side,
+      rgba(120,210,255,.55),
+      rgba(120,210,255,.28),
+      transparent 70%);
+    filter: blur(6px);
+    z-index:0; pointer-events:none;
+  }
+  @keyframes machinePulse{
+    50%{ transform:scale(1.02); filter:blur(20px) brightness(1.06); }
+  }
+
   .claw{
-    position:relative; width:min(520px, 100%); max-height:520px; object-fit:contain;
-    margin-right:-8px; filter:drop-shadow(0 20px 60px rgba(9,25,49,.25));
+    position:relative; z-index:1;
+    width:min(520px, 100%); max-height:520px; object-fit:contain;
+    margin-right:-8px;
+    /* dark depth + faint cyan halo */
+    filter:
+      drop-shadow(0 20px 60px rgba(9,25,49,.25))
+      drop-shadow(0 0 26px rgba(0,230,255,.45));
     animation: floaty 6s ease-in-out infinite;
   }
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
@@ -144,8 +166,7 @@
   /* My Story — bigger you + mascot, same size & closer */
   #about .about-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center}
   #about .duo{display:flex;gap:8px;align-items:flex-end;justify-content:center}
-  #about .about-img,
-  #about .mascot{
+  #about .about-img, #about .mascot{
     max-width:45%;
     border-radius:16px;
     filter:drop-shadow(0 18px 44px rgba(9,25,49,.18));
@@ -226,7 +247,9 @@
           </div>
         </div>
         <div class="hero-art" aria-hidden="true">
+          <div class="machine-glow" aria-hidden="true"></div>
           <img class="claw" src="Assets/claw-hero.png" alt="" />
+          <div class="machine-floor" aria-hidden="true"></div>
         </div>
       </div>
     </section>
@@ -253,7 +276,6 @@
           </div>
         </div>
         <div class="reveal" aria-hidden="true">
-          <!-- You + Mascot side-by-side (bigger you, closer mascot) -->
           <div class="duo">
             <img class="about-img" src="Assets/owner.png" alt="Owner of Blessed Amusements" />
             <img class="mascot" src="Assets/mascot.png" alt="Blessed Amusements mascot" />
