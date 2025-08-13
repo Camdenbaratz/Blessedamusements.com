@@ -161,24 +161,19 @@
     border:1px solid rgba(9,25,49,.10);border-radius:20px;box-shadow:var(--shadow);
     overflow:hidden
   }
-  .track{
-    display:flex;transition:transform .5s ease; will-change:transform
-  }
-  .review{
-    min-width:100%; padding:24px 22px; display:grid; grid-template-columns:1fr .8fr; gap:16px; align-items:center
-  }
-  .quote{color:#3b4d75; line-height:1.65}
-  .person{font-weight:800;margin-top:8px}
-  .venue{color:#5a6b8a;font-weight:600}
+  .track{display:flex;transition:transform .5s ease;will-change:transform}
+  /* Full-width single-card slide (removes the white bar) */
+  .review{min-width:100%;padding:24px 22px;display:block}
   .review-card{
-    background:#fff;border:1px solid rgba(9,25,49,.10);border-radius:16px;padding:18px;
+    background:#fff;border:1px solid rgba(9,25,49,.10);border-radius:16px;
+    padding:18px;display:flex;flex-direction:column;gap:10px
   }
-  .controls{
-    position:absolute; inset:auto 10px 10px auto; display:flex; gap:8px;
-  }
-  .ctrl{
-    background:#fff;border:1px solid rgba(9,25,49,.15);border-radius:999px;padding:8px 10px;font-weight:800;cursor:pointer
-  }
+  .rating-row{display:flex;gap:8px;align-items:center}
+  .quote{color:#3b4d75;line-height:1.65}
+  .person{font-weight:800;margin-top:2px}
+  .venue{color:#5a6b8a;font-weight:600}
+  .controls{position:absolute;inset:auto 10px 10px auto;display:flex;gap:8px}
+  .ctrl{background:#fff;border:1px solid rgba(9,25,49,.15);border-radius:999px;padding:8px 10px;font-weight:800;cursor:pointer}
   .ctrl:hover{background:#f2f6ff}
   .dots{display:flex;gap:6px;margin-top:10px}
   .dot{width:8px;height:8px;border-radius:999px;background:rgba(9,25,49,.18)}
@@ -224,8 +219,7 @@
     #about .duo{justify-content:flex-start}
     #about .about-img, #about .mascot{ max-width:48%; }
     .cta-wrap{grid-template-columns:1fr}
-
-    .review{grid-template-columns:1fr; padding:20px}
+    .review{padding:20px}
   }
   @media (prefers-reduced-motion:reduce){
     .claw{animation:none}
@@ -330,9 +324,7 @@
         </div>
 
         <div class="carousel" role="region" aria-roledescription="carousel">
-          <div class="track" id="reviewTrack">
-            <!-- slides will be injected by JS -->
-          </div>
+          <div class="track" id="reviewTrack"></div>
           <div class="controls">
             <button class="ctrl" id="prevBtn" aria-label="Previous review">◀</button>
             <button class="ctrl" id="nextBtn" aria-label="Next review">▶</button>
@@ -426,38 +418,37 @@
       addEventListener('resize', size); size(); if(!reduced) tick();
     })();
 
-    // ===== Reviews data + carousel =====
+    // ===== Reviews data + carousel (single full-width card) =====
     const reviews = [
       {
         name: "Vinny",
-        venue: "Vinny’s NY Pizza",
+        venue: "Vinny’s NY Pizza & Pasta",
         rating: 5,
-        quote: "Install was quick, machines look great, and families stick around longer. Easy revenue share and zero headaches."
+        quote: "Camden’s machine has been a big hit here. Customers, especially families, love it, and he’s easy to work with and keeps everything running smooth."
       },
       {
         name: "Joe",
-        venue: "Pizza Margarita",
+        venue: "Pizza Margherita",
         rating: 5,
-        quote: "Camden keeps everything stocked and spotless. Our regulars love the claw machine—awesome add for a family spot."
+        quote: "Camden keeps everything stocked and spotless. Our regulars love the claw machine — awesome add for a family spot."
       },
       {
         name: "Joo",
-        venue: "Hangry Joes",
+        venue: "Hangry Joe’s",
         rating: 5,
-        quote: "The machine is a perfect fit while customers wait for their order, and he customers love it!"
+        quote: "The machine is a perfect fit while customers wait for their order, and customers love it!"
       },
       {
         name: "Stephen",
         venue: "Red Robin",
         rating: 5,
-        quote: "Camden’s been awesome to work with. He always checks in, keeps the machine running great, and really cares about people. Customers and staff love having him around"
+        quote: "Camden quickly became part of the Red Robin family. He checks in, keeps the machine running great, and really cares about people."
       }
     ];
 
-    // Build slides
     const track = document.getElementById('reviewTrack');
-    const dots = document.getElementById('dots');
-    const avg = (reviews.reduce((a,b)=>a+b.rating,0)/reviews.length).toFixed(1);
+    const dots  = document.getElementById('dots');
+    const avg   = (reviews.reduce((a,b)=>a+b.rating,0)/reviews.length).toFixed(1);
     document.getElementById('avgScore').textContent = avg;
 
     function starRow(n){
@@ -466,30 +457,23 @@
       return wrap;
     }
 
+    // Build slides (single card)
     reviews.forEach((r,i)=>{
       const slide = document.createElement('div');
       slide.className = 'review';
       slide.innerHTML = `
-        <div>
-          <div class="review-card">
-            <div class="quote">“${r.quote}”</div>
-            <div class="person">${r.name} • <span class="venue">${r.venue}</span></div>
-          </div>
-        </div>
-        <div>
-          <div class="review-card" style="display:flex;justify-content:center;align-items:center;gap:10px;">
-          </div>
+        <div class="review-card">
+          <div class="rating-row"></div>
+          <div class="quote">“${r.quote}”</div>
+          <div class="person">${r.name} • <span class="venue">${r.venue}</span></div>
         </div>`;
       track.appendChild(slide);
+      slide.querySelector('.rating-row').appendChild(starRow(r.rating));
 
-      // add stars to the second card
-      slide.querySelector('.review-card:last-child').prepend(starRow(r.rating));
-
-      // dot
       const d=document.createElement('div'); d.className='dot'+(i===0?' on':''); dots.appendChild(d);
     });
 
-    // carousel logic
+    // Carousel logic
     let index=0, timer=null;
     const prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn');
 
