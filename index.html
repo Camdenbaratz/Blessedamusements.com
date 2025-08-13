@@ -11,6 +11,7 @@
     --brand:#7cf0ff; --brand-2:#8b5cff; --accent:#20ffa0;
     --card:#ffffff; --shadow:0 12px 36px rgba(9,25,49,.14);
     --radius:16px; --radius-sm:12px;
+    --star:#f6c000; /* gold */
   }
   *{box-sizing:border-box}
   html,body{
@@ -77,10 +78,9 @@
     display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center
   }
 
-  /* ── HERO TITLE: solid radiant color + crisp outline + subtle glow ── */
+  /* ── HERO TITLE ── */
   h1.hero-title{
-    color:#00e6ff;
-    -webkit-text-stroke:2px rgba(0,0,0,.85);
+    color:#00e6ff; -webkit-text-stroke:2px rgba(0,0,0,.85);
     font-size: clamp(42px,5.6vw,78px);
     line-height:1.02;margin:6px 0 10px; letter-spacing:.2px;
     text-shadow: 0 0 10px rgba(0,230,255,.60), 0 0 22px rgba(0,230,255,.45), 0 0 40px rgba(0,230,255,.25);
@@ -99,10 +99,7 @@
     }
   }
   @keyframes title-breathe{
-    50%{
-      text-shadow: 0 0 14px rgba(0,230,255,.95), 0 0 30px rgba(0,230,255,.75), 0 0 54px rgba(0,230,255,.55);
-      transform: translateY(-1px);
-    }
+    50%{ text-shadow: 0 0 14px rgba(0,230,255,.95), 0 0 30px rgba(0,230,255,.75), 0 0 54px rgba(0,230,255,.55); transform: translateY(-1px); }
   }
   .hero-title:hover{ transform: scale(1.015) rotate(-0.2deg); }
 
@@ -113,41 +110,21 @@
   /* Right art + cyan halo behind machine */
   .hero-art{display:flex; justify-content:flex-end; align-items:center; position:relative;}
   .machine-glow{
-    position:absolute; right:0; bottom:0;
-    width:72%; height:88%;
-    translate: 8px 6px;
-    background:
-      radial-gradient(60% 70% at 65% 45%,
-        rgba(0,230,255,.55),
-        rgba(0,180,255,.28) 45%,
-        rgba(0,120,220,.12) 64%,
-        transparent 75%);
-    filter: blur(18px);
-    z-index:0; pointer-events:none;
-    animation: machinePulse 6s ease-in-out infinite;
+    position:absolute; right:0; bottom:0; width:72%; height:88%; translate: 8px 6px;
+    background: radial-gradient(60% 70% at 65% 45%, rgba(0,230,255,.55), rgba(0,180,255,.28) 45%, rgba(0,120,220,.12) 64%, transparent 75%);
+    filter: blur(18px); z-index:0; pointer-events:none; animation: machinePulse 6s ease-in-out infinite;
   }
   .machine-floor{
-    position:absolute; right:8%; bottom:-8px;
-    width:58%; height:18px; border-radius:50%;
-    background: radial-gradient(closest-side,
-      rgba(120,210,255,.55),
-      rgba(120,210,255,.28),
-      transparent 70%);
-    filter: blur(6px);
-    z-index:0; pointer-events:none;
+    position:absolute; right:8%; bottom:-8px; width:58%; height:18px; border-radius:50%;
+    background: radial-gradient(closest-side, rgba(120,210,255,.55), rgba(120,210,255,.28), transparent 70%);
+    filter: blur(6px); z-index:0; pointer-events:none;
   }
-  @keyframes machinePulse{
-    50%{ transform:scale(1.02); filter:blur(20px) brightness(1.06); }
-  }
+  @keyframes machinePulse{ 50%{ transform:scale(1.02); filter:blur(20px) brightness(1.06); } }
 
   .claw{
-    position:relative; z-index:1;
-    width:min(520px, 100%); max-height:520px; object-fit:contain;
+    position:relative; z-index:1; width:min(520px, 100%); max-height:520px; object-fit:contain;
     margin-right:-8px;
-    /* dark depth + faint cyan halo */
-    filter:
-      drop-shadow(0 20px 60px rgba(9,25,49,.25))
-      drop-shadow(0 0 26px rgba(0,230,255,.45));
+    filter: drop-shadow(0 20px 60px rgba(9,25,49,.25)) drop-shadow(0 0 26px rgba(0,230,255,.45));
     animation: floaty 6s ease-in-out infinite;
   }
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
@@ -163,7 +140,51 @@
   .card h3{margin:6px 0 8px}
   .pill{display:inline-flex;gap:8px;align-items:center;border:1px dashed rgba(9,25,49,.18);padding:6px 10px;border-radius:999px;font-size:13px;color:#3b4d75}
 
-  /* My Story — bigger you + mascot, same size & closer */
+  /* ==== REVIEWS ==== */
+  #reviews{padding:48px 20px}
+  .reviews-wrap{max-width:1200px;margin:0 auto}
+  .reviews-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:14px}
+  .reviews-head h2{margin:0;font-size:clamp(24px,3.2vw,36px)}
+  .rating-badge{
+    display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(9,25,49,.12);
+    padding:10px 12px;border-radius:12px;box-shadow:var(--shadow);font-weight:800
+  }
+  .stars{display:inline-flex;gap:2px;line-height:1}
+  .star{
+    width:18px;height:18px;display:inline-block;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+    background:linear-gradient(180deg,#ffd95a,#f6c000);
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,.12))
+  }
+
+  .carousel{
+    position:relative;background:linear-gradient(180deg,#ffffff,#f7fbff);
+    border:1px solid rgba(9,25,49,.10);border-radius:20px;box-shadow:var(--shadow);
+    overflow:hidden
+  }
+  .track{
+    display:flex;transition:transform .5s ease; will-change:transform
+  }
+  .review{
+    min-width:100%; padding:24px 22px; display:grid; grid-template-columns:1fr .8fr; gap:16px; align-items:center
+  }
+  .quote{color:#3b4d75; line-height:1.65}
+  .person{font-weight:800;margin-top:8px}
+  .venue{color:#5a6b8a;font-weight:600}
+  .review-card{
+    background:#fff;border:1px solid rgba(9,25,49,.10);border-radius:16px;padding:18px;
+  }
+  .controls{
+    position:absolute; inset:auto 10px 10px auto; display:flex; gap:8px;
+  }
+  .ctrl{
+    background:#fff;border:1px solid rgba(9,25,49,.15);border-radius:999px;padding:8px 10px;font-weight:800;cursor:pointer
+  }
+  .ctrl:hover{background:#f2f6ff}
+  .dots{display:flex;gap:6px;margin-top:10px}
+  .dot{width:8px;height:8px;border-radius:999px;background:rgba(9,25,49,.18)}
+  .dot.on{background:#8b5cff}
+
+  /* My Story */
   #about .about-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center}
   #about .duo{display:flex;gap:8px;align-items:flex-end;justify-content:center}
   #about .about-img, #about .mascot{
@@ -203,6 +224,8 @@
     #about .duo{justify-content:flex-start}
     #about .about-img, #about .mascot{ max-width:48%; }
     .cta-wrap{grid-template-columns:1fr}
+
+    .review{grid-template-columns:1fr; padding:20px}
   }
   @media (prefers-reduced-motion:reduce){
     .claw{animation:none}
@@ -224,7 +247,7 @@
       <div class="nav-wrap">
         <a class="logo" href="/"><img src="Assets/logo.png" alt="Blessed Amusements logo" /><span>Blessed Amusements</span></a>
         <nav class="nav-links">
-          <a href="#about">My Story</a><a href="#service">Service</a><a href="#contact">Contact</a>
+          <a href="#about">My Story</a><a href="#service">Service</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a>
           <a class="btn" href="#about">My Story <span class="shine"></span></a>
         </nav>
       </div>
@@ -290,6 +313,32 @@
         <article class="card reveal"><span class="pill">No Cost To You</span><h3>We Install & Service</h3><p style="color:var(--muted)">Placement is hassle-free. We set up, stock regularly, and handle repairs so you don’t have to.</p></article>
         <article class="card reveal"><span class="pill">More Happy Guests</span><h3>Drive Dwell Time</h3><p style="color:var(--muted)">Engaging machines keep families around longer — boosting average spend and repeat visits.</p></article>
         <article class="card reveal"><span class="pill">Transparent Split</span><h3>Win-Win Revenue</h3><p style="color:var(--muted)">Simple, transparent commissions with detailed collections — easy to track, easy to trust.</p></article>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="band" id="reviews" aria-label="Customer Reviews">
+      <div class="reviews-wrap reveal">
+        <div class="reviews-head">
+          <h2>What our partners say</h2>
+          <div class="rating-badge" id="avgBadge">
+            <div class="stars" aria-hidden="true">
+              <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
+            </div>
+            <span><span id="avgScore">5.0</span> / 5</span>
+          </div>
+        </div>
+
+        <div class="carousel" role="region" aria-roledescription="carousel">
+          <div class="track" id="reviewTrack">
+            <!-- slides will be injected by JS -->
+          </div>
+          <div class="controls">
+            <button class="ctrl" id="prevBtn" aria-label="Previous review">◀</button>
+            <button class="ctrl" id="nextBtn" aria-label="Next review">▶</button>
+          </div>
+        </div>
+        <div class="dots" id="dots" aria-hidden="true"></div>
       </div>
     </section>
 
@@ -376,6 +425,104 @@
       function tick(){ if(reduced) return; ctx.clearRect(0,0,W,H); for(const p of parts){ p.y+=p.spd; p.x+=Math.sin(p.y*.01)*.3; p.rot+=p.rps; if(p.y>H+20){ p.y=-20; p.x=Math.random()*W; } draw(p); } requestAnimationFrame(tick); }
       addEventListener('resize', size); size(); if(!reduced) tick();
     })();
+
+    // ===== Reviews data + carousel =====
+    const reviews = [
+      {
+        name: "Vinny",
+        venue: "Vinny’s NY Pizza",
+        rating: 5,
+        quote: "Install was quick, machines look great, and families stick around longer. Easy revenue share and zero headaches."
+      },
+      {
+        name: "Joe",
+        venue: "Pizza Margarita",
+        rating: 5,
+        quote: "Camden keeps everything stocked and spotless. Our regulars love the claw machine—awesome add for a family spot."
+      },
+      {
+        name: "Owner",
+        venue: "Neighborhood Arcade Night",
+        rating: 5,
+        quote: "Setup was turnkey. Card + cash options make it a hit and collections are transparent."
+      },
+      {
+        name: "Manager",
+        venue: "Local Family Restaurant",
+        rating: 5,
+        quote: "Kids are excited, parents are happy, and our dwell time is way up. Couldn’t be easier to work with."
+      }
+    ];
+
+    // Build slides
+    const track = document.getElementById('reviewTrack');
+    const dots = document.getElementById('dots');
+    const avg = (reviews.reduce((a,b)=>a+b.rating,0)/reviews.length).toFixed(1);
+    document.getElementById('avgScore').textContent = avg;
+
+    function starRow(n){
+      const wrap = document.createElement('div'); wrap.className = 'stars'; wrap.setAttribute('aria-label', `${n} out of 5 stars`);
+      for(let i=0;i<5;i++){ const s=document.createElement('span'); s.className='star'; if(i>=n){ s.style.opacity=.25 } wrap.appendChild(s) }
+      return wrap;
+    }
+
+    reviews.forEach((r,i)=>{
+      const slide = document.createElement('div');
+      slide.className = 'review';
+      slide.innerHTML = `
+        <div>
+          <div class="review-card">
+            <div class="quote">“${r.quote}”</div>
+            <div class="person">${r.name} • <span class="venue">${r.venue}</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="review-card" style="display:flex;justify-content:center;align-items:center;gap:10px;">
+          </div>
+        </div>`;
+      track.appendChild(slide);
+
+      // add stars to the second card
+      slide.querySelector('.review-card:last-child').prepend(starRow(r.rating));
+
+      // dot
+      const d=document.createElement('div'); d.className='dot'+(i===0?' on':''); dots.appendChild(d);
+    });
+
+    // carousel logic
+    let index=0, timer=null;
+    const prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn');
+
+    function go(i){
+      const total=reviews.length;
+      index=(i+total)%total;
+      track.style.transform=`translateX(-${index*100}%)`;
+      [...dots.children].forEach((d,di)=>d.classList.toggle('on', di===index));
+    }
+
+    function play(){ timer=setInterval(()=>go(index+1), 6000) }
+    function stop(){ clearInterval(timer) }
+
+    prevBtn.addEventListener('click', ()=>{ stop(); go(index-1); play(); });
+    nextBtn.addEventListener('click', ()=>{ stop(); go(index+1); play(); });
+
+    document.querySelector('.carousel').addEventListener('mouseenter', stop);
+    document.querySelector('.carousel').addEventListener('mouseleave', play);
+
+    // touch swipe
+    (function(){
+      const el=document.querySelector('.carousel');
+      let x0=null;
+      el.addEventListener('touchstart', e=>x0=e.touches[0].clientX,{passive:true});
+      el.addEventListener('touchend', e=>{
+        if(x0==null) return;
+        const dx=e.changedTouches[0].clientX - x0;
+        if(Math.abs(dx)>40){ stop(); go(index + (dx<0?1:-1)); play(); }
+        x0=null;
+      });
+    })();
+
+    go(0); play();
   </script>
 </body>
 </html>
