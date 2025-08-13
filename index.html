@@ -149,225 +149,215 @@
 </style>
 </head>
 <body>
-  <!-- Animated confetti background -->
+<body>
+  <!-- Animated confetti background (behind everything) -->
   <div class="bg-wrap" aria-hidden="true">
     <canvas id="confetti"></canvas>
   </div>
 
-  <!-- Header -->
-  <header class="nav">
-    <div class="nav-wrap">
-      <a class="logo" href="/">
-        <img src="Assets/logo.png" alt="Blessed Amusements logo" />
-        <span>Blessed Amusements</span>
-      </a>
-      <nav class="nav-links">
-        <a href="#features">Why Us</a>
-        <a href="#service">Service</a>
-        <a href="#contact">Contact</a>
-        <a class="btn" href="#contact">Get A Machine <span class="shine"></span></a>
-      </nav>
-    </div>
-  </header>
+  <!-- All page content sits inside this wrapper -->
+  <div class="page">
+    <!-- Header -->
+    <header class="nav">
+      <div class="nav-wrap">
+        <a class="logo" href="/">
+          <img src="Assets/logo.png" alt="Blessed Amusements logo" />
+          <span>Blessed Amusements</span>
+        </a>
+        <nav class="nav-links">
+          <a href="#features">Why Us</a>
+          <a href="#service">Service</a>
+          <a href="#contact">Contact</a>
+          <a class="btn" href="#contact">Get A Machine <span class="shine"></span></a>
+        </nav>
+      </div>
+    </header>
 
-  <!-- Hero -->
-  <section class="hero" id="home">
-    <div class="hero-inner">
-      <div>
-        <span class="kicker">🎉 Family-Owned • <b>Blessed Amusements</b></span>
-        <h1>Bring the Fun In-House — Claw Machines That <span style="background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent">Pay for Themselves</span></h1>
-        <p class="sub">
-          We handle everything — install, stock, and service — while you enjoy happier customers and an extra stream of revenue.
-          <br><b>Serving the entire Northern Virginia Area (NOVA).</b>
-        </p>
-        <div class="hero-actions">
-          <a class="btn" href="#contact">Book a Free Placement <span class="shine"></span></a>
-          <a class="btn secondary" href="#features">See How It Works</a>
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div class="hero-inner">
+        <div>
+          <span class="kicker">🎉 Family-Owned • <b>Blessed Amusements</b></span>
+          <h1>Bring the Fun In-House — Claw Machines That
+            <span style="background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent">Pay for Themselves</span>
+          </h1>
+          <p class="sub">
+            We handle everything — install, stock, and service — while you enjoy happier customers and an extra stream of revenue.
+            <br><b>Serving the entire Northern Virginia Area (NOVA).</b>
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="#contact">Book a Free Placement <span class="shine"></span></a>
+            <a class="btn secondary" href="#features">See How It Works</a>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <img class="claw" src="Assets/claw-hero.png" alt="" />
         </div>
       </div>
+    </section>
 
-      <div class="hero-art" aria-hidden="true">
-        <img class="claw" src="Assets/claw-hero.png" alt="" />
+    <!-- Trust strip -->
+    <div class="strip">
+      <span>✅ Fast, clean installs</span>
+      <span>🧸 Premium plush & prizes</span>
+      <span>🧰 Proactive maintenance</span>
+      <span>💳 Card + cash payments</span>
+      <span>📍 NOVA coverage</span>
+    </div>
+
+    <!-- Feature Cards -->
+    <section class="band" id="features">
+      <div class="grid">
+        <article class="card reveal">
+          <span class="pill">No Cost To You</span>
+          <h3>We Install & Service</h3>
+          <p style="color:var(--muted)">Placement is hassle-free. We set up, stock regularly, and handle repairs so you don’t have to.</p>
+        </article>
+        <article class="card reveal">
+          <span class="pill">More Happy Guests</span>
+          <h3>Drive Dwell Time</h3>
+          <p style="color:var(--muted)">Engaging machines keep families around longer — boosting average spend and repeat visits.</p>
+        </article>
+        <article class="card reveal">
+          <span class="pill">Transparent Split</span>
+          <h3>Win-Win Revenue</h3>
+          <p style="color:var(--muted)">Simple, transparent commissions with detailed collections — easy to track, easy to trust.</p>
+        </article>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Trust strip -->
-  <div class="strip">
-    <span>✅ Fast, clean installs</span>
-    <span>🧸 Premium plush & prizes</span>
-    <span>🧰 Proactive maintenance</span>
-    <span>💳 Card + cash payments</span>
-    <span>📍 NOVA coverage</span>
-  </div>
+    <!-- Service Blurb -->
+    <section class="band" id="service">
+      <div class="grid" style="grid-template-columns:1.2fr .8fr;align-items:center">
+        <div class="reveal">
+          <h2 style="margin:0 0 8px">A Clean, Modern Setup</h2>
+          <p class="tagline">A small footprint with big smiles — perfect for restaurants, family venues, and entertainment spaces.</p>
+          <ul style="margin:14px 0 0;line-height:1.8;color:var(--muted)">
+            <li>Tailored prize mix to match your audience</li>
+            <li>Card & tap payments + bill acceptor</li>
+            <li>Fast swaps for any out-of-order unit</li>
+            <li>Professional branding that fits your space</li>
+          </ul>
 
-  <!-- Feature Cards -->
-  <section class="band" id="features">
-    <div class="grid">
-      <article class="card reveal">
-        <span class="pill">No Cost To You</span>
-        <h3>We Install & Service</h3>
-        <p style="color:var(--muted)">Placement is hassle-free. We set up, stock regularly, and handle repairs so you don’t have to.</p>
-      </article>
-      <article class="card reveal">
-        <span class="pill">More Happy Guests</span>
-        <h3>Drive Dwell Time</h3>
-        <p style="color:var(--muted)">Engaging machines keep families around longer — boosting average spend and repeat visits.</p>
-      </article>
-      <article class="card reveal">
-        <span class="pill">Transparent Split</span>
-        <h3>Win-Win Revenue</h3>
-        <p style="color:var(--muted)">Simple, transparent commissions with detailed collections — easy to track, easy to trust.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- Service Blurb -->
-  <section class="band" id="service">
-    <div class="grid" style="grid-template-columns:1.2fr .8fr;align-items:center">
-      <div class="reveal">
-        <h2 style="margin:0 0 8px">A Clean, Modern Setup</h2>
-        <p class="tagline">A small footprint with big smiles — perfect for restaurants, family venues, and entertainment spaces.</p>
-        <ul style="margin:14px 0 0;line-height:1.8;color:var(--muted)">
-          <li>Tailored prize mix to match your audience</li>
-          <li>Card & tap payments + bill acceptor</li>
-          <li>Fast swaps for any out-of-order unit</li>
-          <li>Professional branding that fits your space</li>
-        </ul>
-
-        <div class="hero-actions" style="margin-top:18px">
-          <a class="btn" href="#contact"><span class="shine"></span>Check Availability</a>
-          <a class="btn secondary" href="#contact">Ask A Question</a>
+          <div class="hero-actions" style="margin-top:18px">
+            <a class="btn" href="#contact"><span class="shine"></span>Check Availability</a>
+            <a class="btn secondary" href="#contact">Ask A Question</a>
+          </div>
+        </div>
+        <div class="reveal" aria-hidden="true">
+          <!-- swap this if you want a different photo -->
+          <img src="Assets/Attachment-4.png" alt="" style="border-radius:16px;filter:drop-shadow(0 18px 44px rgba(9,25,49,.18))" />
         </div>
       </div>
-      <div class="reveal" aria-hidden="true">
-        <!-- If you set a second image, swap the src path below -->
-        <img src="Assets/claw-hero.png" alt="" />
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Lead Capture -->
-  <section class="cta-section" id="contact">
-    <div class="cta-wrap reveal">
-      <div class="cta-box">
-        <span class="kicker">Serving NOVA</span>
-        <h2>Ready to place a machine?</h2>
-        <p class="tagline">Tell us about your location and we’ll recommend the perfect setup — usually installed within days.</p>
-      </div>
-      <form class="cta-panel" onsubmit="event.preventDefault(); alert('Thanks! We\\'ll reach out ASAP.');">
-        <div class="row">
-          <input type="text" placeholder="Your name" required aria-label="Your name" />
-          <input type="tel" placeholder="Phone" aria-label="Phone" />
+    <!-- Lead Capture -->
+    <section class="cta-section" id="contact">
+      <div class="cta-wrap reveal">
+        <div class="cta-box">
+          <span class="kicker">Serving NOVA</span>
+          <h2>Ready to place a machine?</h2>
+          <p class="tagline">Tell us about your location and we’ll recommend the perfect setup — usually installed within days.</p>
         </div>
-        <div class="row">
-          <input type="email" placeholder="Email" required aria-label="Email" />
-          <input type="text" placeholder="Business name" aria-label="Business name" />
-        </div>
-        <input type="text" placeholder="Address / City in NOVA" aria-label="Address or city" />
-        <textarea rows="3" placeholder="Tell us about your space (foot traffic, hours, etc.)" aria-label="Details" style="resize:vertical"></textarea>
-        <button type="submit" class="btn">Request Placement <span class="shine"></span></button>
-        <span class="fine">By submitting, you agree to be contacted about placement availability.</span>
-      </form>
-    </div>
-  </section>
+        <form class="cta-panel" onsubmit="event.preventDefault(); alert('Thanks! We\\'ll reach out ASAP.');">
+          <div class="row">
+            <input type="text" placeholder="Your name" required aria-label="Your name" />
+            <input type="tel" placeholder="Phone" aria-label="Phone" />
+          </div>
+          <div class="row">
+            <input type="email" placeholder="Email" required aria-label="Email" />
+            <input type="text" placeholder="Business name" aria-label="Business name" />
+          </div>
+          <input type="text" placeholder="Address / City in NOVA" aria-label="Address or city" />
+          <textarea rows="3" placeholder="Tell us about your space (foot traffic, hours, etc.)" aria-label="Details" style="resize:vertical"></textarea>
+          <button type="submit" class="btn">Request Placement <span class="shine"></span></button>
+          <span class="fine">By submitting, you agree to be contacted about placement availability.</span>
+        </form>
+      </div>
+    </section>
 
-  <footer>
-    <div class="foot-wrap">
-      <span>© <span id="yr"></span> Blessed Amusements — Family-Owned</span>
-      <span>Serving the entire Northern Virginia Area (NOVA)</span>
-      <a href="mailto:info@blessedamusements.com">info@blessedamusements.com</a>
-    </div>
-  </footer>
+    <footer>
+      <div class="foot-wrap">
+        <span>© <span id="yr"></span> Blessed Amusements — Family-Owned</span>
+        <span>Serving the entire Northern Virginia Area (NOVA)</span>
+        <a href="mailto:info@blessedamusements.com">info@blessedamusements.com</a>
+      </div>
+    </footer>
+  </div> <!-- closes .page -->
 
-<script>
-  // Year
-  document.getElementById('yr').textContent = new Date().getFullYear();
+  <!-- Scripts (leave as-is) -->
+  <script>
+    // Year
+    document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Reveal on scroll
-  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const io = reduce ? null : new IntersectionObserver((entries)=>entries.forEach(e=>{
-    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-  }),{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=> io && io.observe(el));
+    // Reveal on scroll
+    const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const io = reduce ? null : new IntersectionObserver((entries)=>entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    }),{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=> io && io.observe(el));
 
-  // Magnetic hover for primary CTAs
-  const magnets = document.querySelectorAll('.btn:not(.secondary)');
-  magnets.forEach(btn=>{
-    btn.addEventListener('mousemove', e=>{
-      const r = btn.getBoundingClientRect();
-      const x = e.clientX - r.left, y = e.clientY - r.top;
-      btn.style.transform = `translateY(-1px) translate(${(x-r.width/2)/30}px, ${(y-r.height/2)/30}px)`;
+    // Magnetic hover for primary CTAs
+    const magnets = document.querySelectorAll('.btn:not(.secondary)');
+    magnets.forEach(btn=>{
+      btn.addEventListener('mousemove', e=>{
+        const r = btn.getBoundingClientRect();
+        const x = e.clientX - r.left, y = e.clientY - r.top;
+        btn.style.transform = `translateY(-1px) translate(${(x-r.width/2)/30}px, ${(y-r.height/2)/30}px)`;
+      });
+      btn.addEventListener('mouseleave', ()=> btn.style.transform = '');
     });
-    btn.addEventListener('mouseleave', ()=> btn.style.transform = '');
-  });
 
-  // ===== Confetti Background (lightweight, no libs) =====
-  (function(){
-    const canvas = document.getElementById('confetti');
-    const ctx = canvas.getContext('2d');
-    let W = canvas.width = innerWidth;
-    let H = canvas.height = innerHeight;
-    let particles = [];
-    const reduceMotion = reduce;
+    // Confetti background
+    (function(){
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      let W = canvas.width = innerWidth;
+      let H = canvas.height = innerHeight;
+      let particles = [];
+      const reduceMotion = reduce;
 
-    function makeParticle(){
-      const shapes = ['rect','tri','circle'];
-      return {
-        x: Math.random()*W,
-        y: Math.random()*-H,
-        s: 4+Math.random()*7,
-        spd: 0.6+Math.random()*1.2,
-        rot: Math.random()*Math.PI*2,
-        rps: (Math.random()-.5)*0.02,
-        hue: [190,210,250,280][(Math.random()*4)|0],
-        shape: shapes[(Math.random()*3)|0],
-        alpha: .5 + Math.random()*.5
+      function makeParticle(){
+        const shapes = ['rect','tri','circle'];
+        return {
+          x: Math.random()*W, y: Math.random()*-H,
+          s: 4+Math.random()*7, spd: 0.6+Math.random()*1.2,
+          rot: Math.random()*Math.PI*2, rps: (Math.random()-.5)*0.02,
+          hue: [190,210,250,280][(Math.random()*4)|0], shape: shapes[(Math.random()*3)|0],
+          alpha: .5 + Math.random()*.5
+        }
       }
-    }
-
-    function resize(){
-      W = canvas.width = innerWidth;
-      H = canvas.height = innerHeight;
-      if(particles.length===0){
-        const count = Math.min(140, Math.floor(W*H/12000));
-        for(let i=0;i<count;i++){ particles.push(makeParticle()); }
+      function resize(){
+        W = canvas.width = innerWidth; H = canvas.height = innerHeight;
+        if(particles.length===0){
+          const count = Math.min(140, Math.floor(W*H/12000));
+          for(let i=0;i<count;i++) particles.push(makeParticle());
+        }
       }
-    }
-    addEventListener('resize', resize); resize();
+      addEventListener('resize', resize); resize();
 
-    function drawP(p){
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rot);
-      ctx.globalAlpha = p.alpha;
-      ctx.fillStyle = `hsla(${p.hue}, 95%, 65%, 1)`;
-      switch(p.shape){
-        case 'rect': ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6); break;
-        case 'tri':
-          ctx.beginPath();
-          ctx.moveTo(0,-p.s/2); ctx.lineTo(p.s/2,p.s/2); ctx.lineTo(-p.s/2,p.s/2); ctx.closePath(); ctx.fill();
-          break;
-        default:
-          ctx.beginPath(); ctx.arc(0,0,p.s/2,0,Math.PI*2); ctx.fill();
+      function drawP(p){
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = `hsla(${p.hue},95%,65%,1)`;
+        switch(p.shape){
+          case 'rect': ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6); break;
+          case 'tri': ctx.beginPath(); ctx.moveTo(0,-p.s/2); ctx.lineTo(p.s/2,p.s/2); ctx.lineTo(-p.s/2,p.s/2); ctx.closePath(); ctx.fill(); break;
+          default: ctx.beginPath(); ctx.arc(0,0,p.s/2,0,Math.PI*2); ctx.fill();
+        }
+        ctx.restore();
       }
-      ctx.restore();
-    }
-
-    function step(){
-      if(reduceMotion){ return } // respect reduced motion
-      ctx.clearRect(0,0,W,H);
-      for(const p of particles){
-        p.y += p.spd;
-        p.x += Math.sin(p.y*0.01)*0.3;
-        p.rot += p.rps;
-        if(p.y > H+20){ p.y = -20; p.x = Math.random()*W; }
-        drawP(p);
+      function step(){
+        if(reduceMotion) return;
+        ctx.clearRect(0,0,W,H);
+        for(const p of particles){
+          p.y += p.spd; p.x += Math.sin(p.y*0.01)*0.3; p.rot += p.rps;
+          if(p.y > H+20){ p.y = -20; p.x = Math.random()*W; }
+          drawP(p);
+        }
+        requestAnimationFrame(step);
       }
-      requestAnimationFrame(step);
-    }
-    if(!reduceMotion) step();
-  })();
-</script>
+      if(!reduceMotion) step();
+    })();
+  </script>
 </body>
-</html>
