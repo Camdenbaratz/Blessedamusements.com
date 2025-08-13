@@ -1,32 +1,116 @@
-<!-- Remove green (#7efca5-ish) from images -->
+<style>
+/* ===== THEME ===== */
+:root{
+  --bg:#0b0b10;
+  --panel:#12121a;
+  --ink:#eef2f7;
+  --muted:#9ba7b6;
+  --brand:#3aa6ff;
+  --gold:#FFD54A;
+  --line:rgba(255,255,255,.09);
+}
+*{box-sizing:border-box}
+
+/* ===== NAV ===== */
+.nav{
+  position:sticky; top:0; z-index:30;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; padding:14px 18px; margin:10px auto 0;
+  max-width:min(1200px,94vw);
+  background:rgba(18,18,26,.7);
+  border:1px solid var(--line);
+  border-radius:14px;
+  backdrop-filter:blur(10px);
+}
+.nav .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); font-weight:700}
+.nav .brand img{width:34px; height:34px; border-radius:8px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.45))}
+.nav nav{display:flex; gap:18px}
+.nav nav a{color:var(--ink); opacity:.9; text-decoration:none}
+.nav nav a:hover{opacity:1; text-decoration:underline}
+
+/* ===== HERO ===== */
+.hero{
+  position:relative; min-height:92vh; color:var(--ink); overflow:hidden; isolation:isolate;
+  background:
+    radial-gradient(1100px 600px at 72% 12%, #0f1836 0%, var(--bg) 65%) no-repeat;
+}
+
+/* subtle stars/confetti */
+.hero::before{
+  content:"";
+  position:absolute; inset:-10vmin;
+  background:
+    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.15) 99%, transparent) repeat,
+    radial-gradient(1.5px 1.5px at 60% 70%, rgba(255,255,255,.10) 99%, transparent) repeat;
+  background-size: 140px 160px, 180px 200px;
+  filter: blur(.4px);
+  opacity:.7; pointer-events:none; z-index:0;
+}
+
+/* text */
+.hero__content{
+  position:relative; z-index:2;
+  max-width:min(1200px,94vw); margin: clamp(16px,2vw,28px) auto 0; padding: clamp(14px,2vw,20px);
+}
+.hero__content h1{
+  font-size: clamp(28px, 5.2vw, 62px);
+  line-height:1.06; margin: 10px 0 8px;
+}
+.hero__content h1 span{color:var(--brand)}
+.hero__content p{max-width:56ch; opacity:.92; margin:6px 0 18px}
+
+/* buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  padding:12px 18px; border-radius:999px; text-decoration:none; border:1px solid var(--line);
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn-primary{background:var(--brand); border-color:transparent; color:#001a2b; font-weight:700}
+.btn-ghost{background:transparent; color:var(--ink)}
+.btn:hover{transform:translateY(-1px); box-shadow:0 10px 30px rgba(0,0,0,.35)}
+
+/* floating cut-outs */
+.hero__layers{position:absolute; inset:0; z-index:1; pointer-events:none}
+.layer{
+  position:absolute; left:var(--x); top:var(--y);
+  width:min(var(--w), 44vw);
+  transform:translate(-50%, -50%);
+  filter:url(#keyGreen) drop-shadow(0 12px 28px rgba(0,0,0,.55));
+}
+.float{animation:float1 7s ease-in-out infinite}
+.float-slow{animation:float2 11s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-8px)}}
+@keyframes float2{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(10px)}}
+
+/* responsive */
+@media (max-width:900px){
+  .nav{padding:12px 14px}
+  .nav nav{gap:14px}
+  .layer{opacity:.98}
+}
+</style>
+<!-- Knock out green backgrounds from PNGs -->
 <svg aria-hidden="true" width="0" height="0" style="position:absolute;left:-9999px;top:-9999px">
   <filter id="keyGreen" color-interpolation-filters="sRGB">
-    <!-- Blend image with the target green so a perfect match becomes pure black (diff=0) -->
+    <!-- pick the exact green; tweak if needed -->
     <feFlood flood-color="#78f8a2" result="keycolor"/>
     <feBlend in="SourceGraphic" in2="keycolor" mode="difference" result="diff"/>
-
-    <!-- Convert that difference to a single channel brightness -->
     <feColorMatrix in="diff" type="matrix"
-      values="
-        0.2126 0.7152 0.0722 0 0
-        0.2126 0.7152 0.0722 0 0
-        0.2126 0.7152 0.0722 0 0
-        0      0      0      1 0" result="lum"/>
-
-    <!-- Threshold: anything close to the green becomes fully transparent -->
-    <!-- tweak the numbers to tighten/loosen the cut-out (0.12 ~ tolerance) -->
+      values="0.2126 0.7152 0.0722 0 0
+              0.2126 0.7152 0.0722 0 0
+              0.2126 0.7152 0.0722 0 0
+              0      0      0      1 0" result="lum"/>
+    <!-- threshold: push second-to-last number down for harder key (e.g. 0.85) -->
     <feComponentTransfer>
-      <feFuncA type="table" tableValues="1 1 1 0 0 0"/>
+      <!-- tableValues from 1→0 creates transparency where colors match the green -->
+      <feFuncA type="table" tableValues="1 1 0.9 0 0 0"/>
     </feComponentTransfer>
-
-    <!-- Punch the mask out of the original -->
     <feComposite in="SourceGraphic" in2="lum" operator="out"/>
   </filter>
 </svg>
-<!-- HERO -->
-<section class="hero">
-  <div class="hero__bg"></div>
 
+<!-- ===== HERO START ===== -->
+<section class="hero">
   <header class="nav">
     <a class="brand" href="/">
       <img src="Assets/logo.png" alt="Blessed Amusements logo">
@@ -41,140 +125,38 @@
 
   <div class="hero__content">
     <h1>The Claw Is Calling<br><span>NOVA & Prince William County</span></h1>
-    <p>Free placement • We stock & maintain • Commission paid monthly.</p>
+    <p>Free placement • We stock & maintain • Commission paid monthly. Family‑owned and proud to serve the DMV.</p>
     <div class="cta">
       <a class="btn btn-primary" href="mailto:info@blessedamusements.com">Get In Touch</a>
       <a class="btn btn-ghost" href="gallery.html">See Our Machines</a>
     </div>
   </div>
 
-  <!-- Layered images (green screened) -->
+  <!-- Floating keyed images -->
   <div class="hero__layers">
-    <!-- Big right machine pair -->
-    <img class="layer float-slow" style="--x: 58%; --y: 18%; --w: 40rem"
-         src="Assets/Attachment-1.png" alt="Pin It and Gamer Claw"
-         loading="eager" fetchpriority="high" />
+    <!-- Big right pair -->
+    <img class="layer float-slow" style="--x: 60%; --y: 22%; --w: 40rem"
+      src="Assets/Attachment-1.png" alt="Pin It + Gamer Claw" loading="eager" fetchpriority="high"/>
 
-    <!-- You (thumbs up) -->
-    <img class="layer float" style="--x: 15%; --y: 36%; --w: 16rem"
-         src="Assets/Attachment-6.png" alt="Owner Camden" />
+    <!-- You -->
+    <img class="layer float" style="--x: 18%; --y: 52%; --w: 16rem"
+      src="Assets/Attachment-6.png" alt="Owner Camden"/>
 
-    <!-- Shooting Star + Prize Locker -->
-    <img class="layer float-slow" style="--x: 77%; --y: 25%; --w: 22rem"
-         src="Assets/Attachment-4.png" alt="Shooting Star with prize locker" />
+    <!-- Shooting Star + Locker -->
+    <img class="layer float-slow" style="--x: 78%; --y: 35%; --w: 22rem"
+      src="Assets/Attachment-4.png" alt="Shooting Star with prize locker"/>
 
     <!-- Boxer -->
-    <img class="layer float" style="--x: 4%; --y: 8%; --w: 18rem"
-         src="Assets/Attachment-5.png" alt="Boxer strength tester" />
+    <img class="layer float" style="--x: 8%; --y: 18%; --w: 18rem"
+      src="Assets/Attachment-5.png" alt="Boxer strength tester"/>
 
-    <!-- Mega Treasure (angled) -->
-    <img class="layer float" style="--x: 68%; --y: 8%; --w: 18rem"
-         src="Assets/Attachment-3.png" alt="Mega Treasure claw" />
+    <!-- Mega Treasure -->
+    <img class="layer float" style="--x: 70%; --y: 10%; --w: 18rem"
+      src="Assets/Attachment-3.png" alt="Mega Treasure claw"/>
 
-    <!-- Ducky Treasure pair -->
-    <img class="layer float-slow" style="--x: 30%; --y: 18%; --w: 18rem"
-         src="Assets/Attachment-2.png" alt="Ducky Treasure" />
+    <!-- Ducky Treasure -->
+    <img class="layer float-slow" style="--x: 32%; --y: 28%; --w: 18rem"
+      src="Assets/Attachment-2.png" alt="Ducky Treasure"/>
   </div>
 </section>
-/* ==== HERO LOOK ==== */
-:root{
-  --bg: #0b0b10;
-  --ink:#e9eef5;
-  --panel:#12121a;
-  --brand:#3aa6ff;
-  --line: rgba(255,255,255,.08);
-  --star:#FFD700; /* gold for accents */
-}
-
-.hero{
-  position: relative;
-  min-height: 92vh;
-  overflow: clip;
-  color: var(--ink);
-  background: radial-gradient(1100px 600px at 70% 10%, #0f1730 0%, #0b0b10 60%) no-repeat;
-  isolation: isolate;
-}
-
-/* soft cloud/star-ish bg */
-.hero__bg::before,
-.hero__bg::after{
-  content:"";
-  position:absolute; inset:-20vmin -20vmin auto -20vmin;
-  height:60vmin;
-  background:
-    radial-gradient(18vmin 8vmin at 20% 70%, rgba(255,255,255,.05) 0 60%, transparent 61%) 0 0/22vmin 12vmin,
-    radial-gradient(14vmin 6vmin at 60% 40%, rgba(255,255,255,.04) 0 60%, transparent 61%) 0 0/24vmin 14vmin;
-  filter: blur(8px);
-  opacity:.6;
-}
-
-/* nav */
-.nav{
-  position:sticky; top:0; z-index:3;
-  display:flex; align-items:center; justify-content:space-between;
-  gap:16px; padding:18px 20px; margin-inline:auto;
-  max-width:min(1200px, 96vw);
-  backdrop-filter: blur(10px);
-  border-bottom:1px solid var(--line);
-  background-color: color-mix(in oklab, var(--panel) 70%, transparent);
-  border-radius:12px; margin-top:16px;
-}
-.nav .brand{display:flex; align-items:center; gap:10px; font-weight:700; color:var(--ink); text-decoration:none;}
-.nav .brand img{width:34px; height:34px; border-radius:8px; filter: drop-shadow(0 2px 8px rgba(0,0,0,.4));}
-.nav nav{display:flex; gap:18px}
-.nav nav a{color:var(--ink); text-decoration:none; opacity:.9}
-.nav nav a:hover{opacity:1; text-decoration:underline}
-
-/* text + buttons */
-.hero__content{
-  position: relative; z-index:2;
-  padding: clamp(28px, 4vw, 48px) 20px 20px;
-  max-width:min(1200px, 96vw); margin-inline:auto;
-}
-.hero__content h1{
-  font-size: clamp(28px, 4.8vw, 56px);
-  line-height:1.05; margin: 12px 0 10px;
-}
-.hero__content h1 span{
-  color: var(--brand);
-}
-.hero__content p{opacity:.9; margin: 8px 0 16px;}
-.btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:10px;
-  padding:12px 18px; border-radius:999px; text-decoration:none; border:1px solid var(--line);
-}
-.btn-primary{ background: var(--brand); color:#001a2b; font-weight:700; border-color:transparent;}
-.btn-ghost{ background: transparent; color: var(--ink);}
-.btn:hover{ transform: translateY(-1px); }
-
-/* layered images */
-.hero__layers{
-  position:absolute; inset:0;
-  pointer-events:none; z-index:1;
-}
-.layer{
-  position:absolute;
-  left: var(--x); top: var(--y);
-  width: min(var(--w), 42vw);
-  transform: translate(-50%, -50%);
-  /* 💡 apply green-screen knockout */
-  filter: url(#keyGreen) drop-shadow(0 10px 24px rgba(0,0,0,.55));
-}
-.float{ animation: float1 7s ease-in-out infinite; }
-.float-slow{ animation: float2 11s ease-in-out infinite; }
-
-@keyframes float1{
-  0%,100%{ transform: translate(-50%,-50%) translateY(0); }
-  50%{ transform: translate(-50%,-50%) translateY(-8px); }
-}
-@keyframes float2{
-  0%,100%{ transform: translate(-50%,-50%) translateY(0); }
-  50%{ transform: translate(-50%,-50%) translateY(10px); }
-}
-
-/* responsive tweaks */
-@media (max-width: 900px){
-  .layer{ opacity:.95; }
-  .nav{ margin-top:8px; padding:12px 14px; }
-  .nav nav{ gap:14px; }
-}
+<!-- ===== HERO END ===== -->
