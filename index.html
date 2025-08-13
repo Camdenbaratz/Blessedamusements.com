@@ -77,9 +77,10 @@
     display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center
   }
 
-  /* Hero title — solid radiant color (no color cycling) */
+  /* ── HERO TITLE: solid radiant color + crisp outline + subtle glow ── */
   h1.hero-title{
-    color:#00e6ff;
+    color:#00e6ff;                           /* radiant cyan */
+    -webkit-text-stroke:2px rgba(0,0,0,.85); /* crisp black outline (WebKit) */
     font-size: clamp(42px,5.6vw,78px);
     line-height:1.02;margin:6px 0 10px; letter-spacing:.2px;
     text-shadow:
@@ -87,16 +88,31 @@
       0 0 22px rgba(0,230,255,.45),
       0 0 40px rgba(0,230,255,.25);
     filter: drop-shadow(0 4px 10px rgba(9,25,49,.12));
-    animation: titlePulse 3s ease-in-out infinite;
+    animation: title-breathe 3s ease-in-out infinite;
+    will-change: transform, text-shadow;
   }
-  @keyframes titlePulse{
+  /* Fallback outline for browsers without -webkit-text-stroke */
+  @supports not (-webkit-text-stroke: 2px black){
+    h1.hero-title{
+      text-shadow:
+        -2px -2px 0 #000, 2px -2px 0 #000,
+        -2px  2px 0 #000, 2px  2px 0 #000,
+        0 0 12px rgba(0,230,255,.60),
+        0 0 26px rgba(0,230,255,.45),
+        0 0 44px rgba(0,230,255,.25);
+    }
+  }
+  @keyframes title-breathe{
     50%{
       text-shadow:
         0 0 14px rgba(0,230,255,.95),
         0 0 30px rgba(0,230,255,.75),
         0 0 54px rgba(0,230,255,.55);
+      transform: translateY(-1px);
     }
   }
+  /* interactive wobble */
+  .hero-title:hover{ transform: scale(1.015) rotate(-0.2deg); }
 
   .serve{
     font-size: clamp(18px,2.2vw,28px);
@@ -125,18 +141,16 @@
   .card h3{margin:6px 0 8px}
   .pill{display:inline-flex;gap:8px;align-items:center;border:1px dashed rgba(9,25,49,.18);padding:6px 10px;border-radius:999px;font-size:13px;color:#3b4d75}
 
-  /* My Story (tweaked sizes & spacing) */
+  /* My Story — bigger you + mascot, same size & closer */
   #about .about-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center}
-  #about .duo{display:flex;gap:10px;align-items:flex-end;justify-content:center}
-  #about .about-img{
-    border-radius:16px;filter:drop-shadow(0 18px 44px rgba(9,25,49,.18));
-    max-width:72%;
-  }
+  #about .duo{display:flex;gap:8px;align-items:flex-end;justify-content:center}
+  #about .about-img,
   #about .mascot{
-    border-radius:16px;filter:drop-shadow(0 18px 44px rgba(9,25,49,.18));
-    max-width:34%;
-    transform:translateY(6px);
+    max-width:45%;
+    border-radius:16px;
+    filter:drop-shadow(0 18px 44px rgba(9,25,49,.18));
   }
+  #about .mascot{ transform:translateY(6px); }
   #about h2{margin:0 0 10px;font-size:clamp(26px,3.2vw,40px)}
   #about p{color:var(--muted);line-height:1.75}
 
@@ -149,7 +163,7 @@
   .cta-panel .row{display:flex;gap:10px;align-items:center}
   .cta-panel input,.cta-panel textarea{padding:12px 14px;border-radius:12px;border:1px solid rgba(9,25,49,.14);background:#ffffff;color:var(--text)}
   .cta-panel button{border:none}
-  .fine{font-size:12px;color:var(--muted)}
+  .fine{font-size:12px;color:#66769a}
 
   /* Footer */
   footer{padding:26px 20px;color:#66769a;border-top:1px solid rgba(9,25,49,.08)}
@@ -166,6 +180,7 @@
     .grid{grid-template-columns:1fr}
     #about .about-grid{grid-template-columns:1fr}
     #about .duo{justify-content:flex-start}
+    #about .about-img, #about .mascot{ max-width:48%; }
     .cta-wrap{grid-template-columns:1fr}
   }
   @media (prefers-reduced-motion:reduce){
@@ -173,6 +188,7 @@
     .btn .shine{display:none}
     .reveal{transition:none}
     .hero-title{animation:none}
+    .hero-title:hover{transform:none}
   }
 </style>
 </head>
@@ -267,7 +283,7 @@
             <li>Fast swaps for any out-of-order unit</li>
             <li>Professional branding that fits your space</li>
           </ul>
-          <div class="hero-actions" style="margin-top:18px">
+          <div class="hero-actions" style="margin-top:18px)">
             <a class="btn" href="#contact"><span class="shine"></span>Check Availability</a>
             <a class="btn secondary" href="#contact">Ask A Question</a>
           </div>
