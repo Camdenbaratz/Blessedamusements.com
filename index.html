@@ -323,5 +323,80 @@
       btn.addEventListener('mouseleave', ()=> btn.style.transform = '');
     });
   </script>
+/* ==== LIGHT / FLASHY THEME OVERRIDES ==== */
+:root{
+  --text:#0b1020;
+  --muted:#55607a;
+  --card:#ffffff;
+}
+
+/* Vibrant, light background with soft color glows */
+html,body{
+  color:var(--text);
+  background:
+    radial-gradient(900px 600px at 90% -10%, rgba(139,92,255,.20), transparent 60%),
+    radial-gradient(800px 500px at -10% 20%, rgba(32,255,160,.18), transparent 60%),
+    radial-gradient(700px 500px at 50% 120%, rgba(124,240,255,.18), transparent 60%),
+    linear-gradient(135deg,#fff9ff 0%, #f4fbff 45%, #f7fff9 100%);
+}
+
+/* Glassy light nav */
+.nav{
+  background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.65));
+  border-bottom:1px solid rgba(9,13,24,.06);
+  backdrop-filter:saturate(160%) blur(8px);
+}
+.nav-links a{color:#12203a}
+.cta{color:#071018}
+.logo span{color:#12203a}
+
+/* Hero text colors */
+.kicker{background:rgba(139,92,255,.12);border-color:rgba(139,92,255,.25);color:#4b3f72}
+.sub{color:var(--muted)}
+
+/* Cards on light */
+.card{
+  background:linear-gradient(180deg,#ffffff, #fbfdff);
+  border:1px solid rgba(9,13,24,.06);
+  box-shadow:0 10px 30px rgba(17,27,51,.08);
+}
+.card:hover{
+  border-color:rgba(124,240,255,.45);
+  box-shadow:0 18px 48px rgba(17,27,51,.12);
+}
+
+/* Trust strip */
+.strip{
+  background:linear-gradient(90deg,rgba(124,240,255,.20),rgba(139,92,255,.18));
+  border-color:rgba(9,13,24,.08);
+  color:#0f1b33;
+}
+
+/* Service section image shadow stays but lighter */
+#service img{filter:drop-shadow(0 16px 36px rgba(17,27,51,.18))}
+
+/* CTA panel on white */
+.cta-wrap{
+  background:linear-gradient(180deg,#ffffff,#fbfdff);
+  border:1px solid rgba(9,13,24,.08);
+}
+.cta-panel{
+  background:#ffffff;
+  border:1px solid rgba(9,13,24,.10);
+}
+.cta-panel input, .cta-panel button, .cta-panel textarea{
+  background:#ffffff;
+  border:1px solid rgba(9,13,24,.14);
+  color:#0b1020;
+}
+
+/* Footer light */
+footer{
+  border-top:1px solid rgba(9,13,24,.08);
+  color:#55607a;
+}
+.foot-wrap a{color:#31405f}
+
+/* Buttons already pop; keep them as-is */
 </body>
 </html>
