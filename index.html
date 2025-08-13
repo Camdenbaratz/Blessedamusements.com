@@ -111,7 +111,7 @@
       transform: translateY(-1px);
     }
   }
-  /* interactive wobble */
+  /* Interactive wobble */
   .hero-title:hover{ transform: scale(1.015) rotate(-0.2deg); }
 
   .serve{
@@ -121,7 +121,7 @@
   .sub{font-size: clamp(16px,1.5vw,18px);color:var(--muted);max-width:58ch}
   .hero-actions{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
 
-  /* Fixed claw alignment (no bleed) */
+  /* Right art */
   .hero-art{display:flex; justify-content:flex-end; align-items:center}
   .claw{
     position:relative; width:min(520px, 100%); max-height:520px; object-fit:contain;
@@ -254,10 +254,10 @@
         </div>
         <div class="reveal" aria-hidden="true">
           <!-- You + Mascot side-by-side (bigger you, closer mascot) -->
-          <div class="duo">
-            <img class="about-img" src="Assets/owner.png" alt="Owner of Blessed Amusements" />
-            <img class="mascot" src="Assets/mascot.png" alt="Blessed Amusements mascot" />
-          </div>
+           <div class="duo" style="display:flex; justify-content:center; gap:20px;">
+  <img class="about-img" src="Assets/owner.png" alt="Owner of Blessed Amusements" style="width:220px;">
+  <img class="mascot" src="Assets/mascot.png" alt="Blessed Amusements mascot" style="width:220px;">
+</div>
         </div>
       </div>
     </section>
@@ -283,7 +283,7 @@
             <li>Fast swaps for any out-of-order unit</li>
             <li>Professional branding that fits your space</li>
           </ul>
-          <div class="hero-actions" style="margin-top:18px)">
+          <div class="hero-actions" style="margin-top:18px">
             <a class="btn" href="#contact"><span class="shine"></span>Check Availability</a>
             <a class="btn secondary" href="#contact">Ask A Question</a>
           </div>
@@ -302,7 +302,7 @@
           <h2>Ready to place a machine?</h2>
           <p class="tagline">Tell us about your location and we’ll recommend the perfect setup — usually installed within days.</p>
         </div>
-        <form class="cta-panel" onsubmit="event.preventDefault(); alert('Thanks! We\\'ll reach out ASAP.');">
+        <form class="cta-panel" onsubmit="event.preventDefault(); alert('Thanks! We\'ll reach out ASAP.');">
           <div class="row"><input type="text" placeholder="Your name" required aria-label="Your name" /><input type="tel" placeholder="Phone" aria-label="Phone" /></div>
           <div class="row"><input type="email" placeholder="Email" required aria-label="Email" /><input type="text" placeholder="Business name" aria-label="Business name" /></div>
           <input type="text" placeholder="Address / City in NOVA" aria-label="Address or city" />
