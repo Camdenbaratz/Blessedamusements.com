@@ -16,7 +16,7 @@
   html,body{
     margin:0;color:var(--text);
     font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif;
-    /* ✅ Bluer background */
+    /* Light blue background with soft glows */
     background:
       radial-gradient(1200px 800px at 85% -15%, rgba(124,240,255,.45), transparent 60%),
       radial-gradient(1000px 700px at -15% 20%, rgba(77,137,255,.28), transparent 60%),
@@ -74,22 +74,30 @@
   .hero{position:relative}
   .hero-inner{
     max-width:1200px;margin:0 auto;
-    padding: clamp(68px, 8vw, 120px) 20px 80px; /* extra bottom to avoid overlap */
+    padding: clamp(68px, 8vw, 120px) 20px 80px;
     display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center
   }
-  .kicker{display:inline-flex;align-items:center;gap:10px;padding:6px 12px;border-radius:999px;background:rgba(139,92,255,.14);border:1px solid rgba(139,92,255,.28);font-size:13px;color:#4b3f72}
-  h1{font-size: clamp(34px, 4.6vw, 62px);line-height:1.04;margin:14px 0 14px}
+  h1.hero-title{
+    font-size: clamp(42px,5.6vw,78px);
+    line-height:1.02;margin:6px 0 10px;
+    letter-spacing:.2px;
+  }
+  .serve{
+    font-size: clamp(18px,2.2vw,28px);
+    font-weight:800;
+    color:#0f2d6a;
+    margin: 4px 0 10px;
+  }
   .sub{font-size: clamp(16px,1.5vw,18px);color:var(--muted);max-width:58ch}
   .hero-actions{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
 
-  /* ✅ Fixed claw alignment (no bleed) */
+  /* Fixed claw alignment (no bleed) */
   .hero-art{display:flex; justify-content:flex-end; align-items:center}
   .claw{
-    position:relative;             /* no absolute */
+    position:relative;
     width:min(520px, 100%);
-    max-height: 520px;             /* prevent super tall images */
-    object-fit: contain;
-    margin-right:-8px;             /* nudge right edge a bit */
+    max-height:520px; object-fit:contain;
+    margin-right:-8px;
     filter:drop-shadow(0 20px 60px rgba(9,25,49,.25));
     animation: floaty 6s ease-in-out infinite;
   }
@@ -106,8 +114,11 @@
   .card h3{margin:6px 0 8px}
   .pill{display:inline-flex;gap:8px;align-items:center;border:1px dashed rgba(9,25,49,.18);padding:6px 10px;border-radius:999px;font-size:13px;color:#3b4d75}
 
-  /* Service block */
-  #service img{border-radius:16px;filter:drop-shadow(0 18px 44px rgba(9,25,49,.18))}
+  /* About section */
+  #about .about-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+  #about .about-img{border-radius:16px;filter:drop-shadow(0 18px 44px rgba(9,25,49,.18))}
+  #about h2{margin:0 0 10px;font-size:clamp(26px,3.2vw,40px)}
+  #about p{color:var(--muted);line-height:1.75}
 
   /* Lead capture */
   .cta-section{padding:64px 20px 90px}
@@ -133,6 +144,7 @@
     .hero-inner{grid-template-columns:1fr; padding-bottom:40px}
     .claw{margin:20px auto 0; max-height:440px}
     .grid{grid-template-columns:1fr}
+    #about .about-grid{grid-template-columns:1fr}
     .cta-wrap{grid-template-columns:1fr}
   }
   @media (prefers-reduced-motion:reduce){
@@ -153,24 +165,26 @@
       <div class="nav-wrap">
         <a class="logo" href="/"><img src="Assets/logo.png" alt="Blessed Amusements logo" /><span>Blessed Amusements</span></a>
         <nav class="nav-links">
-          <a href="#features">Why Us</a><a href="#service">Service</a><a href="#contact">Contact</a>
-          <a class="btn" href="#contact">Get A Machine <span class="shine"></span></a>
+          <a href="#about">About Us</a><a href="#service">Service</a><a href="#contact">Contact</a>
+          <a class="btn" href="#about">Who We Are <span class="shine"></span></a>
         </nav>
       </div>
     </header>
 
+    <!-- HERO -->
     <section class="hero" id="home">
       <div class="hero-inner">
         <div>
-          <span class="kicker">🎉 Family-Owned • <b>Blessed Amusements</b></span>
-          <h1>Bring the Fun In-House — Claw Machines That
-            <span style="background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent">Pay for Themselves</span>
-          </h1>
-          <p class="sub">We handle everything — install, stock, and service — while you enjoy happier customers and an extra stream of revenue.
-            <br><b>Serving the entire Northern Virginia Area (NOVA).</b></p>
+          <h1 class="hero-title">Blessed Amusements</h1>
+          <div class="serve">Serving the entire Northern Virginia Area (NOVA)</div>
+          <p class="sub">
+            We’re an amusement / arcade-based business providing claw machines and other
+            crowd-pleasing games for your location. We handle install, stocking, and service —
+            you enjoy happier customers and extra revenue.
+          </p>
           <div class="hero-actions">
-            <a class="btn" href="#contact">Book a Free Placement <span class="shine"></span></a>
-            <a class="btn secondary" href="#features">See How It Works</a>
+            <a class="btn" href="#about">Who We Are <span class="shine"></span></a>
+            <a class="btn secondary" href="#service">See How It Works</a>
           </div>
         </div>
         <div class="hero-art" aria-hidden="true">
@@ -184,6 +198,34 @@
       <span>🧰 Proactive maintenance</span><span>💳 Card + cash payments</span><span>📍 NOVA coverage</span>
     </div>
 
+    <!-- ABOUT US -->
+    <section class="band" id="about">
+      <div class="about-grid">
+        <div class="reveal">
+          <h2>Who We Are</h2>
+          <p>
+            Blessed Amusements is a family-run operation dedicated to creating smiles — one prize at a time.
+            We treat every placement like it’s our own shop: clean installs, fast service, and a prize mix tailored
+            to your guests. From small cafés to busy family venues, we bring the arcade vibe that keeps customers
+            hanging around (and coming back).
+          </p>
+          <p>
+            I started this because I love the joy claw machines create. Today, we handle everything end-to-end:
+            install, stock, collections, and proactive maintenance. You get a reliable attraction and a transparent
+            revenue share — with no hassle.
+          </p>
+          <div class="hero-actions" style="margin-top:14px">
+            <a class="btn" href="#contact"><span class="shine"></span>Get In Touch</a>
+            <a class="btn secondary" href="#service">Our Service</a>
+          </div>
+        </div>
+        <div class="reveal" aria-hidden="true">
+          <img class="about-img" src="Assets/owner.png" alt="Owner of Blessed Amusements" />
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE CARDS -->
     <section class="band" id="features">
       <div class="grid">
         <article class="card reveal"><span class="pill">No Cost To You</span><h3>We Install & Service</h3><p style="color:var(--muted)">Placement is hassle-free. We set up, stock regularly, and handle repairs so you don’t have to.</p></article>
@@ -192,6 +234,7 @@
       </div>
     </section>
 
+    <!-- SERVICE INFO IMAGE BLOCK -->
     <section class="band" id="service">
       <div class="grid" style="grid-template-columns:1.2fr .8fr;align-items:center">
         <div class="reveal">
@@ -214,6 +257,7 @@
       </div>
     </section>
 
+    <!-- CONTACT -->
     <section class="cta-section" id="contact">
       <div class="cta-wrap reveal">
         <div class="cta-box">
@@ -242,14 +286,17 @@
   </div><!-- /.page -->
 
   <script>
+    // Year
     document.getElementById('yr').textContent = new Date().getFullYear();
 
+    // Reveal on scroll
     const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     const io = reduced ? null : new IntersectionObserver((entries)=>entries.forEach(e=>{
       if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
     }),{threshold:.12});
     document.querySelectorAll('.reveal').forEach(el=> io && io.observe(el));
 
+    // Magnetic button hover
     document.querySelectorAll('.btn:not(.secondary)').forEach(btn=>{
       btn.addEventListener('mousemove', e=>{
         const r = btn.getBoundingClientRect(); const x = e.clientX - r.left; const y = e.clientY - r.top;
@@ -258,7 +305,7 @@
       btn.addEventListener('mouseleave', ()=> btn.style.transform = '');
     });
 
-    // Confetti
+    // Confetti background
     (function(){
       const canvas = document.getElementById('confetti');
       if(!canvas) return;
