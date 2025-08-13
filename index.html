@@ -1,304 +1,188 @@
-<style>
-/* ===== THEME ===== */
-:root{
-  --bg:#0b0b10;
-  --panel:#12121a;
-  --ink:#eef2f7;
-  --muted:#9ba7b6;
-  --brand:#3aa6ff;
-  --gold:#FFD54A;
-  --line:rgba(255,255,255,.09);
-}
-*{box-sizing:border-box}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blessed Amusements • Claw & Arcade Placement</title>
 
-/* ===== NAV ===== */
-.nav{
-  position:sticky; top:0; z-index:30;
-  display:flex; align-items:center; justify-content:space-between;
-  gap:16px; padding:14px 18px; margin:10px auto 0;
-  max-width:min(1200px,94vw);
-  background:rgba(18,18,26,.7);
-  border:1px solid var(--line);
-  border-radius:14px;
-  backdrop-filter:blur(10px);
-}
-.nav .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); font-weight:700}
-.nav .brand img{width:34px; height:34px; border-radius:8px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.45))}
-.nav nav{display:flex; gap:18px}
-.nav nav a{color:var(--ink); opacity:.9; text-decoration:none}
-.nav nav a:hover{opacity:1; text-decoration:underline}
+  <!-- Favicon / app icons (uses your logo) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="Assets/logo.png?v=4">
+  <link rel="apple-touch-icon" href="Assets/logo.png?v=4">
 
-/* ===== HERO ===== */
-.hero{
-  position:relative; min-height:92vh; color:var(--ink); overflow:hidden; isolation:isolate;
-  background:
-    radial-gradient(1100px 600px at 72% 12%, #0f1836 0%, var(--bg) 65%) no-repeat;
-}
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
 
-/* subtle stars/confetti */
-.hero::before{
-  content:"";
-  position:absolute; inset:-10vmin;
-  background:
-    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.15) 99%, transparent) repeat,
-    radial-gradient(1.5px 1.5px at 60% 70%, rgba(255,255,255,.10) 99%, transparent) repeat;
-  background-size: 140px 160px, 180px 200px;
-  filter: blur(.4px);
-  opacity:.7; pointer-events:none; z-index:0;
-}
+  <style>
+    :root{
+      --bg:#070b13;
+      --ink:#e9f1ff;
+      --muted:#a8bed9;
+      --brand:#3aa6ff;
+      --brand-2:#7cc4ff;
+      --panel:#0f1626;
+      --glow:#6cc6ff;
+      --star:#ffd34d;
+      --ring: rgba(0, 175, 255, .35);
+      --max:1200px;
+      --radius:18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
 
-/* text */
-.hero__content{
-  position:relative; z-index:2;
-  max-width:min(1200px,94vw); margin: clamp(16px,2vw,28px) auto 0; padding: clamp(14px,2vw,20px);
-}
-.hero__content h1{
-  font-size: clamp(28px, 5.2vw, 62px);
-  line-height:1.06; margin: 10px 0 8px;
-}
-.hero__content h1 span{color:var(--brand)}
-.hero__content p{max-width:56ch; opacity:.92; margin:6px 0 18px}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
 
-/* buttons */
-.btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:10px;
-  padding:12px 18px; border-radius:999px; text-decoration:none; border:1px solid var(--line);
-  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
-}
-.btn-primary{background:var(--brand); border-color:transparent; color:#001a2b; font-weight:700}
-.btn-ghost{background:transparent; color:var(--ink)}
-.btn:hover{transform:translateY(-1px); box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    /* NAV */
+    .nav{
+      position:sticky;top:0;z-index:50;
+      background:linear-gradient(180deg, rgba(8,12,20,.85), rgba(8,12,20,.6));
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav .wrap{
+      max-width:var(--max);margin:auto;padding:14px 20px;
+      display:flex;align-items:center;gap:18px;justify-content:space-between;
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}
+    .brand img{width:36px;height:36px;border-radius:10px;box-shadow:0 0 0 4px rgba(255,255,255,.04)}
+    .links{display:flex;gap:20px}
+    .links a{color:#cfe6ff;opacity:.9;font-weight:600}
+    .links a:hover{opacity:1}
 
-/* floating cut-outs */
-.hero__layers{position:absolute; inset:0; z-index:1; pointer-events:none}
-.layer{
-  position:absolute; left:var(--x); top:var(--y);
-  width:min(var(--w), 44vw);
-  transform:translate(-50%, -50%);
-  filter:url(#keyGreen) drop-shadow(0 12px 28px rgba(0,0,0,.55));
-}
-.float{animation:float1 7s ease-in-out infinite}
-.float-slow{animation:float2 11s ease-in-out infinite}
-@keyframes float1{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-8px)}}
-@keyframes float2{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(10px)}}
+    /* HERO */
+    .hero{
+      position:relative;overflow:hidden;isolation:isolate;
+      background:
+        radial-gradient(1200px 600px at 70% -10%, rgba(58,166,255,.25), transparent 60%),
+        radial-gradient(900px 500px at 20% 0%, rgba(58,166,255,.14), transparent 55%),
+        linear-gradient(180deg, #0b1323 0%, #08101c 100%);
+      border-bottom:1px solid rgba(255,255,255,.05);
+    }
+    .hero .wrap{max-width:var(--max);margin:auto;padding:72px 20px 92px;display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
+    @media (max-width: 950px){ .hero .wrap{grid-template-columns:1fr; padding:56px 18px 28px}}
 
-/* responsive */
-@media (max-width:900px){
-  .nav{padding:12px 14px}
-  .nav nav{gap:14px}
-  .layer{opacity:.98}
-}
-</style>
-<!-- Knock out green backgrounds from PNGs -->
-<svg aria-hidden="true" width="0" height="0" style="position:absolute;left:-9999px;top:-9999px">
-  <filter id="keyGreen" color-interpolation-filters="sRGB">
-    <!-- pick the exact green; tweak if needed -->
-    <feFlood flood-color="#78f8a2" result="keycolor"/>
-    <feBlend in="SourceGraphic" in2="keycolor" mode="difference" result="diff"/>
-    <feColorMatrix in="diff" type="matrix"
-      values="0.2126 0.7152 0.0722 0 0
-              0.2126 0.7152 0.0722 0 0
-              0.2126 0.7152 0.0722 0 0
-              0      0      0      1 0" result="lum"/>
-    <!-- threshold: push second-to-last number down for harder key (e.g. 0.85) -->
-    <feComponentTransfer>
-      <!-- tableValues from 1→0 creates transparency where colors match the green -->
-      <feFuncA type="table" tableValues="1 1 0.9 0 0 0"/>
-    </feComponentTransfer>
-    <feComposite in="SourceGraphic" in2="lum" operator="out"/>
-  </filter>
-</svg>
+    .eyebrow{color:var(--brand-2);font-weight:800;letter-spacing:.2em;text-transform:uppercase;font-size:.78rem}
+    .title{margin:.25rem 0 1rem;font-weight:900;line-height:1.08;letter-spacing:.2px;
+      font-size: clamp(2.2rem, 4.6vw, 4rem);}
+    .title .accent{color:var(--brand)}
+    .sub{color:var(--muted);max-width:46ch;margin:.5rem 0 1.5rem}
 
-<!-- ===== HERO START ===== -->
-<section class="hero">
+    .ctas{display:flex;flex-wrap:wrap;gap:12px}
+    .btn{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.02);color:#e8f4ff;
+      padding:12px 18px;border-radius:999px;font-weight:700;box-shadow:var(--shadow);transform:translateZ(0)}
+    .btn-primary{background:linear-gradient(180deg,#3aa6ff,#1687ff);border-color:rgba(0,0,0,.2)}
+    .btn:hover{filter:brightness(1.05)}
+
+    /* Stars layer */
+    .stars, .stars:after{
+      content:"";position:absolute;inset:-10% -10% auto -10%;height:140%;
+      background-image: radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.35) 50%, transparent 51%),
+                       radial-gradient(1px 1px at 30% 10%, rgba(255,255,255,.35) 50%, transparent 51%),
+                       radial-gradient(1px 1px at 50% 25%, rgba(255,255,255,.35) 50%, transparent 51%),
+                       radial-gradient(1px 1px at 70% 18%, rgba(255,255,255,.35) 50%, transparent 51%),
+                       radial-gradient(1px 1px at 85% 30%, rgba(255,255,255,.35) 50%, transparent 51%);
+      opacity:.25;animation: drift 120s linear infinite;
+    }
+    .stars:after{transform:translateY(40%);opacity:.18;filter:blur(0.3px);animation-duration:180s}
+    @keyframes drift{to{transform:translateY(-40%)}}
+
+    /* Machine image */
+    .hero-art{
+      position:relative;display:grid;place-items:end;
+    }
+    .machine{
+      position:relative;width:min(540px, 90%);max-width:540px;
+      filter: drop-shadow(0 40px 60px rgba(0,0,0,.55)) drop-shadow(0 0 40px var(--ring));
+      animation: floaty 8s ease-in-out infinite;
+      translate: 0 8px;
+    }
+    @keyframes floaty{50%{translate:0 -8px}}
+
+    /* little light ring under the machine */
+    .ring{
+      position:absolute;right:8%;bottom:-14px;width:58%;height:18px;border-radius:50%;
+      background: radial-gradient(closest-side, rgba(120,210,255,.55), rgba(120,210,255,.25), transparent 70%);
+      filter: blur(6px);
+    }
+
+    /* Feature chips */
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    .chip{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:8px 12px;border-radius:999px;color:#cfe6ff}
+
+    /* Footer */
+    footer{border-top:1px solid rgba(255,255,255,.06);background:#0a101b;color:#cbd8ea}
+    footer .wrap{max-width:var(--max);margin:auto;padding:28px 20px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
   <header class="nav">
-    <a class="brand" href="/">
-      <img src="Assets/logo.png" alt="Blessed Amusements logo">
-      <span>Blessed Amusements</span>
-    </a>
-    <nav>
-      <a href="/">Home</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <div class="wrap">
+      <div class="brand">
+        <img src="Assets/logo.png" alt="Blessed Amusements logo" />
+        <div>Blessed Amusements</div>
+      </div>
+      <nav class="links">
+        <a href="#">Home</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
-  <div class="hero__content">
-    <h1>The Claw Is Calling<br><span>NOVA & Prince William County</span></h1>
-    <p>Free placement • We stock & maintain • Commission paid monthly. Family‑owned and proud to serve the DMV.</p>
-    <div class="cta">
-      <a class="btn btn-primary" href="mailto:info@blessedamusements.com">Get In Touch</a>
-      <a class="btn btn-ghost" href="gallery.html">See Our Machines</a>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="stars"></div>
+
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Family‑Owned • NOVA & the DMV</div>
+        <h1 class="title">
+          The Claw Is Calling<br />
+          <span class="accent">NOVA & Prince William County</span>
+        </h1>
+        <p class="sub">
+          Free placement, stocked weekly, cleaned and maintained — and you get a
+          commission on every play. Zero cost. Zero hassle. Pure fun.
+        </p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="mailto:info@blessedamusements.com">Get In Touch</a>
+          <a class="btn" href="gallery.html">See Our Machines</a>
+        </div>
+        <div class="chips">
+          <span class="chip">Free Delivery & Install</span>
+          <span class="chip">Cashless Payments</span>
+          <span class="chip">Weekly Restock & Clean</span>
+          <span class="chip">Commission Paid Monthly</span>
+        </div>
+      </div>
+
+      <!-- Right side art -->
+      <div class="hero-art">
+        <!-- Try your IMG_3412 first; if it fails, fall back to clean-machine.png -->
+        <img class="machine"
+             src="Assets/IMG_3412.png"
+             alt="Shooting Star claw with prize locker"
+             onerror="this.onerror=null;this.src='Assets/clean-machine.png';" />
+        <div class="ring" aria-hidden="true"></div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Floating keyed images -->
-  <div class="hero__layers">
-    <!-- Big right pair -->
-    <img class="layer float-slow" style="--x: 60%; --y: 22%; --w: 40rem"
-      src="Assets/Attachment-1.png" alt="Pin It + Gamer Claw" loading="eager" fetchpriority="high"/>
-
-    <!-- You -->
-    <img class="layer float" style="--x: 18%; --y: 52%; --w: 16rem"
-      src="Assets/Attachment-6.png" alt="Owner Camden"/>
-
-    <!-- Shooting Star + Locker -->
-    <img class="layer float-slow" style="--x: 78%; --y: 35%; --w: 22rem"
-      src="Assets/Attachment-4.png" alt="Shooting Star with prize locker"/>
-
-    <!-- Boxer -->
-    <img class="layer float" style="--x: 8%; --y: 18%; --w: 18rem"
-      src="Assets/Attachment-5.png" alt="Boxer strength tester"/>
-
-    <!-- Mega Treasure -->
-    <img class="layer float" style="--x: 70%; --y: 10%; --w: 18rem"
-      src="Assets/Attachment-3.png" alt="Mega Treasure claw"/>
-
-    <!-- Ducky Treasure -->
-    <img class="layer float-slow" style="--x: 32%; --y: 28%; --w: 18rem"
-      src="Assets/Attachment-2.png" alt="Ducky Treasure"/>
-  </div>
-</section>
-<!-- ========== HERO (no greenscreen filter) ========== -->
-<style>
-  :root{
-    --bg:#071523;
-    --ink:#e6f1ff;
-    --brand:#3aa6ff;
-    --panel:#0d1e33;
-    --line:rgba(255,255,255,.10);
-    --max:1200px;
-  }
-
-  .hero{
-    position: relative;
-    isolation: isolate;
-    background:
-      radial-gradient(1200px 600px at 60% 0%, rgba(58,166,255,.25), transparent 60%),
-      radial-gradient(900px 420px at 20% 10%, rgba(58,166,255,.18), transparent 60%),
-      linear-gradient(180deg, #0a1a2d 0%, #05101b 60%, #040e19 100%);
-    color: var(--ink);
-    overflow: clip;
-  }
-  .hero__wrap{
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: clamp(2rem, 4vw, 3rem);
-    padding-top: clamp(6rem, 9vw, 7rem);
-    padding-bottom: clamp(4rem, 8vw, 7rem);
-  }
-
-  .eyebrow{opacity:.8; letter-spacing:.06em; text-transform:uppercase; font-weight:600;}
-  .hero h1{
-    margin:.25rem 0 1rem;
-    line-height:1.05;
-    font-weight:800;
-    font-size:clamp(2.2rem, 5vw + .5rem, 4.25rem);
-  }
-  .hero .accent{ color: var(--brand); }
-
-  .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:18px}
-  .btn, .btn-ghost{
-    display:inline-flex; align-items:center; justify-content:center;
-    height:48px; padding:0 18px; border-radius:999px; font-weight:700; text-decoration:none;
-    border:1px solid var(--line);
-  }
-  .btn{ background:var(--brand); color:#001a2e; border-color:transparent; }
-  .btn-ghost{ background:transparent; color:var(--ink); }
-  .btn:hover{ filter:brightness(1.08); transform:translateY(-1px); }
-  .btn-ghost:hover{ background:rgba(255,255,255,.04); transform:translateY(-1px); }
-
-  /* Floating cutout layers (NO filter) */
-  .hero__layers{
-    pointer-events:none;
-    position:absolute; inset:0;
-  }
-  .layer{
-    position:absolute;
-    left:var(--x,50%); top:var(--y,50%);
-    transform:translate(-50%,-50%);
-    width:var(--w,24rem);
-    max-width:52vw;
-    user-select:none;
-    filter:
-      drop-shadow(0 18px 40px rgba(0,0,0,.6))
-      drop-shadow(0 4px 14px rgba(0,0,0,.35));
-    animation: float var(--t,14s) ease-in-out infinite;
-    animation-delay: var(--d, 0s);
-  }
-  @keyframes float{
-    0%,100%{ transform:translate(-50%,-50%) translateY(0) }
-    50%{     transform:translate(-50%,-50%) translateY(-10px) }
-  }
-
-  /* tiny star sprinkles */
-  .stars{position:absolute;inset:0;opacity:.25; background-image:
-    radial-gradient(1px 1px at 10% 18%, #fff 60%, transparent 61%),
-    radial-gradient(1px 1px at 25% 40%, #fff 60%, transparent 61%),
-    radial-gradient(1px 1px at 60% 22%, #fff 60%, transparent 61%),
-    radial-gradient(1px 1px at 80% 35%, #fff 60%, transparent 61%),
-    radial-gradient(1px 1px at 45% 70%, #fff 60%, transparent 61%),
-    radial-gradient(1px 1px at 75% 80%, #fff 60%, transparent 61%);
-    background-repeat: no-repeat;
-  }
-
-  /* responsive nudges */
-  @media (max-width: 980px){
-    .layer{ opacity:.95 }
-    /* scale and reposition for mobile so text stays readable */
-    .hero .m1{ --w: 19rem; --x: 68%; --y: 54% }
-    .hero .m2{ --w: 12rem; --x: 22%; --y: 60% }
-    .hero .m3{ --w: 16rem; --x: 86%; --y: 62% }
-    .hero .m4{ --w: 12rem; --x: 12%; --y: 36% }
-    .hero .m5{ --w: 18rem; --x: 88%; --y: 28% }
-    .hero .m6{ --w: 15rem; --x: 34%; --y: 24% }
-  }
-</style>
-
-<section class="hero" id="home">
-  <div class="stars" aria-hidden="true"></div>
-
-  <div class="hero__wrap">
-    <p class="eyebrow">Blessed Amusements</p>
-    <h1>
-      The Claw Is Calling<br>
-      <span class="accent">NOVA &amp; Prince William County</span>
-    </h1>
-    <p>Free placement • We stock &amp; maintain • Commission paid monthly. Family‑owned and proud to serve the DMV.</p>
-
-    <div class="cta-row">
-      <a class="btn" href="mailto:info@blessedamusements.com">Get In Touch</a>
-      <a class="btn-ghost" href="#machines">See Our Machines</a>
-      <a class="btn-ghost" href="gallery.html">Gallery</a>
+  <!-- Simple contact anchor for the nav -->
+  <footer id="contact">
+    <div class="wrap">
+      <div>© <span id="y"></span> Blessed Amusements • NOVA & the DMV</div>
+      <div>
+        <a href="mailto:info@blessedamusements.com">info@blessedamusements.com</a>
+      </div>
     </div>
-  </div>
+  </footer>
 
-  <!-- Floating cutouts (no filter). Tweak --x/--y for position, --w for size. -->
-  <div class="hero__layers" aria-hidden="true">
-    <!-- Pair: Pin It + Gamer Claw -->
-    <img class="layer m1" style="--x: 63%; --y: 62%; --w: 32rem; --t: 15s; --d: .2s"
-         src="Assets/Attachment-1.png" alt="Claw machines">
-
-    <!-- You (thumbs up) -->
-    <img class="layer m2" style="--x: 24%; --y: 64%; --w: 14rem; --t: 17s; --d: .6s"
-         src="Assets/Attachment-6.png" alt="Owner">
-
-    <!-- Shooting Star + Locker -->
-    <img class="layer m3" style="--x: 82%; --y: 60%; --w: 22rem; --t: 18s; --d: .1s"
-         src="Assets/Attachment-4.png" alt="Shooting Star">
-
-    <!-- Boxer -->
-    <img class="layer m4" style="--x: 12%; --y: 45%; --w: 16rem; --t: 16s; --d: .3s"
-         src="Assets/Attachment-5.png" alt="Boxer Strength">
-
-    <!-- Mega Treasure (angle) -->
-    <img class="layer m5" style="--x: 86%; --y: 35%; --w: 20rem; --t: 20s; --d: .9s"
-         src="Assets/Attachment-3.png" alt="Mega Treasure">
-
-    <!-- Ducky Treasure pair -->
-    <img class="layer m6" style="--x: 38%; --y: 28%; --w: 18rem; --t: 19s; --d: .5s"
-         src="Assets/Attachment-2.png" alt="Ducky Treasure">
-  </div>
-</section>
-<!-- ========== /HERO ========== -->
-<!-- ===== HERO END ===== -->
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+</body>
+</html>
