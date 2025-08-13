@@ -16,19 +16,19 @@
   html,body{
     margin:0;color:var(--text);
     font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif;
+    /* ✅ Bluer background */
     background:
-      radial-gradient(1200px 800px at 80% -20%, rgba(124,240,255,.35), transparent 60%),
-      radial-gradient(900px 600px at -20% 10%, rgba(139,92,255,.25), transparent 60%),
-      linear-gradient(160deg,#e8f6ff 0%, #f0f3ff 42%, #eefcff 100%);
+      radial-gradient(1200px 800px at 85% -15%, rgba(124,240,255,.45), transparent 60%),
+      radial-gradient(1000px 700px at -15% 20%, rgba(77,137,255,.28), transparent 60%),
+      linear-gradient(180deg,#d8ecff 0%, #cfe6ff 40%, #e6f4ff 100%);
     overflow-x:hidden;
   }
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
 
-  /* ===== Confetti layer (always behind) ===== */
+  /* Confetti layer */
   .bg-wrap{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
   #confetti{position:absolute; inset:0; width:100%; height:100%; display:block; filter:saturate(115%)}
-  /* Static confetti fallback in case animation is off */
   .bg-wrap::after{
     content:""; position:absolute; inset:0; z-index:-1; opacity:.35;
     background:
@@ -39,14 +39,12 @@
       radial-gradient(circle 3px at 45% 85%, #9a79ff 0 2px, transparent 3px);
     background-size: 220px 220px;
   }
-
-  /* Content wrapper sits above confetti */
   .page{ position:relative; z-index:1; }
 
   /* Header */
   .nav{
     position:sticky; top:0; z-index:5;
-    background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.7));
+    background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.74));
     border-bottom:1px solid rgba(9,25,49,.08);
     backdrop-filter:saturate(160%) blur(10px);
   }
@@ -73,23 +71,35 @@
   .btn:hover .shine{transform:translateX(120%)}
 
   /* Hero */
-  .hero-inner{max-width:1200px;margin:0 auto;padding: clamp(68px, 8vw, 120px) 20px; display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center}
+  .hero{position:relative}
+  .hero-inner{
+    max-width:1200px;margin:0 auto;
+    padding: clamp(68px, 8vw, 120px) 20px 80px; /* extra bottom to avoid overlap */
+    display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center
+  }
   .kicker{display:inline-flex;align-items:center;gap:10px;padding:6px 12px;border-radius:999px;background:rgba(139,92,255,.14);border:1px solid rgba(139,92,255,.28);font-size:13px;color:#4b3f72}
   h1{font-size: clamp(34px, 4.6vw, 62px);line-height:1.04;margin:14px 0 14px}
   .sub{font-size: clamp(16px,1.5vw,18px);color:var(--muted);max-width:58ch}
   .hero-actions{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
-  .hero-art{position:relative;min-height:360px}
+
+  /* ✅ Fixed claw alignment (no bleed) */
+  .hero-art{display:flex; justify-content:flex-end; align-items:center}
   .claw{
-    position:absolute; right:-4%; top:-2%; width:min(560px, 92%); opacity:.98;
-    filter:drop-shadow(0 20px 60px rgba(9,25,49,.25)); animation: floaty 6s ease-in-out infinite
+    position:relative;             /* no absolute */
+    width:min(520px, 100%);
+    max-height: 520px;             /* prevent super tall images */
+    object-fit: contain;
+    margin-right:-8px;             /* nudge right edge a bit */
+    filter:drop-shadow(0 20px 60px rgba(9,25,49,.25));
+    animation: floaty 6s ease-in-out infinite;
   }
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
   /* Trust strip */
-  .strip{padding:12px 14px;margin:8px auto 0;max-width:1200px;border-radius:12px;background:linear-gradient(90deg,rgba(124,240,255,.25),rgba(139,92,255,.22));border:1px solid rgba(9,25,49,.08);display:flex;flex-wrap:wrap;gap:10px;justify-content:center;color:#13264a}
+  .strip{padding:12px 14px;margin:0 auto 8px;max-width:1200px;border-radius:12px;background:linear-gradient(90deg,rgba(124,240,255,.25),rgba(139,92,255,.22));border:1px solid rgba(9,25,49,.08);display:flex;flex-wrap:wrap;gap:10px;justify-content:center;color:#13264a}
 
   /* Feature cards */
-  .band{padding:48px 20px}
+  .band{padding:38px 20px}
   .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
   .card{background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid rgba(9,25,49,.08);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease}
   .card:hover{transform:translateY(-4px);box-shadow:0 18px 48px rgba(9,25,49,.18);border-color:rgba(124,240,255,.5)}
@@ -120,8 +130,8 @@
   .reveal.in{opacity:1;transform:none}
 
   @media (max-width:960px){
-    .hero-inner{grid-template-columns:1fr}
-    .claw{position:relative;right:auto;top:auto;margin:20px auto 0;width:min(520px,92%)}
+    .hero-inner{grid-template-columns:1fr; padding-bottom:40px}
+    .claw{margin:20px auto 0; max-height:440px}
     .grid{grid-template-columns:1fr}
     .cta-wrap{grid-template-columns:1fr}
   }
@@ -133,12 +143,11 @@
 </style>
 </head>
 <body>
-  <!-- Confetti (always behind) -->
+  <!-- Confetti (behind everything) -->
   <div class="bg-wrap" aria-hidden="true">
     <canvas id="confetti"></canvas>
   </div>
 
-  <!-- PAGE CONTENT -->
   <div class="page">
     <header class="nav">
       <div class="nav-wrap">
@@ -233,17 +242,14 @@
   </div><!-- /.page -->
 
   <script>
-    // Year
     document.getElementById('yr').textContent = new Date().getFullYear();
 
-    // Reveal on scroll
     const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     const io = reduced ? null : new IntersectionObserver((entries)=>entries.forEach(e=>{
       if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
     }),{threshold:.12});
     document.querySelectorAll('.reveal').forEach(el=> io && io.observe(el));
 
-    // Magnetic CTA hovers
     document.querySelectorAll('.btn:not(.secondary)').forEach(btn=>{
       btn.addEventListener('mousemove', e=>{
         const r = btn.getBoundingClientRect(); const x = e.clientX - r.left; const y = e.clientY - r.top;
