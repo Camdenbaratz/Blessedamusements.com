@@ -11,6 +11,10 @@
     --brand:#7cf0ff; --brand-2:#8b5cff; --accent:#20ffa0;
     --card:#ffffff; --shadow:0 12px 36px rgba(9,25,49,.14);
     --radius:16px; --radius-sm:12px; --star:#f6c000;
+    /* steps (new) */
+    --steps-bg1:#071a48; --steps-bg2:#0b1f63;
+    --steps-star:#89a8ff; --steps-red:#ff3b4a; --steps-red2:#ff6a88;
+    --steps-card:#0d1f57; --steps-card2:#0b1a49;
   }
   *{box-sizing:border-box}
   html,body{
@@ -127,13 +131,8 @@
   /* Trust strip */
   .strip{padding:12px 14px;margin:0 auto 8px;max-width:1200px;border-radius:12px;background:linear-gradient(90deg,rgba(124,240,255,.25),rgba(139,92,255,.22));border:1px solid rgba(9,25,49,.08);display:flex;flex-wrap:wrap;gap:10px;justify-content:center;color:#13264a}
 
-  /* Feature cards */
+  /* Base band */
   .band{padding:38px 20px}
-  .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .card{background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid rgba(9,25,49,.08);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease}
-  .card:hover{transform:translateY(-4px);box-shadow:0 18px 48px rgba(9,25,49,.18);border-color:rgba(124,240,255,.5)}
-  .card h3{margin:6px 0 8px}
-  .pill{display:inline-flex;gap:8px;align-items:center;border:1px dashed rgba(9,25,49,.18);padding:6px 10px;border-radius:999px;font-size:13px;color:#3b4d75}
 
   /* ==== REVIEWS ==== */
   #reviews{padding:48px 20px}
@@ -179,15 +178,7 @@
     display:grid;grid-template-columns:1.1fr .9fr;
     gap:24px;align-items:center
   }
-
-  /* Left image pair */
-  #about .duo{
-    display:flex;align-items:flex-end;justify-content:flex-start;
-    gap:0;                     /* << almost touching by default */
-    flex-wrap:nowrap;
-  }
-
-  /* --- CLAW MACHINE BLUE AURA (outside the image) --- */
+  #about .duo{ display:flex;align-items:flex-end;justify-content:flex-start; gap:0; flex-wrap:nowrap; }
   .aura-wrap{
     position:relative; display:inline-block; border-radius:16px; overflow:visible;
     order:1; flex:0 0 54%; max-width:54%;
@@ -195,31 +186,22 @@
     transition: transform .25s ease, filter .35s ease;
     will-change: transform, filter;
     transform: perspective(700px) rotateX(0deg) rotateY(0deg);
-    margin-right:-28px;        /* << pull machine toward person */
-    z-index:0;
+    margin-right:-28px; z-index:0;
   }
   .aura-wrap img{ display:block; width:100%; height:auto; border-radius:16px; }
-
-  /* Aura ring */
   .aura-wrap::before{
     content:""; position:absolute; inset:-12px; border-radius:24px;
     background:
       radial-gradient(120% 120% at 50% 50%, rgba(56,164,255,.45), transparent 55%),
       radial-gradient(120% 120% at 30% 20%, rgba(124,240,255,.35), transparent 60%),
       radial-gradient(120% 120% at 70% 80%, rgba(139,92,255,.22), transparent 60%);
-    filter: blur(18px);
-    z-index:-1; pointer-events:none;
-    transition: filter .3s ease, transform .3s ease;
+    filter: blur(18px); z-index:-1; pointer-events:none; transition: filter .3s ease, transform .3s ease;
   }
-  .aura-wrap:hover{
-    transform: perspective(700px) rotateX(2deg) rotateY(-2deg) scale(1.02);
-    filter: drop-shadow(0 22px 60px rgba(35,120,220,.22));
-  }
+  .aura-wrap:hover{ transform: perspective(700px) rotateX(2deg) rotateY(-2deg) scale(1.02); filter: drop-shadow(0 22px 60px rgba(35,120,220,.22)); }
   .aura-wrap:hover::before{ filter: blur(22px) brightness(1.08); }
   @keyframes auraPulse{ 0%{transform:scale(1)} 50%{transform:scale(1.03)} 100%{transform:scale(1)} }
   .aura-wrap.pulse::before{ animation: auraPulse 2.6s ease-in-out infinite; }
 
-  /* Person (mascot) to the RIGHT of machine */
   #about .mascot{
     order:2; flex:0 0 42%; max-width:42%;
     border-radius:16px;
@@ -229,19 +211,108 @@
     z-index:1;
   }
   #about .mascot:hover{ transform:translateY(4px) scale(1.01); }
-
   #about h2{margin:0 0 10px;font-size:clamp(26px,3.2vw,40px)}
   #about p{color:var(--muted);line-height:1.75}
 
-  /* === Desktop: make mascot match machine height + tighten spacing === */
   @media (min-width: 961px){
-    .aura-wrap{ margin-right:-34px; } /* a hair closer on large screens */
-    #about .mascot{
-      transform: translateX(-34px) translateY(6px) scale(1.42); /* << BIGGER person */
-    }
-    #about .mascot:hover{
-      transform: translateX(-34px) translateY(4px) scale(1.43);
-    }
+    .aura-wrap{ margin-right:-34px; }
+    #about .mascot{ transform: translateX(-34px) translateY(6px) scale(1.42); }
+    #about .mascot:hover{ transform: translateX(-34px) translateY(4px) scale(1.43); }
+  }
+
+  /* ===== THREE SIMPLE STEPS (HORIZONTAL) ===== */
+  .stepsX{
+    position:relative; isolation:isolate;
+    background: radial-gradient(1200px 700px at 10% -20%, rgba(124,240,255,.18), transparent 60%),
+                linear-gradient(180deg,var(--steps-bg1),var(--steps-bg2));
+    color:#fff; padding:64px 20px; overflow:hidden;
+  }
+  .stepsX-stars{
+    position:absolute; inset:0; pointer-events:none; opacity:.55;
+    background:
+      radial-gradient(circle 2px at 10% 20%, var(--steps-star) 0 2px, transparent 3px),
+      radial-gradient(circle 2px at 30% 70%, #7cf0ff 0 2px, transparent 3px),
+      radial-gradient(circle 2px at 65% 25%, #b69cff 0 2px, transparent 3px),
+      radial-gradient(circle 2px at 85% 80%, #7cf0ff 0 2px, transparent 3px),
+      radial-gradient(circle 2px at 45% 60%, #b69cff 0 2px, transparent 3px);
+    filter: blur(.2px) saturate(115%);
+    animation: stepsTwinkle 6s linear infinite;
+  }
+  @keyframes stepsTwinkle{ 50%{opacity:.85} }
+
+  .stepsX-wrap{
+    max-width:1200px; margin:0 auto;
+    display:grid; grid-template-columns:1.2fr .8fr; gap:28px; align-items:center;
+  }
+  .stepsX-kicker{margin:0 0 6px; text-transform:uppercase; letter-spacing:.12em; opacity:.85; font-weight:800}
+  .stepsX-title{
+    margin:0 0 22px; font-size:clamp(28px,4.6vw,56px); line-height:1.07;
+    text-shadow: 0 4px 18px rgba(0,0,0,.35);
+  }
+  .stepsX-title span{
+    color:#fff; text-shadow: 0 0 12px rgba(255,59,74,.45), 0 0 28px rgba(255,59,74,.35);
+    background:linear-gradient(180deg,var(--steps-red),var(--steps-red2));
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  }
+
+  .stepsX-row{ display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; overflow:visible; }
+
+  .stepsX-card{
+    position:relative; padding:24px 20px 22px;
+    background:linear-gradient(180deg,var(--steps-card),var(--steps-card2));
+    border-radius:140px 140px 24px 24px;
+    color:#e9f3ff; box-shadow:0 18px 50px rgba(9,25,49,.35);
+    transform:translateY(0); transition:transform .2s ease, filter .2s ease;
+    outline:none; cursor:pointer;
+  }
+  .stepsX-card h3{margin:10px 0 8px; font-size:clamp(18px,2vw,22px); color:#fff}
+  .stepsX-card p{margin:0; line-height:1.6; opacity:.9}
+
+  .stepsX-card::after{
+    content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+    padding:2px;
+    background:linear-gradient(135deg,var(--steps-red),var(--steps-red2),var(--steps-red));
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity:.65; transition:opacity .2s ease, filter .2s ease;
+  }
+  .stepsX-card .stepsX-arch{
+    position:absolute; inset:auto 22px -22px 22px; height:22px; border-radius:0 0 20px 20px;
+    background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,0));
+    filter:blur(.2px); pointer-events:none;
+  }
+  .stepsX-icon{
+    font-size:clamp(28px,3vw,34px); line-height:1; width:48px; height:48px; display:grid; place-items:center;
+    background:radial-gradient(120% 120% at 50% 35%, rgba(255,255,255,.22), rgba(255,255,255,.06));
+    border-radius:999px; border:2px solid rgba(255,255,255,.18);
+    box-shadow:0 6px 22px rgba(255,106,136,.28);
+  }
+  .stepsX-card:hover,.stepsX-card:focus{ transform:translateY(-6px); }
+  .stepsX-card:hover::after,.stepsX-card:focus::after{ opacity:1; filter:drop-shadow(0 0 18px rgba(255,59,74,.45)); }
+  .stepsX-card.on{ transform:translateY(-8px); }
+  .stepsX-card.on::after{ opacity:1; filter:drop-shadow(0 0 20px rgba(255,59,74,.6)) }
+
+  .stepsX-side{ position:sticky; top:110px; align-self:start; justify-self:end; display:grid; place-items:end; }
+  .stepsX-side img{
+    width:min(420px,38vw); height:auto;
+    filter: drop-shadow(0 22px 60px rgba(9,25,49,.28)) drop-shadow(0 0 26px rgba(0,230,255,.35));
+    animation: stepsFloat 7s ease-in-out infinite;
+  }
+  .stepsX-side.nudge img{ animation: stepsNudge .7s ease; }
+  .stepsX-glow{
+    position:absolute; right:0; bottom:18px; width:min(460px,40vw); height:min(460px,40vw);
+    background:
+      radial-gradient(60% 60% at 60% 55%, rgba(124,240,255,.38), transparent 60%),
+      radial-gradient(60% 60% at 40% 45%, rgba(139,92,255,.22), transparent 65%);
+    filter:blur(26px); z-index:-1; animation: stepsPulse 6s ease-in-out infinite;
+  }
+  @keyframes stepsPulse{ 50%{ transform:scale(1.04); filter:blur(28px) brightness(1.06);} }
+  @keyframes stepsFloat{ 50%{ transform:translateY(-8px);} }
+  @keyframes stepsNudge{
+    0%{transform:translateY(0) rotate(0)} 30%{transform:translateY(-6px) rotate(-.6deg)}
+    60%{transform:translateY(3px) rotate(.6deg)} 100%{transform:translateY(0) rotate(0)}
   }
 
   /* Lead capture */
@@ -264,16 +335,24 @@
   .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
   .reveal.in{opacity:1;transform:none}
 
+  /* Responsive */
   @media (max-width:960px){
     .hero-inner{grid-template-columns:1fr; padding-bottom:40px}
     .claw{margin:20px auto 0; max-height:440px}
-    .grid{grid-template-columns:1fr}
     #about .about-grid{grid-template-columns:1fr}
-    #about .duo{justify-content:flex-start; gap:6px;} /* small gap on mobile */
+    #about .duo{justify-content:flex-start; gap:6px;}
     .aura-wrap{flex-basis:54%; max-width:54%}
     #about .mascot{flex-basis:42%; max-width:42%}
     .cta-wrap{grid-template-columns:1fr}
     .review{padding:20px}
+
+    /* steps horizontal -> scroll row */
+    .stepsX-wrap{ grid-template-columns:1fr; gap:18px }
+    .stepsX-side{ position:relative; top:auto; justify-self:center; order:2 }
+    .stepsX-side img{ width:min(320px,72vw) }
+    .stepsX-row{ grid-auto-flow:column; grid-auto-columns:85%; overflow-x:auto; padding-bottom:8px;
+                 scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch }
+    .stepsX-card{ scroll-snap-align:center }
   }
   @media (prefers-reduced-motion:reduce){
     .claw{animation:none}
@@ -282,6 +361,7 @@
     .hero-title{animation:none}
     .aura-wrap, #about .mascot{ transition:none; transform:none !important; }
     .aura-wrap.pulse::before{ animation:none; }
+    .stepsX-glow, .stepsX-side img{ animation:none !important; }
   }
 </style>
 </head>
@@ -296,7 +376,7 @@
       <div class="nav-wrap">
         <a class="logo" href="/"><img src="Assets/logo.png" alt="Blessed Amusements logo" /><span>Blessed Amusements</span></a>
         <nav class="nav-links">
-          <a href="#about">My Story</a><a href="#service">Service</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a>
+          <a href="#about">My Story</a><a href="#features">Service</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a>
           <a class="btn" href="#about">My Story <span class="shine"></span></a>
         </nav>
       </div>
@@ -315,7 +395,7 @@
           </p>
           <div class="hero-actions">
             <a class="btn" href="#about">My Story <span class="shine"></span></a>
-            <a class="btn secondary" href="#service">See How It Works</a>
+            <a class="btn secondary" href="#features">See How It Works</a>
           </div>
         </div>
         <div class="hero-art" aria-hidden="true">
@@ -334,7 +414,6 @@
     <!-- MY STORY -->
     <section class="band" id="about">
       <div class="about-grid">
-        <!-- LEFT: claw machine (with blue aura) + your photo to its right -->
         <div class="reveal" aria-hidden="false">
           <div class="duo">
             <div class="aura-wrap" id="aboutMachine">
@@ -343,7 +422,6 @@
             <img class="mascot" src="Assets/mascot.png" alt="Camden — owner of Blessed Amusements" />
           </div>
         </div>
-        <!-- RIGHT: text -->
         <div class="reveal">
           <h2>My Story</h2>
           <p>
@@ -354,18 +432,48 @@
           </p>
           <div class="hero-actions" style="margin-top:14px">
             <a class="btn" href="#contact"><span class="shine"></span>Get In Touch</a>
-            <a class="btn secondary" href="#service">Our Service</a>
+            <a class="btn secondary" href="#features">Our Service</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- FEATURE CARDS -->
-    <section class="band" id="features">
-      <div class="grid">
-        <article class="card reveal"><span class="pill">No Cost To You</span><h3>We Install & Service</h3><p style="color:var(--muted)">Placement is hassle-free. We set up, stock regularly, and handle repairs so you don’t have to.</p></article>
-        <article class="card reveal"><span class="pill">More Happy Guests</span><h3>Drive Dwell Time</h3><p style="color:var(--muted)">Engaging machines keep families around longer — boosting average spend and repeat visits.</p></article>
-        <article class="card reveal"><span class="pill">Transparent Split</span><h3>Win-Win Revenue</h3><p style="color:var(--muted)">Simple, transparent commissions with detailed collections — easy to track, easy to trust.</p></article>
+    <!-- THREE SIMPLE STEPS (replaces old feature cards) -->
+    <section id="features" class="stepsX">
+      <div class="stepsX-stars" aria-hidden="true"></div>
+      <div class="stepsX-wrap">
+        <div class="stepsX-left">
+          <p class="stepsX-kicker">Seamless setup, instant fun</p>
+          <h2 class="stepsX-title">in <span>3 Simple Steps</span></h2>
+
+          <div class="stepsX-row" id="stepsXRow">
+            <article class="stepsX-card on" role="button" tabindex="0" data-i="0" aria-label="Step 1: Let's Chat">
+              <div class="stepsX-arch"></div>
+              <div class="stepsX-icon" aria-hidden="true">😊</div>
+              <h3>Let’s Chat</h3>
+              <p>Tell us about your location & foot traffic — we’ll recommend the perfect free machine setup.</p>
+            </article>
+
+            <article class="stepsX-card" role="button" tabindex="0" data-i="1" aria-label="Step 2: We Deliver & Set Up">
+              <div class="stepsX-arch"></div>
+              <div class="stepsX-icon" aria-hidden="true">🚚</div>
+              <h3>We Deliver & Set Up</h3>
+              <p>We bring the machine, handle install and configuration, and stock prizes that fit your crowd.</p>
+            </article>
+
+            <article class="stepsX-card" role="button" tabindex="0" data-i="2" aria-label="Step 3: Let the Fun Begin">
+              <div class="stepsX-arch"></div>
+              <div class="stepsX-icon" aria-hidden="true">🎉</div>
+              <h3>Let the Fun Begin</h3>
+              <p>Customers start playing, prizes start flying — you earn a share with zero maintenance.</p>
+            </article>
+          </div>
+        </div>
+
+        <aside class="stepsX-side" id="stepsXSide">
+          <div class="stepsX-glow" aria-hidden="true"></div>
+          <img src="Assets/Attachment-7.png" alt="Compact claw machine" />
+        </aside>
       </div>
     </section>
 
@@ -569,6 +677,30 @@
       wrap.setAttribute('aria-label','Claw machine: click to toggle blue halo');
       wrap.style.cursor = 'pointer';
       wrap.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); wrap.classList.toggle('pulse'); }});
+    })();
+
+    // ===== Three Steps interactions =====
+    (function(){
+      const row  = document.getElementById('stepsXRow');
+      if(!row) return;
+      const cards = [...row.querySelectorAll('.stepsX-card')];
+      const side  = document.getElementById('stepsXSide');
+
+      function setActive(i){
+        cards.forEach((c,idx)=> c.classList.toggle('on', idx===i));
+        if(side){
+          side.classList.remove('nudge'); void side.offsetWidth; side.classList.add('nudge');
+        }
+      }
+
+      cards.forEach((c,i)=>{
+        c.addEventListener('mouseenter', ()=>setActive(i));
+        c.addEventListener('focus',     ()=>setActive(i));
+        c.addEventListener('click',     ()=>setActive(i));
+        c.addEventListener('keydown', (e)=>{
+          if(e.key==='Enter' || e.key===' ' || e.key==='Spacebar'){ e.preventDefault(); setActive(i); }
+        });
+      });
     })();
   </script>
 </body>
