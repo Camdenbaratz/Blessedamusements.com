@@ -335,6 +335,10 @@
   .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
   .reveal.in{opacity:1;transform:none}
 
+  /* Utilities */
+  /* FIX: missing .grid caused layout bug on the Service section */
+  .grid{display:grid;gap:18px}
+
   /* Responsive */
   @media (max-width:960px){
     .hero-inner{grid-template-columns:1fr; padding-bottom:40px}
@@ -376,7 +380,12 @@
       <div class="nav-wrap">
         <a class="logo" href="/"><img src="Assets/logo.png" alt="Blessed Amusements logo" /><span>Blessed Amusements</span></a>
         <nav class="nav-links">
-          <a href="#about">My Story</a><a href="#features">Service</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a>
+          <!-- FIX: label/anchor clarity -->
+          <a href="#about">My Story</a>
+          <a href="#features">How It Works</a>
+          <a href="#service">Setup</a>
+          <a href="#reviews">Reviews</a>
+          <a href="#contact">Contact</a>
           <a class="btn" href="#about">My Story <span class="shine"></span></a>
         </nav>
       </div>
@@ -416,10 +425,11 @@
       <div class="about-grid">
         <div class="reveal" aria-hidden="false">
           <div class="duo">
+            <!-- FIX: swap alt texts so they describe the correct images -->
             <div class="aura-wrap" id="aboutMachine">
-              <img src="Assets/owner.png" alt="Blessed Amusements claw machine" />
+              <img src="Assets/owner.png" alt="Camden — owner of Blessed Amusements" />
             </div>
-            <img class="mascot" src="Assets/mascot.png" alt="Camden — owner of Blessed Amusements" />
+            <img class="mascot" src="Assets/mascot.png" alt="Blessed Amusements mascot" />
           </div>
         </div>
         <div class="reveal">
@@ -561,7 +571,12 @@
     const io = reduced ? null : new IntersectionObserver((entries)=>entries.forEach(e=>{
       if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
     }),{threshold:.12});
-    document.querySelectorAll('.reveal').forEach(el=> io && io.observe(el));
+    if(io){
+      document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+    } else {
+      // FIX: when reduced motion is on, ensure content isn't stuck hidden
+      document.querySelectorAll('.reveal').forEach(el=> el.classList.add('in'));
+    }
 
     // Magnetic button hover
     document.querySelectorAll('.btn:not(.secondary)').forEach(btn=>{
@@ -578,7 +593,10 @@
       if(!canvas) return;
       const ctx = canvas.getContext('2d');
       let W,H,parts=[];
-      function size(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; if(parts.length===0){ const n=Math.min(140,Math.floor(W*H/12000)); for(let i=0;i<n;i++) parts.push(make()); } }
+      function size(){
+        W=canvas.width=innerWidth; H=canvas.height=innerHeight;
+        if(parts.length===0){ const n=Math.min(140,Math.floor(W*H/12000)); for(let i=0;i<n;i++) parts.push(make()); }
+      }
       function make(){ const s=['rect','tri','circle']; return {x:Math.random()*W,y:Math.random()*-H,sz:4+Math.random()*7,spd:.6+Math.random()*1.2,rot:Math.random()*Math.PI*2,rps:(Math.random()-.5)*.02,h:[190,210,250,280][(Math.random()*4)|0],shape:s[(Math.random()*3)|0],a:.5+Math.random()*.5}; }
       function draw(p){ ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=p.a; ctx.fillStyle=`hsla(${p.h},95%,65%,1)`; if(p.shape==='rect'){ctx.fillRect(-p.sz/2,-p.sz/2,p.sz,p.sz*.6);} else if(p.shape==='tri'){ctx.beginPath();ctx.moveTo(0,-p.sz/2);ctx.lineTo(p.sz/2,p.sz/2);ctx.lineTo(-p.sz/2,p.sz/2);ctx.closePath();ctx.fill();} else {ctx.beginPath();ctx.arc(0,0,p.sz/2,0,Math.PI*2);ctx.fill();} ctx.restore(); }
       function tick(){ if(reduced) return; ctx.clearRect(0,0,W,H); for(const p of parts){ p.y+=p.spd; p.x+=Math.sin(p.y*.01)*.3; p.rot+=p.rps; if(p.y>H+20){ p.y=-20; p.x=Math.random()*W; } draw(p); } requestAnimationFrame(tick); }
@@ -630,7 +648,7 @@
     }
 
     function play(){ timer=setInterval(()=>go(index+1), 6000) }
-    function stop(){ clearInterval(timer) }
+    function stop(){ if(timer) { clearInterval(timer); timer=null; } }
 
     prevBtn.addEventListener('click', ()=>{ stop(); go(index-1); play(); });
     nextBtn.addEventListener('click', ()=>{ stop(); go(index+1); play(); });
