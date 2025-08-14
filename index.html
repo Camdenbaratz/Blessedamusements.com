@@ -194,6 +194,8 @@
     transition: transform .25s ease, filter .35s ease;
     will-change: transform, filter;
     transform: perspective(700px) rotateX(0deg) rotateY(0deg);
+    /* bring machine slightly closer to the person */
+    margin-right:-10px;
   }
   .aura-wrap img{ display:block; width:100%; height:auto; border-radius:16px; }
 
@@ -216,7 +218,7 @@
   @keyframes auraPulse{ 0%{transform:scale(1)} 50%{transform:scale(1.03)} 100%{transform:scale(1)} }
   .aura-wrap.pulse::before{ animation: auraPulse 2.6s ease-in-out infinite; }
 
-  /* Person (mascot) stays to the RIGHT of machine */
+  /* Person (mascot) to the RIGHT of machine */
   #about .mascot{
     order:2; flex:0 0 42%; max-width:42%;
     border-radius:16px;
@@ -228,6 +230,17 @@
 
   #about h2{margin:0 0 10px;font-size:clamp(26px,3.2vw,40px)}
   #about p{color:var(--muted);line-height:1.75}
+
+  /* === Size + spacing tuning on desktop: bigger person, closer together === */
+  @media (min-width: 961px){
+    #about .duo{ gap:4px; }                       /* slightly tighter gap */
+    #about .mascot{
+      transform: translateX(-16px) translateY(6px) scale(1.16); /* taller + closer */
+    }
+    #about .mascot:hover{
+      transform: translateX(-14px) translateY(4px) scale(1.18);
+    }
+  }
 
   /* Lead capture */
   .cta-section{padding:64px 20px 90px}
@@ -323,7 +336,6 @@
         <div class="reveal" aria-hidden="false">
           <div class="duo">
             <div class="aura-wrap" id="aboutMachine">
-              <!-- If your file is named differently, update this src -->
               <img src="Assets/owner.png" alt="Blessed Amusements claw machine" />
             </div>
             <img class="mascot" src="Assets/mascot.png" alt="Camden — owner of Blessed Amusements" />
