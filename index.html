@@ -182,8 +182,9 @@
 
   /* Left image pair */
   #about .duo{
-    display:flex;align-items:flex-end;justify-content:flex-start;gap:8px;
-    flex-wrap:nowrap; /* prevent wrapping/flip */
+    display:flex;align-items:flex-end;justify-content:flex-start;
+    gap:0;                     /* << almost touching by default */
+    flex-wrap:nowrap;
   }
 
   /* --- CLAW MACHINE BLUE AURA (outside the image) --- */
@@ -194,8 +195,8 @@
     transition: transform .25s ease, filter .35s ease;
     will-change: transform, filter;
     transform: perspective(700px) rotateX(0deg) rotateY(0deg);
-    /* bring machine slightly closer to the person */
-    margin-right:-10px;
+    margin-right:-28px;        /* << pull machine toward person */
+    z-index:0;
   }
   .aura-wrap img{ display:block; width:100%; height:auto; border-radius:16px; }
 
@@ -225,20 +226,21 @@
     filter:drop-shadow(0 18px 44px rgba(9,25,49,.18));
     transform:translateY(6px);
     transition:transform .25s ease, filter .35s ease;
+    z-index:1;
   }
   #about .mascot:hover{ transform:translateY(4px) scale(1.01); }
 
   #about h2{margin:0 0 10px;font-size:clamp(26px,3.2vw,40px)}
   #about p{color:var(--muted);line-height:1.75}
 
-  /* === Size + spacing tuning on desktop: bigger person, closer together === */
+  /* === Desktop: make mascot match machine height + tighten spacing === */
   @media (min-width: 961px){
-    #about .duo{ gap:4px; }                       /* slightly tighter gap */
+    .aura-wrap{ margin-right:-34px; } /* a hair closer on large screens */
     #about .mascot{
-      transform: translateX(-16px) translateY(6px) scale(1.16); /* taller + closer */
+      transform: translateX(-34px) translateY(6px) scale(1.42); /* << BIGGER person */
     }
     #about .mascot:hover{
-      transform: translateX(-14px) translateY(4px) scale(1.18);
+      transform: translateX(-34px) translateY(4px) scale(1.43);
     }
   }
 
@@ -267,7 +269,7 @@
     .claw{margin:20px auto 0; max-height:440px}
     .grid{grid-template-columns:1fr}
     #about .about-grid{grid-template-columns:1fr}
-    #about .duo{justify-content:flex-start}
+    #about .duo{justify-content:flex-start; gap:6px;} /* small gap on mobile */
     .aura-wrap{flex-basis:54%; max-width:54%}
     #about .mascot{flex-basis:42%; max-width:42%}
     .cta-wrap{grid-template-columns:1fr}
