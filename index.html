@@ -127,7 +127,7 @@
   /* Trust strip */
   .strip{padding:12px 14px;margin:0 auto 8px;max-width:1200px;border-radius:12px;background:linear-gradient(90deg,rgba(124,240,255,.25),rgba(139,92,255,.22));border:1px solid rgba(9,25,49,.08);display:flex;flex-wrap:wrap;gap:10px;justify-content:center;color:#13264a}
 
-  /* Feature cards */
+  /* Base bands and cards (kept for other sections) */
   .band{padding:38px 20px}
   .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
   .card{background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid rgba(9,25,49,.08);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease}
@@ -183,7 +183,7 @@
   /* Left image pair */
   #about .duo{
     display:flex;align-items:flex-end;justify-content:flex-start;
-    gap:0;                     /* << almost touching by default */
+    gap:0;
     flex-wrap:nowrap;
   }
 
@@ -195,12 +195,10 @@
     transition: transform .25s ease, filter .35s ease;
     will-change: transform, filter;
     transform: perspective(700px) rotateX(0deg) rotateY(0deg);
-    margin-right:-28px;        /* << pull machine toward person */
+    margin-right:-28px;
     z-index:0;
   }
   .aura-wrap img{ display:block; width:100%; height:auto; border-radius:16px; }
-
-  /* Aura ring */
   .aura-wrap::before{
     content:""; position:absolute; inset:-12px; border-radius:24px;
     background:
@@ -233,16 +231,81 @@
   #about h2{margin:0 0 10px;font-size:clamp(26px,3.2vw,40px)}
   #about p{color:var(--muted);line-height:1.75}
 
-  /* === Desktop: make mascot match machine height + tighten spacing === */
+  /* Desktop size + spacing */
   @media (min-width: 961px){
-    .aura-wrap{ margin-right:-34px; } /* a hair closer on large screens */
+    .aura-wrap{ margin-right:-34px; }
     #about .mascot{
-      transform: translateX(-34px) translateY(6px) scale(1.42); /* << BIGGER person */
+      transform: translateX(-34px) translateY(6px) scale(1.42);
     }
     #about .mascot:hover{
       transform: translateX(-34px) translateY(4px) scale(1.43);
     }
   }
+
+  /* ==== FEATURE STEP GRAPHIC (NEW) ==== */
+  .feature-band{padding:48px 20px}
+  .feature-stage{
+    max-width:1200px;margin:0 auto;
+    display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start
+  }
+  .step-list{
+    position:relative;display:grid;gap:18px;padding-left:44px;
+    --fill:0;
+  }
+  .step-list::after{
+    content:"";position:absolute;left:16px;top:8px;bottom:8px;width:4px;border-radius:999px;
+    background:linear-gradient(180deg,rgba(9,25,49,.12),rgba(9,25,49,.08));
+  }
+  .step-list::before{
+    content:"";position:absolute;left:16px;top:8px;width:4px;border-radius:999px;
+    height:calc(var(--fill)*(100% - 16px));
+    background:linear-gradient(180deg,var(--brand),var(--accent));
+    box-shadow:0 0 18px rgba(32,255,160,.25);
+    transition:height .45s cubic-bezier(.22,1,.36,1);
+  }
+  .step{
+    position:relative;border-radius:16px;border:1px solid rgba(9,25,49,.10);
+    background:linear-gradient(180deg,#ffffff,#f7fbff);box-shadow:var(--shadow);
+    padding:20px 18px 18px;transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+    cursor:pointer; outline:none;
+  }
+  .step:hover,.step:focus{transform:translateY(-2px);box-shadow:0 18px 48px rgba(9,25,49,.18);border-color:rgba(124,240,255,.5)}
+  .step.on{
+    background:linear-gradient(180deg,#ffffff,#f2f8ff);
+    border-color:rgba(124,240,255,.7);box-shadow:0 22px 60px rgba(9,25,49,.2), 0 0 0 1px rgba(124,240,255,.25) inset;
+  }
+  .step h3{margin:6px 0 10px}
+  .step p{color:var(--muted);margin:0}
+  .step::before{
+    content:"";position:absolute;left:-28px;top:22px;width:16px;height:16px;border-radius:999px;
+    background:#fff;border:2px solid rgba(9,25,49,.25);transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .step.on::before,.step:hover::before{
+    background:radial-gradient(circle at 50% 50%, #fff 0 35%, transparent 36%), linear-gradient(180deg,var(--brand),var(--accent));
+    border-color:transparent; box-shadow:0 0 0 4px rgba(124,240,255,.25);
+  }
+  .side-machine{
+    position:relative; align-self:start; display:grid; 
+    place-items: end / center;   /* fixed syntax */
+    min-height:520px; padding-right:6px;
+    position:sticky; top:110px;
+  }
+  .side-machine .glow{
+    position:absolute; right:8px; bottom:38px; width:min(420px,36vw); height:min(420px,36vw);
+    background:
+      radial-gradient(60% 60% at 60% 55%, rgba(124,240,255,.42), transparent 60%),
+      radial-gradient(60% 60% at 40% 45%, rgba(139,92,255,.22), transparent 65%);
+    filter:blur(26px); z-index:0; pointer-events:none;
+    animation:smPulse 6s ease-in-out infinite;
+  }
+  @keyframes smPulse{ 50%{ transform:scale(1.04); filter:blur(28px) brightness(1.06);} }
+  .side-machine img{
+    position:relative; z-index:1; width:min(420px,38vw); height:auto; user-select:none; pointer-events:none;
+    filter: drop-shadow(0 22px 60px rgba(9,25,49,.22)) drop-shadow(0 0 26px rgba(0,230,255,.35));
+    animation:floaty 7s ease-in-out infinite;
+  }
+  .side-machine.nudge img{ animation: nudge .7s ease; }
+  @keyframes nudge{ 0%{transform:translateY(0) rotate(0)} 30%{transform:translateY(-6px) rotate(-.6deg)} 60%{transform:translateY(3px) rotate(.6deg)} 100%{transform:translateY(0) rotate(0)} }
 
   /* Lead capture */
   .cta-section{padding:64px 20px 90px}
@@ -269,11 +332,18 @@
     .claw{margin:20px auto 0; max-height:440px}
     .grid{grid-template-columns:1fr}
     #about .about-grid{grid-template-columns:1fr}
-    #about .duo{justify-content:flex-start; gap:6px;} /* small gap on mobile */
+    #about .duo{justify-content:flex-start; gap:6px;}
     .aura-wrap{flex-basis:54%; max-width:54%}
     #about .mascot{flex-basis:42%; max-width:42%}
     .cta-wrap{grid-template-columns:1fr}
     .review{padding:20px}
+    /* Feature graphic responsive */
+    .feature-stage{grid-template-columns:1fr}
+    .side-machine{order:-1; position:relative; top:auto; margin-bottom:10px; place-items:center}
+    .side-machine img{width:min(320px,70vw)}
+    .step-list{padding-left:36px}
+    .step-list::after,.step-list::before{left:12px}
+    .step::before{left:-24px}
   }
   @media (prefers-reduced-motion:reduce){
     .claw{animation:none}
@@ -334,7 +404,6 @@
     <!-- MY STORY -->
     <section class="band" id="about">
       <div class="about-grid">
-        <!-- LEFT: claw machine (with blue aura) + your photo to its right -->
         <div class="reveal" aria-hidden="false">
           <div class="duo">
             <div class="aura-wrap" id="aboutMachine">
@@ -343,7 +412,6 @@
             <img class="mascot" src="Assets/mascot.png" alt="Camden — owner of Blessed Amusements" />
           </div>
         </div>
-        <!-- RIGHT: text -->
         <div class="reveal">
           <h2>My Story</h2>
           <p>
@@ -360,12 +428,35 @@
       </div>
     </section>
 
-    <!-- FEATURE CARDS -->
-    <section class="band" id="features">
-      <div class="grid">
-        <article class="card reveal"><span class="pill">No Cost To You</span><h3>We Install & Service</h3><p style="color:var(--muted)">Placement is hassle-free. We set up, stock regularly, and handle repairs so you don’t have to.</p></article>
-        <article class="card reveal"><span class="pill">More Happy Guests</span><h3>Drive Dwell Time</h3><p style="color:var(--muted)">Engaging machines keep families around longer — boosting average spend and repeat visits.</p></article>
-        <article class="card reveal"><span class="pill">Transparent Split</span><h3>Win-Win Revenue</h3><p style="color:var(--muted)">Simple, transparent commissions with detailed collections — easy to track, easy to trust.</p></article>
+    <!-- FEATURE GRAPHIC (NEW) -->
+    <section class="band feature-band" id="features">
+      <div class="feature-stage reveal">
+        <!-- LEFT: interactive stepper -->
+        <div class="step-list" id="featureSteps">
+          <article class="step on" role="button" tabindex="0" data-idx="0" aria-label="We Install & Service. No Cost To You.">
+            <span class="pill">No Cost To You</span>
+            <h3>We Install & Service</h3>
+            <p>Placement is hassle-free. We set up, stock regularly, and handle repairs so you don’t have to.</p>
+          </article>
+
+          <article class="step" role="button" tabindex="0" data-idx="1" aria-label="Drive Dwell Time. More Happy Guests.">
+            <span class="pill">More Happy Guests</span>
+            <h3>Drive Dwell Time</h3>
+            <p>Engaging machines keep families around longer — boosting average spend and repeat visits.</p>
+          </article>
+
+          <article class="step" role="button" tabindex="0" data-idx="2" aria-label="Win-Win Revenue. Transparent Split.">
+            <span class="pill">Transparent Split</span>
+            <h3>Win-Win Revenue</h3>
+            <p>Simple, transparent commissions with detailed collections — easy to track, easy to trust.</p>
+          </article>
+        </div>
+
+        <!-- RIGHT: sticky side machine -->
+        <aside class="side-machine" id="sideMachine">
+          <div class="glow" aria-hidden="true"></div>
+          <img src="Assets/Attachment-7.png" alt="Compact claw machine" />
+        </aside>
       </div>
     </section>
 
@@ -568,7 +659,48 @@
       wrap.setAttribute('tabindex','0');
       wrap.setAttribute('aria-label','Claw machine: click to toggle blue halo');
       wrap.style.cursor = 'pointer';
-      wrap.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); wrap.classList.toggle('pulse'); }});
+      wrap.addEventListener('keydown', (e)=>{
+        if(e.key==='Enter' || e.key===' ' || e.key==='Spacebar'){
+          e.preventDefault(); wrap.classList.toggle('pulse');
+        }
+      });
+    })();
+
+    // ===== Feature stepper interactions (NEW) =====
+    (function(){
+      const list = document.getElementById('featureSteps');
+      if(!list) return;
+      const steps = [...list.querySelectorAll('.step')];
+      const side = document.getElementById('sideMachine');
+
+      function setActive(i){
+        steps.forEach((s,idx)=> s.classList.toggle('on', idx===i));
+        const fill = steps.length>1 ? i/(steps.length-1) : 1;
+        list.style.setProperty('--fill', fill.toString());
+        if(side){ side.classList.remove('nudge'); void side.offsetWidth; side.classList.add('nudge'); }
+      }
+
+      steps.forEach((s,i)=>{
+        s.addEventListener('mouseenter', ()=>setActive(i));
+        s.addEventListener('focus', ()=>setActive(i));
+        s.addEventListener('click', ()=>setActive(i));
+        s.addEventListener('keydown', (e)=>{
+          if(e.key==='Enter' || e.key===' ' || e.key==='Spacebar'){
+            e.preventDefault(); setActive(i);
+          }
+        });
+      });
+
+      const obs = new IntersectionObserver(entries=>{
+        let best=-1, ratio=0;
+        entries.forEach(e=>{
+          if(!e.isIntersecting) return;
+          const i = steps.indexOf(e.target);
+          if(e.intersectionRatio>ratio){ ratio=e.intersectionRatio; best=i; }
+        });
+        if(best>=0) setActive(best);
+      }, {threshold:[.25,.5,.75]});
+      steps.forEach(s=>obs.observe(s));
     })();
   </script>
 </body>
