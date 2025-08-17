@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<!-- iOS-friendly viewport + notch support -->
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>Blessed Amusements — Family-Owned Fun Across NOVA</title>
 <meta name="description" content="Family-Owned claw machine placements across Northern Virginia (NOVA). We install, stock, and service — you enjoy happier customers and extra revenue." />
 <style>
@@ -14,7 +15,13 @@
     --steps-bg1:#071a48; --steps-bg2:#0b1f63;
     --steps-star:#89a8ff; --steps-red:#ff3b4a; --steps-red2:#ff6a88;
     --steps-card:#0d1f57; --steps-card2:#0b1a49;
+
+    /* Mobile sizing helpers */
+    --safe-top: max(env(safe-area-inset-top, 0px), 0px);
+    --safe-bottom: max(env(safe-area-inset-bottom, 0px), 0px);
+    --tap: 48px;
   }
+
   *{box-sizing:border-box}
   html,body{
     margin:0;color:var(--text);
@@ -24,11 +31,17 @@
       radial-gradient(1000px 700px at -15% 20%, rgba(77,137,255,.28), transparent 60%),
       linear-gradient(180deg,#d8ecff 0%, #cfe6ff 40%, #e6f4ff 100%);
     overflow-x:hidden;
+    -webkit-text-size-adjust:100%; /* stop iOS font auto-zoom */
   }
+
+  /* iOS tap highlight off */
+  a,button{ -webkit-tap-highlight-color: transparent; }
+
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
 
-  .bg-wrap{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+  /* Confetti layer */
+  .bg-wrap{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; padding-top:var(--safe-top) }
   #confetti{position:absolute; inset:0; width:100%; height:100%; display:block; filter:saturate(115%)}
   .bg-wrap::after{
     content:""; position:absolute; inset:0; z-index:-1; opacity:.35;
@@ -40,7 +53,7 @@
       radial-gradient(circle 3px at 45% 85%, #9a79ff 0 2px, transparent 3px);
     background-size: 220px 220px;
   }
-  .page{ position:relative; z-index:1; }
+  .page{ position:relative; z-index:1; padding-bottom:var(--safe-bottom); }
 
   /* Header */
   .nav{
@@ -48,80 +61,380 @@
     background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.74));
     border-bottom:1px solid rgba(9,25,49,.08);
     backdrop-filter:saturate(160%) blur(10px);
+    padding-top:var(--safe-top);
   }
-  .nav-wrap{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:20px}
-  .logo{display:flex;align-items:center;gap:12px}
-  .logo img{height:38px}
+  .nav-wrap{max-width:1200px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px}
+  .logo{display:flex;align-items:center;gap:12px; min-height:var(--tap)}
+  .logo img{height:34px}
   .logo span{font-weight:800;letter-spacing:.2px}
-  .nav-links{margin-left:auto;display:flex;gap:18px;align-items:center}
-  .nav-links a{padding:10px 12px;border-radius:10px;color:#0e1f3d;font-weight:600}
+  .nav-links{
+    margin-left:auto;display:flex;gap:12px;align-items:center;
+    overflow:auto hidden; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  }
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{padding:10px 12px;border-radius:10px;color:#0e1f3d;font-weight:600; min-height:var(--tap); display:flex; align-items:center}
   .nav-links a:hover{background:rgba(14,31,61,.08)}
 
   /* Buttons */
   .btn{
     --bgc:linear-gradient(90deg,var(--brand),var(--accent));
     background:var(--bgc); color:#04121f; font-weight:800; border:none;
-    border-radius:14px; padding:14px 18px; box-shadow:0 10px 30px rgba(32,255,160,.25);
+    border-radius:14px; padding:12px 16px; box-shadow:0 10px 30px rgba(32,255,160,.25);
     position:relative; overflow:hidden; cursor:pointer; display:inline-flex; align-items:center; gap:.45rem;
-    transition:box-shadow .2s ease, transform .1s ease
+    transition:box-shadow .2s ease, transform .1s ease; min-height:var(--tap);
+    touch-action:manipulation;
   }
-  .btn:hover{box-shadow:0 16px 38px rgba(32,255,160,.35); transform:translateY(-1px)}
   .btn:active{transform:translateY(1px)}
   .btn.secondary{background:transparent;color:var(--text);border:1px solid rgba(9,25,49,.12);box-shadow:none}
   .btn .shine{position:absolute; inset:0; background:linear-gradient(120deg,transparent 0 35%,rgba(255,255,255,.6) 45% 55%,transparent 65% 100%); transform:translateX(-120%); transition:transform .9s ease; mix-blend:overlay}
-  .btn:hover .shine{transform:translateX(120%)}
 
-  /* Hero + rest (unchanged)… */
+  /* Reduce hover-y motion on touch devices */
+  @media (hover:none){
+    .btn:hover{box-shadow:0 10px 30px rgba(32,255,160,.25); transform:none}
+    .btn:hover .shine{transform:none}
+  }
+
+  /* Hero */
   .hero{position:relative}
-  .hero-inner{max-width:1200px;margin:0 auto;padding: clamp(68px, 8vw, 120px) 20px 80px;display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center}
-  h1.hero-title{color:#00e6ff;-webkit-text-stroke:2px rgba(0,0,0,.85);font-size:clamp(42px,5.6vw,78px);line-height:1.02;margin:6px 0 10px;letter-spacing:.2px;text-shadow:0 0 10px rgba(0,230,255,.60),0 0 22px rgba(0,230,255,.45),0 0 40px rgba(0,230,255,.25);filter:drop-shadow(0 4px 10px rgba(9,25,49,.12));animation:title-breathe 3s ease-in-out infinite}
-  @keyframes title-breathe{50%{text-shadow:0 0 14px rgba(0,230,255,.95),0 0 30px rgba(0,230,255,.75),0 0 54px rgba(0,230,255,.55);transform:translateY(-1px)}}
-  .serve{font-size:clamp(18px,2.2vw,28px);font-weight:800;color:#0f2d6a;margin:4px 0 10px;}
-  .sub{font-size:clamp(16px,1.5vw,18px);color:var(--muted);max-width:58ch}
-  .hero-actions{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
-  .hero-art{display:flex;justify-content:flex-end;align-items:center;position:relative;}
-  .machine-glow{position:absolute;right:0;bottom:0;width:72%;height:88%;translate:8px 6px;background:radial-gradient(60% 70% at 65% 45%, rgba(0,230,255,.55), rgba(0,180,255,.28) 45%, rgba(0,120,220,.12) 64%, transparent 75%);filter:blur(18px);z-index:0;pointer-events:none;animation: machinePulse 6s ease-in-out infinite}
-  @keyframes machinePulse{50%{transform:scale(1.02);filter:blur(20px) brightness(1.06)}}
-  .claw{position:relative;z-index:1;width:min(520px,100%);max-height:520px;object-fit:contain;margin-right:-8px;filter:drop-shadow(0 20px 60px rgba(9,25,49,.25)) drop-shadow(0 0 26px rgba(0,230,255,.45));animation:floaty 6s ease-in-out infinite}
+  .hero-inner{
+    max-width:1200px;margin:0 auto;
+    padding: clamp(52px, 8svw, 96px) 20px 64px; /* use small-viewport units on iOS */
+    display:grid; grid-template-columns:1.1fr .9fr; gap:22px; align-items:center
+  }
+
+  h1.hero-title{
+    color:#00e6ff; -webkit-text-stroke:2px rgba(0,0,0,.85);
+    font-size: clamp(34px,7dvw,68px);
+    line-height:1.04;margin:6px 0 10px; letter-spacing:.2px;
+    text-shadow: 0 0 10px rgba(0,230,255,.60), 0 0 22px rgba(0,230,255,.45), 0 0 40px rgba(0,230,255,.25);
+    filter: drop-shadow(0 4px 10px rgba(9,25,49,.12));
+    animation: title-breathe 3s ease-in-out infinite;
+  }
+  @supports not (-webkit-text-stroke: 2px black){
+    h1.hero-title{
+      text-shadow:
+        -2px -2px 0 #000, 2px -2px 0 #000,
+        -2px  2px 0 #000, 2px  2px 0 #000,
+        0 0 12px rgba(0,230,255,.60),
+        0 0 26px rgba(0,230,255,.45),
+        0 0 44px rgba(0,230,255,.25);
+    }
+  }
+  @keyframes title-breathe{
+    50%{ text-shadow: 0 0 14px rgba(0,230,255,.95), 0 0 30px rgba(0,230,255,.75), 0 0 54px rgba(0,230,255,.55); transform: translateY(-1px); }
+  }
+  .serve{font-size: clamp(16px,4.4dvw,24px); font-weight:800; color:#0f2d6a; margin:4px 0 10px;}
+  .sub{font-size: clamp(15px,3.6dvw,18px);color:var(--muted);max-width:60ch}
+  .hero-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+
+  /* Right art + cyan halo behind machine */
+  .hero-art{display:flex; justify-content:flex-end; align-items:center; position:relative;}
+  .machine-glow{
+    position:absolute; right:0; bottom:0; width:72%; height:88%; translate: 8px 6px;
+    background: radial-gradient(60% 70% at 65% 45%, rgba(0,230,255,.55), rgba(0,180,255,.28) 45%, rgba(0,120,220,.12) 64%, transparent 75%);
+    filter: blur(16px); z-index:0; pointer-events:none; animation: machinePulse 6s ease-in-out infinite;
+  }
+  .machine-floor{
+    position:absolute; right:8%; bottom:-8px; width:58%; height:18px; border-radius:50%;
+    background: radial-gradient(closest-side, rgba(120,210,255,.55), rgba(120,210,255,.28), transparent 70%);
+    filter: blur(6px); z-index:0; pointer-events:none;
+  }
+  @keyframes machinePulse{ 50%{ transform:scale(1.02); filter:blur(18px) brightness(1.06); } }
+
+  .claw{
+    position:relative; z-index:1; width:min(520px, 100%); max-height:520px; object-fit:contain;
+    margin-right:-8px;
+    filter: drop-shadow(0 20px 60px rgba(9,25,49,.25)) drop-shadow(0 0 26px rgba(0,230,255,.45));
+    animation: floaty 6s ease-in-out infinite;
+  }
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-  .strip{padding:12px 14px;margin:0 auto 8px;max-width:1200px;border-radius:12px;background:linear-gradient(90deg,rgba(124,240,255,.25),rgba(139,92,255,.22));border:1px solid rgba(9,25,49,.08);display:flex;flex-wrap:wrap;gap:10px;justify-content:center;color:#13264a}
-  .band{padding:38px 20px}
-  /* (keep all your existing Steps, Reviews, Service, Footer styles, etc.) */
+
+  /* Trust strip */
+  .strip{padding:10px 14px;margin:0 auto 8px;max-width:1200px;border-radius:12px;background:linear-gradient(90deg,rgba(124,240,255,.25),rgba(139,92,255,.22));border:1px solid rgba(9,25,49,.08);display:flex;flex-wrap:wrap;gap:10px;justify-content:center;color:#13264a}
+
+  /* Base band */
+  .band{padding:32px 20px}
+
+  /* ==== REVIEWS ==== */
+  #reviews{padding:40px 20px}
+  .reviews-wrap{max-width:1200px;margin:0 auto}
+  .reviews-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:14px}
+  .reviews-head h2{margin:0;font-size:clamp(22px,6dvw,32px)}
+  .rating-badge{
+    display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(9,25,49,.12);
+    padding:10px 12px;border-radius:12px;box-shadow:var(--shadow);font-weight:800
+  }
+  .stars{display:inline-flex;gap:2px;line-height:1}
+  .star{
+    width:18px;height:18px;display:inline-block;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+    background:linear-gradient(180deg,#ffd95a,#f6c000);
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,.12))
+  }
+
+  .carousel{
+    position:relative;background:linear-gradient(180deg,#ffffff,#f7fbff);
+    border:1px solid rgba(9,25,49,.10);border-radius:20px;box-shadow:var(--shadow);
+    overflow:hidden
+  }
+  .track{display:flex;transition:transform .5s ease;will-change:transform}
+  .review{min-width:100%;padding:18px 16px;display:block}
+  .review-card{
+    background:#fff;border:1px solid rgba(9,25,49,.10);border-radius:16px;
+    padding:16px;display:flex;flex-direction:column;gap:10px
+  }
+  .rating-row{display:flex;gap:8px;align-items:center}
+  .quote{color:#3b4d75;line-height:1.65}
+  .person{font-weight:800;margin-top:2px}
+  .venue{color:#5a6b8a;font-weight:600}
+  .controls{position:absolute;inset:auto 10px 10px auto;display:flex;gap:8px}
+  .ctrl{background:#fff;border:1px solid rgba(9,25,49,.15);border-radius:999px;padding:10px 12px;font-weight:800;cursor:pointer; min-height:var(--tap)}
+  .ctrl:active{transform:translateY(1px)}
+  .dots{display:flex;gap:6px;margin-top:10px}
+  .dot{width:8px;height:8px;border-radius:999px;background:rgba(9,25,49,.18)}
+  .dot.on{background:#8b5cff}
+
+  /* ===== MY STORY (images left, text right) ===== */
+  #about .about-grid{
+    max-width:1200px;margin:0 auto;
+    display:grid;grid-template-columns:1.1fr .9fr;
+    gap:20px;align-items:center
+  }
+  #about .duo{ display:flex;align-items:flex-end;justify-content:flex-start; gap:6px; flex-wrap:nowrap; }
+  .aura-wrap{
+    position:relative; display:inline-block; border-radius:16px; overflow:visible;
+    order:1; flex:0 0 54%; max-width:54%;
+    filter: drop-shadow(0 18px 44px rgba(9,25,49,.18));
+    transition: transform .25s ease, filter .35s ease;
+    will-change: transform, filter;
+    transform: perspective(700px) rotateX(0deg) rotateY(0deg);
+    margin-right:-12px; z-index:0;
+  }
+  .aura-wrap img{ display:block; width:100%; height:auto; border-radius:16px; }
+  .aura-wrap::before{
+    content:""; position:absolute; inset:-12px; border-radius:24px;
+    background:
+      radial-gradient(120% 120% at 50% 50%, rgba(56,164,255,.45), transparent 55%),
+      radial-gradient(120% 120% at 30% 20%, rgba(124,240,255,.35), transparent 60%),
+      radial-gradient(120% 120% at 70% 80%, rgba(139,92,255,.22), transparent 60%);
+    filter: blur(18px); z-index:-1; pointer-events:none; transition: filter .3s ease, transform .3s ease;
+  }
+  .aura-wrap:hover{ transform: perspective(700px) rotateX(2deg) rotateY(-2deg) scale(1.02); filter: drop-shadow(0 22px 60px rgba(35,120,220,.22)); }
+  .aura-wrap:hover::before{ filter: blur(22px) brightness(1.08); }
+
+  #about .mascot{
+    order:2; flex:0 0 42%; max-width:42%;
+    border-radius:16px;
+    filter:drop-shadow(0 18px 44px rgba(9,25,49,.18));
+    transform:translateY(6px);
+    transition:transform .25s ease, filter .35s ease;
+    z-index:1;
+  }
+  #about h2{margin:0 0 10px;font-size:clamp(24px,6dvw,36px)}
+  #about p{color:var(--muted);line-height:1.75}
+
+  @media (min-width: 961px){
+    .aura-wrap{ margin-right:-34px; }
+    #about .mascot{ transform: translateX(-34px) translateY(6px) scale(1.42); }
+    #about .mascot:hover{ transform: translateX(-34px) translateY(4px) scale(1.43); }
+  }
+
+  /* ===== THREE SIMPLE STEPS (HORIZONTAL) ===== */
+  .stepsX{
+    position:relative; isolation:isolate;
+    background: radial-gradient(1200px 700px at 10% -20%, rgba(124,240,255,.18), transparent 60%),
+                linear-gradient(180deg,var(--steps-bg1),var(--steps-bg2));
+    color:#fff; padding:48px 20px; overflow:hidden;
+  }
+  .stepsX-stars{
+    position:absolute; inset:0; pointer-events:none; opacity:.55;
+    background:
+      radial-gradient(circle 2px at 10% 20%, var(--steps-star) 0 2px, transparent 3px),
+      radial-gradient(circle 2px at 30% 70%, #7cf0ff 0 2px, transparent 3px),
+      radial-gradient(circle 2px at 65% 25%, #b69cff 0 2px, transparent 3px),
+      radial-gradient(circle 2px at 85% 80%, #7cf0ff 0 2px, transparent 3px),
+      radial-gradient(circle 2px at 45% 60%, #b69cff 0 2px, transparent 3px);
+    filter: blur(.2px) saturate(115%);
+    animation: stepsTwinkle 6s linear infinite;
+  }
+  @keyframes stepsTwinkle{ 50%{opacity:.85} }
+
+  .stepsX-wrap{
+    max-width:1200px; margin:0 auto;
+    display:grid; grid-template-columns:1.2fr .8fr; gap:22px; align-items:center;
+  }
+  .stepsX-kicker{margin:0 0 6px; text-transform:uppercase; letter-spacing:.12em; opacity:.85; font-weight:800}
+  .stepsX-title{
+    margin:0 0 18px; font-size:clamp(26px,8dvw,52px); line-height:1.07;
+    text-shadow: 0 4px 18px rgba(0,0,0,.35);
+  }
+  .stepsX-title span{
+    color:#fff; text-shadow: 0 0 12px rgba(255,59,74,.45), 0 0 28px rgba(255,59,74,.35);
+    background:linear-gradient(180deg,var(--steps-red),var(--steps-red2));
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  }
+
+  .stepsX-row{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; overflow:visible; }
+
+  .stepsX-card{
+    position:relative; padding:20px 18px 18px;
+    background:linear-gradient(180deg,var(--steps-card),var(--steps-card2));
+    border-radius:140px 140px 24px 24px;
+    color:#e9f3ff; box-shadow:0 18px 50px rgba(9,25,49,.35);
+    transform:translateY(0); transition:transform .2s ease, filter .2s ease;
+    outline:none; cursor:pointer; min-height:calc(var(--tap) + 12px);
+  }
+  .stepsX-card h3{margin:10px 0 6px; font-size:clamp(17px,4.4dvw,20px); color:#fff}
+  .stepsX-card p{margin:0; line-height:1.6; opacity:.9}
+
+  .stepsX-card::after{
+    content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+    padding:2px;
+    background:linear-gradient(135deg,var(--steps-red),var(--steps-red2),var(--steps-red));
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity:.65; transition:opacity .2s ease, filter .2s ease;
+  }
+  .stepsX-card .stepsX-arch{
+    position:absolute; inset:auto 22px -22px 22px; height:22px; border-radius:0 0 20px 20px;
+    background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,0));
+    filter:blur(.2px); pointer-events:none;
+  }
+  .stepsX-icon{
+    font-size:clamp(26px,6dvw,34px); line-height:1; width:44px; height:44px; display:grid; place-items:center;
+    background:radial-gradient(120% 120% at 50% 35%, rgba(255,255,255,.22), rgba(255,255,255,.06));
+    border-radius:999px; border:2px solid rgba(255,255,255,.18);
+    box-shadow:0 6px 22px rgba(255,106,136,.28);
+  }
+  .stepsX-card:hover,.stepsX-card:focus{ transform:translateY(-6px); }
+  .stepsX-card.on{ transform:translateY(-8px); }
+
+  .stepsX-side{ position:sticky; top:calc(70px + var(--safe-top)); align-self:start; justify-self:end; display:grid; place-items:end; }
+  .stepsX-side img{
+    width:min(420px,38vw); height:auto;
+    filter: drop-shadow(0 22px 60px rgba(9,25,49,.28)) drop-shadow(0 0 26px rgba(0,230,255,.35));
+    animation: stepsFloat 7s ease-in-out infinite;
+  }
+  .stepsX-side.nudge img{ animation: stepsNudge .7s ease; }
+  .stepsX-glow{
+    position:absolute; right:0; bottom:18px; width:min(460px,40vw); height:min(460px,40vw);
+    background:
+      radial-gradient(60% 60% at 60% 55%, rgba(124,240,255,.38), transparent 60%),
+      radial-gradient(60% 60% at 40% 45%, rgba(139,92,255,.22), transparent 65%);
+    filter:blur(26px); z-index:-1; animation: stepsPulse 6s ease-in-out infinite;
+  }
+  @keyframes stepsPulse{ 50%{ transform:scale(1.04); filter:blur(28px) brightness(1.06);} }
+  @keyframes stepsFloat{ 50%{ transform:translateY(-8px);} }
+  @keyframes stepsNudge{
+    0%{transform:translateY(0) rotate(0)} 30%{transform:translateY(-6px) rotate(-.6deg)}
+    60%{transform:translateY(3px) rotate(.6deg)} 100%{transform:translateY(0) rotate(0)}
+  }
+
+  /* Lead capture */
+  .cta-section{padding:48px 20px 72px}
+  .cta-wrap{max-width:1100px;margin:0 auto;background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid rgba(9,25,49,.10);border-radius:20px;padding:22px;display:grid;grid-template-columns:1.4fr .6fr;gap:16px;align-items:center}
+  .cta-box h2{margin:6px 0 12px;font-size:clamp(22px,6.4dvw,36px)}
+  .tagline{color:var(--muted)}
+  .cta-panel{background:#ffffff;border:1px solid rgba(9,25,49,.12);border-radius:16px;padding:16px;display:grid;gap:10px}
+  .cta-panel .row{display:flex;gap:10px;align-items:center}
+  .cta-panel input,.cta-panel textarea{
+    padding:12px 14px;border-radius:12px;border:1px solid rgba(9,25,49,.14);background:#ffffff;color:var(--text);
+    font-size:16px; /* prevent iOS zoom */
+  }
+  .cta-panel button{border:none}
+  .fine{font-size:12px;color:#66769a}
+
+  /* Footer */
+  footer{padding:26px 20px calc(10px + var(--safe-bottom));color:#66769a;border-top:1px solid rgba(9,25,49,.08)}
+  .foot-wrap{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+  .foot-wrap a{text-decoration:underline dotted rgba(9,25,49,.3);color:#2a3d66}
+
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* Utilities */
+  .grid{display:grid;gap:18px}
+
+  /* ===== GALLERY ===== */
+  #gallery{padding:40px 20px}
+  .gallery-wrap{max-width:1200px;margin:0 auto}
+  .gallery-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:14px}
+  .gallery-head h2{margin:0;font-size:clamp(22px,6dvw,32px)}
+  .gallery-grid{ display:grid; gap:12px; grid-template-columns: repeat(4, minmax(0,1fr)); }
+  .gallery-card{
+    position:relative; border-radius:16px; overflow:hidden;
+    background:#fff; border:1px solid rgba(9,25,49,.10);
+    box-shadow:var(--shadow);
+    aspect-ratio: 4/3; display:flex; align-items:center; justify-content:center;
+    color:#5a6b8a; font-weight:700;
+  }
+  .gallery-card img{width:100%; height:100%; object-fit:cover; display:block}
+  .gallery-card .ph{opacity:.8}
+
+  /* Responsive */
+  @media (max-width: 1024px){ .gallery-grid{ grid-template-columns: repeat(3, minmax(0,1fr)); } }
+  @media (max-width: 960px){
+    .hero-inner{grid-template-columns:1fr; padding-bottom:40px}
+    .claw{margin:20px auto 0; max-height:440px}
+    #about .about-grid{grid-template-columns:1fr}
+    #about .duo{justify-content:flex-start;}
+    .aura-wrap{flex-basis:54%; max-width:54%}
+    #about .mascot{flex-basis:42%; max-width:42%}
+    .cta-wrap{grid-template-columns:1fr}
+  }
+  @media (max-width: 720px){ .gallery-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+  @media (max-width: 420px){ .gallery-grid{ grid-template-columns: 1fr; } }
+
+  @media (prefers-reduced-motion:reduce){
+    .claw{animation:none}
+    .btn .shine{display:none}
+    .reveal{transition:none}
+    .hero-title{animation:none}
+    .aura-wrap, #about .mascot{ transition:none; transform:none !important; }
+    .aura-wrap.pulse::before{ animation:none; }
+    .stepsX-glow, .stepsX-side img{ animation:none !important; }
+  }
 </style>
 </head>
 <body>
-  <div class="bg-wrap" aria-hidden="true"><canvas id="confetti"></canvas></div>
+  <!-- Confetti (behind everything) -->
+  <div class="bg-wrap" aria-hidden="true">
+    <canvas id="confetti"></canvas>
+  </div>
 
   <div class="page">
     <header class="nav">
       <div class="nav-wrap">
         <a class="logo" href="/"><img src="Assets/logo.png" alt="Blessed Amusements logo" /><span>Blessed Amusements</span></a>
         <nav class="nav-links">
-          <!-- CHANGED: Gallery now links to a separate page -->
-          <a href="gallery.html">Gallery</a>
+          <a href="#gallery">Gallery</a>
           <a href="#reviews">Reviews</a>
           <a href="#contact">Contact</a>
-          <a class="btn" href="gallery.html">Gallery <span class="shine"></span></a>
+          <a class="btn" href="#gallery">Gallery <span class="shine"></span></a>
         </nav>
       </div>
     </header>
 
-    <!-- HERO (unchanged) -->
+    <!-- HERO -->
     <section class="hero" id="home">
       <div class="hero-inner">
         <div>
           <h1 class="hero-title">Blessed Amusements</h1>
           <div class="serve">Serving the entire Northern Virginia Area (NOVA)</div>
-          <p class="sub">We’re an amusement / arcade-based business providing claw machines and other
+          <p class="sub">
+            We’re an amusement / arcade-based business providing claw machines and other
             crowd-pleasing games for your location. We handle install, stocking, and service —
-            you enjoy happier customers and extra revenue.</p>
+            you enjoy happier customers and extra revenue.
+          </p>
           <div class="hero-actions">
             <a class="btn" href="#about">My Story <span class="shine"></span></a>
             <a class="btn secondary" href="#features">See How It Works</a>
           </div>
         </div>
         <div class="hero-art" aria-hidden="true">
-          <div class="machine-glow"></div>
+          <div class="machine-glow" aria-hidden="true"></div>
           <img class="claw" src="Assets/claw-hero.png" alt="" />
           <div class="machine-floor" aria-hidden="true"></div>
         </div>
@@ -133,8 +446,153 @@
       <span>🧰 Proactive maintenance</span><span>💳 Card + cash payments</span><span>📍 NOVA coverage</span>
     </div>
 
-    <!-- About, Steps, Reviews, Service, Contact, Footer — keep exactly as you have -->
-    <!-- (Just make sure there is NO #gallery section on this page anymore.) -->
+    <!-- MY STORY -->
+    <section class="band" id="about">
+      <div class="about-grid">
+        <div class="reveal" aria-hidden="false">
+          <div class="duo">
+            <div class="aura-wrap" id="aboutMachine">
+              <img src="Assets/owner.png" alt="Camden — owner of Blessed Amusements" />
+            </div>
+            <img class="mascot" src="Assets/mascot.png" alt="Blessed Amusements mascot" />
+          </div>
+        </div>
+        <div class="reveal">
+          <h2>My Story</h2>
+          <p>Hi, I’m Camden — the heart behind Blessed Amusements. Growing up with epilepsy taught me two powerful things: life is precious, and joy is worth fighting for. Every challenge nudged me toward a simple mission: help people feel happy. Not just once, but over and over.</p>
+          <p>That’s why I started Blessed Amusements. Our claw machines and arcade setups are more than games — they’re tiny joy engines. We deliver, stock, clean, and maintain everything at no cost to your venue. Your guests get a moment of wonder; you get a steady share of revenue with zero hassle. It’s a win-win that lets me live my purpose — bringing smiles to strangers, one play at a time.</p>
+          <div class="hero-actions" style="margin-top:14px">
+            <a class="btn" href="#contact"><span class="shine"></span>Get In Touch</a>
+            <a class="btn secondary" href="#features">Our Service</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THREE SIMPLE STEPS -->
+    <section id="features" class="stepsX">
+      <div class="stepsX-stars" aria-hidden="true"></div>
+      <div class="stepsX-wrap">
+        <div class="stepsX-left">
+          <p class="stepsX-kicker">Seamless setup, instant fun</p>
+          <h2 class="stepsX-title">in <span>3 Simple Steps</span></h2>
+
+          <div class="stepsX-row" id="stepsXRow">
+            <article class="stepsX-card on" role="button" tabindex="0" data-i="0" aria-label="Step 1: Let's Chat">
+              <div class="stepsX-arch"></div>
+              <div class="stepsX-icon" aria-hidden="true">😊</div>
+              <h3>Let’s Chat</h3>
+              <p>Tell us about your location & foot traffic — we’ll recommend the perfect free machine setup.</p>
+            </article>
+
+            <article class="stepsX-card" role="button" tabindex="0" data-i="1" aria-label="Step 2: We Deliver & Set Up">
+              <div class="stepsX-arch"></div>
+              <div class="stepsX-icon" aria-hidden="true">🚚</div>
+              <h3>We Deliver & Set Up</h3>
+              <p>We bring the machine, handle install and configuration, and stock prizes that fit your crowd.</p>
+            </article>
+
+            <article class="stepsX-card" role="button" tabindex="0" data-i="2" aria-label="Step 3: Let the Fun Begin">
+              <div class="stepsX-arch"></div>
+              <div class="stepsX-icon" aria-hidden="true">🎉</div>
+              <h3>Let the Fun Begin</h3>
+              <p>Customers start playing, prizes start flying — you earn a share with zero maintenance.</p>
+            </article>
+          </div>
+        </div>
+
+        <aside class="stepsX-side" id="stepsXSide">
+          <div class="stepsX-glow" aria-hidden="true"></div>
+          <img src="Assets/Attachment-7.png" alt="Compact claw machine" />
+        </aside>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="band" id="gallery" aria-label="Gallery">
+      <div class="gallery-wrap reveal">
+        <div class="gallery-head">
+          <h2>Gallery</h2>
+          <span class="tagline">Machines in the wild — photos coming soon</span>
+        </div>
+        <div class="gallery-grid">
+          <div class="gallery-card"><span class="ph">Add Image</span></div>
+          <div class="gallery-card"><span class="ph">Add Image</span></div>
+          <div class="gallery-card"><span class="ph">Add Image</span></div>
+          <div class="gallery-card"><span class="ph">Add Image</span></div>
+          <div class="gallery-card"><span class="ph">Add Image</span></div>
+          <div class="gallery-card"><span class="ph">Add Image</span></div>
+          <div class="gallery-card"><span class="ph">Add Image</span></div>
+          <div class="gallery-card"><span class="ph">Add Image</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="band" id="reviews" aria-label="Customer Reviews">
+      <div class="reviews-wrap reveal">
+        <div class="reviews-head">
+          <h2>What our partners say</h2>
+          <div class="rating-badge" id="avgBadge">
+            <div class="stars" aria-hidden="true">
+              <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
+            </div>
+            <span><span id="avgScore">5.0</span> / 5</span>
+          </div>
+        </div>
+
+        <div class="carousel" role="region" aria-roledescription="carousel">
+          <div class="track" id="reviewTrack"></div>
+          <div class="controls">
+            <button class="ctrl" id="prevBtn" aria-label="Previous review">◀</button>
+            <button class="ctrl" id="nextBtn" aria-label="Next review">▶</button>
+          </div>
+        </div>
+        <div class="dots" id="dots" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- SERVICE INFO IMAGE BLOCK -->
+    <section class="band" id="service">
+      <div class="grid" style="grid-template-columns:1.2fr .8fr;align-items:center">
+        <div class="reveal">
+          <h2 style="margin:0 0 8px">A Clean, Modern Setup</h2>
+          <p class="tagline">A small footprint with big smiles — perfect for restaurants, family venues, and entertainment spaces.</p>
+          <ul style="margin:14px 0 0;line-height:1.8;color:var(--muted)">
+            <li>Tailored prize mix to match your audience</li>
+            <li>Card & tap payments + bill acceptor</li>
+            <li>Fast swaps for any out-of-order unit</li>
+            <li>Professional branding that fits your space</li>
+          </ul>
+          <div class="hero-actions" style="margin-top:18px">
+            <a class="btn" href="#contact"><span class="shine"></span>Check Availability</a>
+            <a class="btn secondary" href="#contact">Ask A Question</a>
+          </div>
+        </div>
+        <div class="reveal" aria-hidden="true">
+          <img src="Assets/claw-hero.png" alt="" style="border-radius:16px;filter:drop-shadow(0 18px 44px rgba(9,25,49,.18))" />
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="cta-section" id="contact">
+      <div class="cta-wrap reveal">
+        <div class="cta-box">
+          <span class="kicker">Serving NOVA</span>
+          <h2>Ready to place a machine?</h2>
+          <p class="tagline">Tell us about your location and we’ll recommend the perfect setup — usually installed within days.</p>
+        </div>
+        <form class="cta-panel" onsubmit="event.preventDefault(); alert('Thanks! We\'ll reach out ASAP.');">
+          <div class="row"><input type="text" placeholder="Your name" required aria-label="Your name" /><input type="tel" placeholder="Phone" aria-label="Phone" /></div>
+          <div class="row"><input type="email" placeholder="Email" required aria-label="Email" /><input type="text" placeholder="Business name" aria-label="Business name" /></div>
+          <input type="text" placeholder="Address / City in NOVA" aria-label="Address or city" />
+          <textarea rows="3" placeholder="Tell us about your space (foot traffic, hours, etc.)" aria-label="Details" style="resize:vertical"></textarea>
+          <button type="submit" class="btn">Request Placement <span class="shine"></span></button>
+          <span class="fine">By submitting, you agree to be contacted about placement availability.</span>
+        </form>
+      </div>
+    </section>
 
     <footer>
       <div class="foot-wrap">
@@ -143,22 +601,178 @@
         <a href="mailto:info@blessedamusements.com">info@blessedamusements.com</a>
       </div>
     </footer>
-  </div>
+  </div><!-- /.page -->
 
   <script>
     // Year
     document.getElementById('yr').textContent = new Date().getFullYear();
 
-    // Reveal on scroll (keep your existing script block from index)
+    // Reveal on scroll
     const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     const io = reduced ? null : new IntersectionObserver((entries)=>entries.forEach(e=>{
       if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
     }),{threshold:.12});
-    if(io){ document.querySelectorAll('.reveal').forEach(el=> io.observe(el)); }
-    else{ document.querySelectorAll('.reveal').forEach(el=> el.classList.add('in')); }
+    if(io){
+      document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+    } else {
+      document.querySelectorAll('.reveal').forEach(el=> el.classList.add('in'));
+    }
 
-    // Buttons, confetti, reviews carousel, about tilt, steps interactions
-    // (keep your existing JS from index; no changes needed here)
+    // Disable magnetic hover on touch devices for stability
+    const isTouch = matchMedia('(hover:none)').matches || 'ontouchstart' in window;
+
+    // Magnetic button hover (desktop only)
+    if(!isTouch){
+      document.querySelectorAll('.btn:not(.secondary)').forEach(btn=>{
+        btn.addEventListener('mousemove', e=>{
+          const r = btn.getBoundingClientRect(); const x = e.clientX - r.left; const y = e.clientY - r.top;
+          btn.style.transform = `translateY(-1px) translate(${(x-r.width/2)/30}px, ${(y-r.height/2)/30}px)`;
+        }, {passive:true});
+        btn.addEventListener('mouseleave', ()=> btn.style.transform = '');
+      });
+    }
+
+    // Confetti background (lighter on small screens)
+    (function(){
+      const canvas = document.getElementById('confetti');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d', { alpha:true });
+      let W,H,parts=[];
+      const small = Math.min(innerWidth, innerHeight) < 520;
+      function size(){
+        W=canvas.width=innerWidth; H=canvas.height=innerHeight;
+        if(parts.length===0){
+          const base = small ? 60 : 120;
+          const n=Math.min(base,Math.floor(W*H/18000));
+          for(let i=0;i<n;i++) parts.push(make());
+        }
+      }
+      function make(){ const s=['rect','tri','circle']; return {x:Math.random()*W,y:Math.random()*-H,sz:3+Math.random()*6,spd:.6+Math.random()*1.2,rot:Math.random()*Math.PI*2,rps:(Math.random()-.5)*.02,h:[190,210,250,280][(Math.random()*4)|0],shape:s[(Math.random()*3)|0],a:.5+Math.random()*.5}; }
+      function draw(p){ ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=p.a; ctx.fillStyle=`hsla(${p.h},95%,65%,1)`; if(p.shape==='rect'){ctx.fillRect(-p.sz/2,-p.sz/2,p.sz,p.sz*.6);} else if(p.shape==='tri'){ctx.beginPath();ctx.moveTo(0,-p.sz/2);ctx.lineTo(p.sz/2,p.sz/2);ctx.lineTo(-p.sz/2,p.sz/2);ctx.closePath();ctx.fill();} else {ctx.beginPath();ctx.arc(0,0,p.sz/2,0,Math.PI*2);ctx.fill();} ctx.restore(); }
+      function tick(){ if(reduced) return; ctx.clearRect(0,0,W,H); for(const p of parts){ p.y+=p.spd; p.x+=Math.sin(p.y*.01)*.3; p.rot+=p.rps; if(p.y>H+20){ p.y=-20; p.x=Math.random()*W; } draw(p); } requestAnimationFrame(tick); }
+      addEventListener('resize', size, {passive:true}); size(); if(!reduced) tick();
+    })();
+
+    // ===== Reviews data + carousel =====
+    const reviews = [
+      { name: "Vinny", venue: "Vinny’s NY Pizza & Pasta", rating: 5, quote: "Machine has been a hit here! Customers, especially families, love it!" },
+      { name: "Joe", venue: "Pizza Margherita", rating: 5, quote: "Our regulars love the machine — awesome add for a family spot." },
+      { name: "Joo", venue: "Hangry Joe’s", rating: 5, quote: "The machine is a perfect fit while customers wait for their order, and customers love it!" },
+      { name: "Stephen", venue: "Red Robin", rating: 5, quote: "Camden quickly became part of the Red Robin family. He checks in, keeps the machine running great, and really cares about people." }
+    ];
+
+    const track = document.getElementById('reviewTrack');
+    const dots  = document.getElementById('dots');
+    const avg   = (reviews.reduce((a,b)=>a+b.rating,0)/reviews.length).toFixed(1);
+    document.getElementById('avgScore').textContent = avg;
+
+    function starRow(n){
+      const wrap = document.createElement('div'); wrap.className = 'stars'; wrap.setAttribute('aria-label', `${n} out of 5 stars`);
+      for(let i=0;i<5;i++){ const s=document.createElement('span'); s.className='star'; if(i>=n){ s.style.opacity=.25 } wrap.appendChild(s) }
+      return wrap;
+    }
+
+    reviews.forEach((r,i)=>{
+      const slide = document.createElement('div');
+      slide.className = 'review';
+      slide.innerHTML = `
+        <div class="review-card">
+          <div class="rating-row"></div>
+          <div class="quote">“${r.quote}”</div>
+          <div class="person">${r.name} • <span class="venue">${r.venue}</span></div>
+        </div>`;
+      track.appendChild(slide);
+      slide.querySelector('.rating-row').appendChild(starRow(r.rating));
+
+      const d=document.createElement('div'); d.className='dot'+(i===0?' on':''); dots.appendChild(d);
+    });
+
+    let index=0, timer=null;
+    const prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn');
+
+    function go(i){
+      const total=reviews.length;
+      index=(i+total)%total;
+      track.style.transform=`translateX(-${index*100}%)`;
+      [...dots.children].forEach((d,di)=>d.classList.toggle('on', di===index));
+    }
+
+    function play(){ timer=setInterval(()=>go(index+1), 6000) }
+    function stop(){ if(timer) { clearInterval(timer); timer=null; } }
+
+    prevBtn.addEventListener('click', ()=>{ stop(); go(index-1); play(); });
+    nextBtn.addEventListener('click', ()=>{ stop(); go(index+1); play(); });
+
+    document.querySelector('.carousel').addEventListener('mouseenter', stop);
+    document.querySelector('.carousel').addEventListener('mouseleave', play);
+
+    (function(){
+      const el=document.querySelector('.carousel');
+      let x0=null;
+      el.addEventListener('touchstart', e=>x0=e.touches[0].clientX,{passive:true});
+      el.addEventListener('touchend', e=>{
+        if(x0==null) return;
+        const dx=e.changedTouches[0].clientX - x0;
+        if(Math.abs(dx)>40){ stop(); go(index + (dx<0?1:-1)); play(); }
+        x0=null;
+      },{passive:true});
+    })();
+
+    go(0); play();
+
+    // ===== Claw machine interactivity (tilt + click pulse on halo) =====
+    (function(){
+      const wrap = document.getElementById('aboutMachine');
+      if(!wrap) return;
+
+      function move(e){
+        const r = wrap.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top)  / r.height;
+        const rx = (0.5 - y) * 8;
+        const ry = (x - 0.5) * 8;
+        wrap.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.02)`;
+      }
+      function reset(){ wrap.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg)'; }
+
+      if(!window.matchMedia || !matchMedia('(prefers-reduced-motion: reduce)').matches){
+        // only enable tilt on non-touch to avoid scroll jitter
+        if(!('ontouchstart' in window)){
+          wrap.addEventListener('mousemove', move);
+          wrap.addEventListener('mouseleave', reset);
+        }
+      }
+
+      wrap.addEventListener('click', ()=> wrap.classList.toggle('pulse'));
+      wrap.setAttribute('tabindex','0');
+      wrap.setAttribute('aria-label','Claw machine: click to toggle blue halo');
+      wrap.style.cursor = 'pointer';
+      wrap.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); wrap.classList.toggle('pulse'); }});
+    })();
+
+    // ===== Three Steps interactions =====
+    (function(){
+      const row  = document.getElementById('stepsXRow');
+      if(!row) return;
+      const cards = [...row.querySelectorAll('.stepsX-card')];
+      const side  = document.getElementById('stepsXSide');
+
+      function setActive(i){
+        cards.forEach((c,idx)=> c.classList.toggle('on', idx===i));
+        if(side){
+          side.classList.remove('nudge'); void side.offsetWidth; side.classList.add('nudge');
+        }
+      }
+
+      cards.forEach((c,i)=>{
+        c.addEventListener('mouseenter', ()=>setActive(i));
+        c.addEventListener('focus',     ()=>setActive(i));
+        c.addEventListener('click',     ()=>setActive(i));
+        c.addEventListener('keydown', (e)=>{
+          if(e.key==='Enter' || e.key===' ' || e.key==='Spacebar'){ e.preventDefault(); setActive(i); }
+        });
+      });
+    })();
   </script>
 </body>
 </html>
