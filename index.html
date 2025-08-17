@@ -31,7 +31,7 @@
       radial-gradient(1000px 700px at -15% 20%, rgba(77,137,255,.28), transparent 60%),
       linear-gradient(180deg,#d8ecff 0%, #cfe6ff 40%, #e6f4ff 100%);
     overflow-x:hidden;
-    -webkit-text-size-adjust:100%;
+    -webkit-text-size-adjust:100%; /* stop iOS font auto-zoom */
   }
 
   /* iOS tap highlight off */
@@ -88,6 +88,7 @@
   .btn.secondary{background:transparent;color:var(--text);border:1px solid rgba(9,25,49,.12);box-shadow:none}
   .btn .shine{position:absolute; inset:0; background:linear-gradient(120deg,transparent 0 35%,rgba(255,255,255,.6) 45% 55%,transparent 65% 100%); transform:translateX(-120%); transition:transform .9s ease; mix-blend:overlay}
 
+  /* Reduce hover-y motion on touch devices */
   @media (hover:none){
     .btn:hover{box-shadow:0 10px 30px rgba(32,255,160,.25); transform:none}
     .btn:hover .shine{transform:none}
@@ -97,7 +98,7 @@
   .hero{position:relative}
   .hero-inner{
     max-width:1200px;margin:0 auto;
-    padding: clamp(52px, 8svw, 96px) 20px 64px;
+    padding: clamp(52px, 8svw, 96px) 20px 64px; /* use small-viewport units on iOS */
     display:grid; grid-template-columns:1.1fr .9fr; gap:22px; align-items:center
   }
 
@@ -126,6 +127,7 @@
   .sub{font-size: clamp(15px,3.6dvw,18px);color:var(--muted);max-width:60ch}
   .hero-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 
+  /* Right art + cyan halo behind machine */
   .hero-art{display:flex; justify-content:flex-end; align-items:center; position:relative;}
   .machine-glow{
     position:absolute; right:0; bottom:0; width:72%; height:88%; translate: 8px 6px;
@@ -191,105 +193,49 @@
   .dot.on{background:#8b5cff}
   .dot{width:8px;height:8px;border-radius:999px;background:rgba(9,25,49,.18)}
 
-  /* ========= NEW “MY STORY” (graphic, dark-blue, confetti) ========= */
-  #about{
-    position:relative; isolation:isolate; padding:0; /* override .band */
-    color:#fff;
+  /* ===== MY STORY (images left, text right) ===== */
+  #about .about-grid{
+    max-width:1200px;margin:0 auto;
+    display:grid;grid-template-columns:1.1fr .9fr;
+    gap:20px;align-items:center
+  }
+  #about .duo{ display:flex;align-items:flex-end;justify-content:flex-start; gap:6px; flex-wrap:nowrap; }
+  .aura-wrap{
+    position:relative; display:inline-block; border-radius:16px; overflow:visible;
+    order:1; flex:0 0 54%; max-width:54%;
+    filter: drop-shadow(0 18px 44px rgba(9,25,49,.18));
+    transition: transform .25s ease, filter .35s ease;
+    will-change: transform, filter;
+    transform: perspective(700px) rotateX(0deg) rotateY(0deg);
+    margin-right:-12px; z-index:0;
+  }
+  .aura-wrap img{ display:block; width:100%; height:auto; border-radius:16px; }
+  .aura-wrap::before{
+    content:""; position:absolute; inset:-12px; border-radius:24px;
     background:
-      radial-gradient(1100px 650px at 85% -15%, rgba(124,240,255,.22), transparent 60%),
-      radial-gradient(900px 520px at 12% 20%, rgba(139,92,255,.20), transparent 60%),
-      linear-gradient(180deg,#071a48,#0b1f63);
-    overflow:hidden;
+      radial-gradient(120% 120% at 50% 50%, rgba(56,164,255,.45), transparent 55%),
+      radial-gradient(120% 120% at 30% 20%, rgba(124,240,255,.35), transparent 60%),
+      radial-gradient(120% 120% at 70% 80%, rgba(139,92,255,.22), transparent 60%);
+    filter: blur(18px); z-index:-1; pointer-events:none; transition: filter .3s ease, transform .3s ease;
   }
-  #about::before{
-    /* starfield */
-    content:""; position:absolute; inset:0; pointer-events:none; opacity:.75;
-    background:
-      radial-gradient(circle 2px at 10% 20%, #a9c6ff 0 2px, transparent 3px),
-      radial-gradient(circle 2px at 30% 70%, #7cf0ff 0 2px, transparent 3px),
-      radial-gradient(circle 2px at 65% 25%, #b69cff 0 2px, transparent 3px),
-      radial-gradient(circle 2px at 85% 80%, #7cf0ff 0 2px, transparent 3px),
-      radial-gradient(circle 2px at 45% 60%, #b69cff 0 2px, transparent 3px);
-    filter: blur(.2px) saturate(115%);
-    animation: storyTwinkle 6s linear infinite;
-    z-index:0;
-  }
-  @keyframes storyTwinkle{ 50%{opacity:.95} }
+  .aura-wrap:hover{ transform: perspective(700px) rotateX(2deg) rotateY(-2deg) scale(1.02); filter: drop-shadow(0 22px 60px rgba(35,120,220,.22)); }
+  .aura-wrap:hover::before{ filter: blur(22px) brightness(1.08); }
 
-  #about .confetti{
-    position:absolute; inset:0; pointer-events:none; z-index:0;
-    background:
-      radial-gradient(circle 3px at 9% 18%, #ff6a88 0 2px, transparent 3px),
-      radial-gradient(circle 3px at 18% 62%, #20ffa0 0 2px, transparent 3px),
-      radial-gradient(circle 3px at 48% 28%, #72d1ff 0 2px, transparent 3px),
-      radial-gradient(circle 3px at 78% 22%, #ffb86b 0 2px, transparent 3px),
-      radial-gradient(circle 3px at 86% 74%, #8b5cff 0 2px, transparent 3px),
-      radial-gradient(circle 3px at 62% 66%, #20ffa0 0 2px, transparent 3px);
-    animation: confettiDrift 10s linear infinite;
-    opacity:.75;
+  #about .mascot{
+    order:2; flex:0 0 42%; max-width:42%;
+    border-radius:16px;
+    filter:drop-shadow(0 18px 44px rgba(9,25,49,.18));
+    transform:translateY(6px);
+    transition:transform .25s ease, filter .35s ease;
+    z-index:1;
   }
-  @keyframes confettiDrift{
-    0%{ transform:translateY(0) }
-    50%{ transform:translateY(6px) }
-    100%{ transform:translateY(0) }
-  }
+  #about h2{margin:0 0 10px;font-size:clamp(24px,6dvw,36px)}
+  #about p{color:var(--muted);line-height:1.75}
 
-  .story-wrap{
-    position:relative; z-index:1;
-    max-width:1200px; margin:0 auto;
-    padding: clamp(56px, 8svw, 88px) 20px;
-    display:grid; grid-template-columns:1.05fr .95fr; gap:22px; align-items:center;
-  }
-
-  .story-left h2{
-    margin:0 0 10px; font-size: clamp(20px,4.4dvw,28px); letter-spacing:.14em; text-transform:uppercase; opacity:.9;
-  }
-  .story-left .big{
-    margin:0 0 14px; line-height:1.04;
-    font-size: clamp(40px,9.5dvw,84px); font-weight:900; letter-spacing:.4px;
-    background:linear-gradient(180deg,#ff3b4a,#ff6a88);
-    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
-    text-shadow: 0 0 12px rgba(255,59,74,.45), 0 0 28px rgba(255,59,74,.35);
-  }
-  .story-left p{ color:#d7e4ff; line-height:1.75; max-width:60ch; }
-  .story-left .actions{ display:flex; gap:12px; margin-top:18px; flex-wrap:wrap; }
-  .story-left .btn{ box-shadow:0 14px 38px rgba(32,255,160,.35); }
-  .story-left .btn.secondary{ color:#e6efff; border-color:rgba(255,255,255,.32) }
-
-  .story-right{
-    position:relative; display:grid; place-items:center;
-  }
-  .story-right .cutouts{
-    position:relative; width:min(580px, 95%); max-width:95%;
-  }
-  .story-right .person{
-    position:relative; z-index:2; width:62%;
-    filter: drop-shadow(0 22px 60px rgba(9,25,49,.55)) drop-shadow(0 0 26px rgba(0,230,255,.25));
-    animation: floaty 7s ease-in-out infinite;
-  }
-  .story-right .machine{
-    position:absolute; right:-2%; bottom:-2%;
-    width:62%; max-width:480px; z-index:1;
-    filter: drop-shadow(0 22px 60px rgba(9,25,49,.55)) drop-shadow(0 0 26px rgba(0,230,255,.25));
-    animation: floaty 7s ease-in-out infinite reverse;
-  }
-  .story-right .glow{
-    position:absolute; right:0; bottom:-6%; width:85%; aspect-ratio:1/1; z-index:0;
-    background:
-      radial-gradient(60% 60% at 60% 55%, rgba(124,240,255,.38), transparent 60%),
-      radial-gradient(60% 60% at 40% 45%, rgba(139,92,255,.22), transparent 65%);
-    filter:blur(26px);
-    animation: stepsPulse 6s ease-in-out infinite;
-  }
-
-  /* Small screens */
-  @media (max-width: 960px){
-    .hero-inner{grid-template-columns:1fr; padding-bottom:40px}
-    .claw{margin:20px auto 0; max-height:440px}
-
-    .story-wrap{ grid-template-columns:1fr; text-align:left; }
-    .story-right{ order:-1; margin-bottom:10px; }
-    .story-left p{ max-width:unset }
+  @media (min-width: 961px){
+    .aura-wrap{ margin-right:-34px; }
+    #about .mascot{ transform: translateX(-34px) translateY(6px) scale(1.42); }
+    #about .mascot:hover{ transform: translateX(-34px) translateY(4px) scale(1.43); }
   }
 
   /* ===== THREE SIMPLE STEPS (HORIZONTAL) ===== */
@@ -427,9 +373,17 @@
   .gallery-card img{width:100%; height:100%; object-fit:cover; display:block}
   .gallery-card .ph{opacity:.8}
 
-  /* Responsive tweaks for gallery + forms are near section blocks */
-
+  /* Responsive */
   @media (max-width: 1024px){ .gallery-grid{ grid-template-columns: repeat(3, minmax(0,1fr)); } }
+  @media (max-width: 960px){
+    .hero-inner{grid-template-columns:1fr; padding-bottom:40px}
+    .claw{margin:20px auto 0; max-height:440px}
+    #about .about-grid{grid-template-columns:1fr}
+    #about .duo{justify-content:flex-start;}
+    .aura-wrap{flex-basis:54%; max-width:54%}
+    #about .mascot{flex-basis:42%; max-width:42%}
+    .cta-wrap{grid-template-columns:1fr}
+  }
   @media (max-width: 720px){ .gallery-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
   @media (max-width: 420px){ .gallery-grid{ grid-template-columns: 1fr; } }
 
@@ -438,12 +392,14 @@
     .btn .shine{display:none}
     .reveal{transition:none}
     .hero-title{animation:none}
-    .story-right .person, .story-right .machine, .story-right .glow{ animation:none !important; }
+    .aura-wrap, #about .mascot{ transition:none; transform:none !important; }
+    .aura-wrap.pulse::before{ animation:none; }
     .stepsX-glow, .stepsX-side img{ animation:none !important; }
   }
 
-  /* === NEW: CONTACT graphic-only section styles (unchanged) === */
-  #contact.cta-section{ padding:0; }
+  /* === NEW: CONTACT graphic-only section styles (override just this section) === */
+  #contact.cta-section{ padding:0; } /* override the generic .cta-section padding for the contact section only */
+
   .contact-graphic{
     position:relative;
     color:#fff;
@@ -455,6 +411,7 @@
     padding:64px 20px;
     isolation:isolate;
   }
+
   .contact-confetti{
     position:absolute; inset:0; pointer-events:none; opacity:.55;
     background:
@@ -467,17 +424,20 @@
     z-index:0;
   }
   @keyframes contactTwinkle{ 50%{opacity:.85; transform:translateY(6px)} }
+
   .contact-wrap{
     max-width:1200px; margin:0 auto;
     display:grid; grid-template-columns:1fr 1.2fr 1fr;
     gap:22px; align-items:center;
     position:relative; z-index:1;
   }
+
   .contact-side img{
     max-width:100%; height:auto; display:block;
     filter: drop-shadow(0 22px 60px rgba(9,25,49,.45)) drop-shadow(0 0 26px rgba(0,230,255,.25));
     animation: floaty 7s ease-in-out infinite;
   }
+
   .contact-title{
     text-align:center; margin:0 0 14px;
     font-size: clamp(28px,6.2vw,50px);
@@ -490,15 +450,17 @@
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
     text-shadow: 0 0 12px rgba(255,59,74,.45), 0 0 28px rgba(255,59,74,.35);
   }
+
   .contact-form form{ display:grid; gap:14px; }
   .contact-form .row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
   .contact-form input,
   .contact-form textarea{
     padding:14px 16px;
     border-radius:12px;
     border:1px solid rgba(255,255,255,.28);
     background:rgba(255,255,255,.08);
-    color:#fff; font-size:16px;
+    color:#fff; font-size:16px; /* prevent iOS zoom */
     backdrop-filter: blur(8px);
   }
   .contact-form input::placeholder,
@@ -508,11 +470,13 @@
     outline:none; border-color:#7cf0ff;
     box-shadow:0 0 0 3px rgba(124,240,255,.20), 0 8px 26px rgba(9,25,49,.35);
   }
+
   .submit-btn{
     width:100%; justify-content:center; font-size:18px; padding:14px 16px;
     background:linear-gradient(90deg,var(--brand),var(--accent));
     box-shadow:0 10px 34px rgba(32,255,160,.35);
   }
+
   @media (max-width:1000px){
     .contact-wrap{ grid-template-columns:1fr; text-align:center; }
     .contact-side{ display:none; }
@@ -567,35 +531,28 @@
       <span>🧰 Proactive maintenance</span><span>💳 Card + cash payments</span><span>📍 NOVA coverage</span>
     </div>
 
-    <!-- ============== NEW MY STORY ============== -->
-    <section id="about" aria-label="My Story">
-      <div class="confetti" aria-hidden="true"></div>
-      <div class="story-wrap">
-        <div class="story-left reveal">
-          <h2>Family-Owned</h2>
-          <div class="big">Fun-Driven</div>
-
-          <!-- copy kept exactly as requested -->
+    <!-- MY STORY -->
+    <section class="band" id="about">
+      <div class="about-grid">
+        <div class="reveal" aria-hidden="false">
+          <div class="duo">
+            <div class="aura-wrap" id="aboutMachine">
+              <img src="Assets/owner.png" alt="Camden — owner of Blessed Amusements" />
+            </div>
+            <img class="mascot" src="Assets/mascot.png" alt="Blessed Amusements mascot" />
+          </div>
+        </div>
+        <div class="reveal">
+          <h2>My Story</h2>
           <p>Hi, I’m Camden — the heart behind Blessed Amusements. Growing up with epilepsy taught me two powerful things: life is precious, and joy is worth fighting for. Every challenge nudged me toward a simple mission: help people feel happy. Not just once, but over and over.</p>
           <p>That’s why I started Blessed Amusements. Our claw machines and arcade setups are more than games — they’re tiny joy engines. We deliver, stock, clean, and maintain everything at no cost to your venue. Your guests get a moment of wonder; you get a steady share of revenue with zero hassle. It’s a win-win that lets me live my purpose — bringing smiles to strangers, one play at a time.</p>
-
-          <div class="actions">
-            <a class="btn" href="#contact">Get In Touch <span class="shine"></span></a>
+          <div class="hero-actions" style="margin-top:14px">
+            <a class="btn" href="#contact"><span class="shine"></span>Get In Touch</a>
             <a class="btn secondary" href="#features">Our Service</a>
           </div>
         </div>
-
-        <aside class="story-right reveal" aria-hidden="true">
-          <div class="cutouts">
-            <div class="glow"></div>
-            <!-- Swap these src paths for your preferred photos (transparent PNGs look best) -->
-            <img class="person" src="Assets/owner.png" alt="">
-            <img class="machine" src="Assets/Attachment-7.png" alt="">
-          </div>
-        </aside>
       </div>
     </section>
-    <!-- ============ /MY STORY ============ -->
 
     <!-- THREE SIMPLE STEPS -->
     <section id="features" class="stepsX">
@@ -703,16 +660,20 @@
       </div>
     </section>
 
-    <!-- CONTACT (graphic style) -->
+    <!-- CONTACT (revamped graphic style) -->
     <section class="cta-section" id="contact">
       <div class="contact-graphic">
+        <!-- floating confetti background for this section only -->
         <div class="contact-confetti" aria-hidden="true"></div>
 
         <div class="contact-wrap">
+          <!-- Left: Machine image -->
           <div class="contact-side machine-side" aria-hidden="true">
+            <!-- use your machine image; adjust filename if needed -->
             <img src="Assets/IMG_3485.jpeg" alt="" />
           </div>
 
+          <!-- Center: Form -->
           <div class="contact-form">
             <h2 class="contact-title">
               Ready to Get Started?<br />
@@ -743,6 +704,7 @@
             </form>
           </div>
 
+          <!-- Right: Mascot image -->
           <div class="contact-side mascot-side" aria-hidden="true">
             <img src="Assets/mascot.png" alt="" />
           </div>
@@ -852,6 +814,7 @@
       track.style.transform=`translateX(-${index*100}%)`;
       [...dots.children].forEach((d,di)=>d.classList.toggle('on', di===index));
     }
+
     function play(){ timer=setInterval(()=>go(index+1), 6000) }
     function stop(){ if(timer) { clearInterval(timer); timer=null; } }
 
@@ -874,6 +837,36 @@
     })();
 
     go(0); play();
+
+    // ===== Claw machine interactivity (tilt + click pulse on halo) =====
+    (function(){
+      const wrap = document.getElementById('aboutMachine');
+      if(!wrap) return;
+
+      function move(e){
+        const r = wrap.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top)  / r.height;
+        const rx = (0.5 - y) * 8;
+        const ry = (x - 0.5) * 8;
+        wrap.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.02)`;
+      }
+      function reset(){ wrap.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg)'; }
+
+      if(!window.matchMedia || !matchMedia('(prefers-reduced-motion: reduce)').matches){
+        // only enable tilt on non-touch to avoid scroll jitter
+        if(!('ontouchstart' in window)){
+          wrap.addEventListener('mousemove', move);
+          wrap.addEventListener('mouseleave', reset);
+        }
+      }
+
+      wrap.addEventListener('click', ()=> wrap.classList.toggle('pulse'));
+      wrap.setAttribute('tabindex','0');
+      wrap.setAttribute('aria-label','Claw machine: click to toggle blue halo');
+      wrap.style.cursor = 'pointer';
+      wrap.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); wrap.classList.toggle('pulse'); }});
+    })();
 
     // ===== Three Steps interactions =====
     (function(){
