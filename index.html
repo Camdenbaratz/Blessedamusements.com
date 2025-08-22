@@ -31,16 +31,13 @@
       radial-gradient(1000px 700px at -15% 20%, rgba(77,137,255,.28), transparent 60%),
       linear-gradient(180deg,#d8ecff 0%, #cfe6ff 40%, #e6f4ff 100%);
     overflow-x:hidden;
-    -webkit-text-size-adjust:100%; /* stop iOS font auto-zoom */
+    -webkit-text-size-adjust:100%;
   }
 
-  /* iOS tap highlight off */
   a,button{ -webkit-tap-highlight-color: transparent; }
-
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
 
-  /* Confetti layer */
   .bg-wrap{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; padding-top:var(--safe-top) }
   #confetti{position:absolute; inset:0; width:100%; height:100%; display:block; filter:saturate(115%)}
   .bg-wrap::after{
@@ -88,7 +85,6 @@
   .btn.secondary{background:transparent;color:var(--text);border:1px solid rgba(9,25,49,.12);box-shadow:none}
   .btn .shine{position:absolute; inset:0; background:linear-gradient(120deg,transparent 0 35%,rgba(255,255,255,.6) 45% 55%,transparent 65% 100%); transform:translateX(-120%); transition:transform .9s ease; mix-blend:overlay}
 
-  /* Reduce hover-y motion on touch devices */
   @media (hover:none){
     .btn:hover{box-shadow:0 10px 30px rgba(32,255,160,.25); transform:none}
     .btn:hover .shine{transform:none}
@@ -98,7 +94,7 @@
   .hero{position:relative}
   .hero-inner{
     max-width:1200px;margin:0 auto;
-    padding: clamp(52px, 8svw, 96px) 20px 64px; /* use small-viewport units on iOS */
+    padding: clamp(52px, 8svw, 96px) 20px 64px;
     display:grid; grid-template-columns:1.1fr .9fr; gap:22px; align-items:center
   }
 
@@ -120,14 +116,11 @@
         0 0 44px rgba(0,230,255,.25);
     }
   }
-  @keyframes title-breathe{
-    50%{ text-shadow: 0 0 14px rgba(0,230,255,.95), 0 0 30px rgba(0,230,255,.75), 0 0 54px rgba(0,230,255,.55); transform: translateY(-1px); }
-  }
+  @keyframes title-breathe{ 50%{ text-shadow: 0 0 14px rgba(0,230,255,.95), 0 0 30px rgba(0,230,255,.75), 0 0 54px rgba(0,230,255,.55); transform: translateY(-1px); } }
   .serve{font-size: clamp(16px,4.4dvw,24px); font-weight:800; color:#0f2d6a; margin:4px 0 10px;}
   .sub{font-size: clamp(15px,3.6dvw,18px);color:var(--muted);max-width:60ch}
   .hero-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 
-  /* Right art + cyan halo behind machine */
   .hero-art{display:flex; justify-content:flex-end; align-items:center; position:relative;}
   .machine-glow{
     position:absolute; right:0; bottom:0; width:72%; height:88%; translate: 8px 6px;
@@ -149,10 +142,8 @@
   }
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
-  /* Trust strip */
   .strip{padding:10px 14px;margin:0 auto 8px;max-width:1200px;border-radius:12px;background:linear-gradient(90deg,rgba(124,240,255,.25),rgba(139,92,255,.22));border:1px solid rgba(9,25,49,.08);display:flex;flex-wrap:wrap;gap:10px;justify-content:center;color:#13264a}
 
-  /* Base band */
   .band{padding:32px 20px}
 
   /* ==== REVIEWS ==== */
@@ -193,7 +184,7 @@
   .dot.on{background:#8b5cff}
   .dot{width:8px;height:8px;border-radius:999px;background:rgba(9,25,49,.18)}
 
-  /* ===== MY STORY (images left, text right) ===== */
+  /* ===== MY STORY ===== */
   #about .about-grid{
     max-width:1200px;margin:0 auto;
     display:grid;grid-template-columns:1.1fr .9fr;
@@ -231,14 +222,13 @@
   }
   #about h2{margin:0 0 10px;font-size:clamp(24px,6dvw,36px)}
   #about p{color:var(--muted);line-height:1.75}
-
   @media (min-width: 961px){
     .aura-wrap{ margin-right:-34px; }
     #about .mascot{ transform: translateX(-34px) translateY(6px) scale(1.42); }
     #about .mascot:hover{ transform: translateX(-34px) translateY(4px) scale(1.43); }
   }
 
-  /* ===== THREE SIMPLE STEPS (HORIZONTAL) ===== */
+  /* ===== THREE SIMPLE STEPS ===== */
   .stepsX{
     position:relative; isolation:isolate;
     background: radial-gradient(1200px 700px at 10% -20%, rgba(124,240,255,.18), transparent 60%),
@@ -331,7 +321,6 @@
     60%{transform:translateY(3px) rotate(.6deg)} 100%{transform:translateY(0) rotate(0)}
   }
 
-  /* Lead capture (legacy styles kept for other sections) */
   .cta-section{padding:48px 20px 72px}
   .cta-wrap{max-width:1100px;margin:0 auto;background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid rgba(9,25,49,.10);border-radius:20px;padding:22px;display:grid;grid-template-columns:1.4fr .6fr;gap:16px;align-items:center}
   .cta-box h2{margin:6px 0 12px;font-size:clamp(22px,6.4dvw,36px)}
@@ -340,21 +329,18 @@
   .cta-panel .row{display:flex;gap:10px;align-items:center}
   .cta-panel input,.cta-panel textarea{
     padding:12px 14px;border-radius:12px;border:1px solid rgba(9,25,49,.14);background:#ffffff;color:var(--text);
-    font-size:16px; /* prevent iOS zoom */
+    font-size:16px;
   }
   .cta-panel button{border:none}
   .fine{font-size:12px;color:#66769a}
 
-  /* Footer */
   footer{padding:26px 20px calc(10px + var(--safe-bottom));color:#66769a;border-top:1px solid rgba(9,25,49,.08)}
   .foot-wrap{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
   .foot-wrap a{text-decoration:underline dotted rgba(9,25,49,.3);color:#2a3d66}
 
-  /* Reveal */
   .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
   .reveal.in{opacity:1;transform:none}
 
-  /* Utilities */
   .grid{display:grid;gap:18px}
 
   /* ===== GALLERY ===== */
@@ -368,10 +354,15 @@
     background:#fff; border:1px solid rgba(9,25,49,.10);
     box-shadow:var(--shadow);
     aspect-ratio: 4/3; display:flex; align-items:center; justify-content:center;
-    color:#5a6b8a; font-weight:700;
   }
-  .gallery-card img{width:100%; height:100%; object-fit:cover; display:block}
-  .gallery-card .ph{opacity:.8}
+  .gallery-card img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .25s ease;}
+  .gallery-card:hover img{ transform:scale(1.03); }
+
+  /* Lightbox */
+  .lightbox{ position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; z-index:50; }
+  .lightbox.on{ display:flex; }
+  .lightbox img{ max-width:92vw; max-height:88vh; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,.55); }
+  .lightbox .close{ position:absolute; top:12px; right:14px; background:#fff; border:1px solid rgba(0,0,0,.2); border-radius:10px; padding:8px 10px; font-weight:800; cursor:pointer; }
 
   /* Responsive */
   @media (max-width: 1024px){ .gallery-grid{ grid-template-columns: repeat(3, minmax(0,1fr)); } }
@@ -397,9 +388,8 @@
     .stepsX-glow, .stepsX-side img{ animation:none !important; }
   }
 
-  /* === NEW: CONTACT graphic-only section styles (override just this section) === */
-  #contact.cta-section{ padding:0; } /* override the generic .cta-section padding for the contact section only */
-
+  /* === CONTACT (graphic-only) === */
+  #contact.cta-section{ padding:0; }
   .contact-graphic{
     position:relative;
     color:#fff;
@@ -411,7 +401,6 @@
     padding:64px 20px;
     isolation:isolate;
   }
-
   .contact-confetti{
     position:absolute; inset:0; pointer-events:none; opacity:.55;
     background:
@@ -424,20 +413,17 @@
     z-index:0;
   }
   @keyframes contactTwinkle{ 50%{opacity:.85; transform:translateY(6px)} }
-
   .contact-wrap{
     max-width:1200px; margin:0 auto;
     display:grid; grid-template-columns:1fr 1.2fr 1fr;
     gap:22px; align-items:center;
     position:relative; z-index:1;
   }
-
   .contact-side img{
     max-width:100%; height:auto; display:block;
     filter: drop-shadow(0 22px 60px rgba(9,25,49,.45)) drop-shadow(0 0 26px rgba(0,230,255,.25));
     animation: floaty 7s ease-in-out infinite;
   }
-
   .contact-title{
     text-align:center; margin:0 0 14px;
     font-size: clamp(28px,6.2vw,50px);
@@ -450,17 +436,15 @@
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
     text-shadow: 0 0 12px rgba(255,59,74,.45), 0 0 28px rgba(255,59,74,.35);
   }
-
   .contact-form form{ display:grid; gap:14px; }
   .contact-form .row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-
   .contact-form input,
   .contact-form textarea{
     padding:14px 16px;
     border-radius:12px;
     border:1px solid rgba(255,255,255,.28);
     background:rgba(255,255,255,.08);
-    color:#fff; font-size:16px; /* prevent iOS zoom */
+    color:#fff; font-size:16px;
     backdrop-filter: blur(8px);
   }
   .contact-form input::placeholder,
@@ -470,7 +454,6 @@
     outline:none; border-color:#7cf0ff;
     box-shadow:0 0 0 3px rgba(124,240,255,.20), 0 8px 26px rgba(9,25,49,.35);
   }
-
   .submit-btn{
     width:100%; justify-content:center; font-size:18px; padding:14px 16px;
     background:linear-gradient(90deg,var(--brand),var(--accent));
@@ -598,18 +581,45 @@
       <div class="gallery-wrap reveal">
         <div class="gallery-head">
           <h2>Gallery</h2>
-          <span class="tagline">Machines in the wild — photos coming soon</span>
+          <span class="tagline">Machines in the wild</span>
         </div>
-        <div class="gallery-grid">
-          <div class="gallery-card"><span class="ph">Add Image</span></div>
-          <div class="gallery-card"><span class="ph">Add Image</span></div>
-          <div class="gallery-card"><span class="ph">Add Image</span></div>
-          <div class="gallery-card"><span class="ph">Add Image</span></div>
-          <div class="gallery-card"><span class="ph">Add Image</span></div>
-          <div class="gallery-card"><span class="ph">Add Image</span></div>
-          <div class="gallery-card"><span class="ph">Add Image</span></div>
-          <div class="gallery-card"><span class="ph">Add Image</span></div>
+
+        <div class="gallery-grid" id="galleryGrid">
+          <!-- Use your uploaded images. Keep filenames or adjust the src paths. -->
+          <a class="gallery-card" href="Assets/IMG_3526.jpeg" data-full="Assets/IMG_3526.jpeg" aria-label="Magic Cut mini with Switch prize">
+            <img src="Assets/IMG_3526.jpeg" loading="lazy" alt="Magic Cut mini with Nintendo Switch prize" />
+          </a>
+
+          <a class="gallery-card" href="Assets/IMG_3409.png" data-full="Assets/IMG_3409.png" aria-label="Pin It and Gamer Claw side by side">
+            <img src="Assets/IMG_3409.png" loading="lazy" alt="Pin It and Gamer Claw side by side" />
+          </a>
+
+          <a class="gallery-card" href="Assets/IMG_3403.png" data-full="Assets/IMG_3403.png" aria-label="Spaced Out Treasure with restaurant mascot">
+            <img src="Assets/IMG_3403.png" loading="lazy" alt="Spaced Out Treasure with restaurant mascot" />
+          </a>
+
+          <a class="gallery-card" href="Assets/IMG_3383.jpeg" data-full="Assets/IMG_3383.jpeg" aria-label="MegaMini and Magic Cut at mall">
+            <img src="Assets/IMG_3383.jpeg" loading="lazy" alt="MegaMini and Magic Cut at a mall" />
+          </a>
+
+          <a class="gallery-card" href="Assets/IMG_3418.png" data-full="Assets/IMG_3418.png" aria-label="Boxer punch machine at night">
+            <img src="Assets/IMG_3418.png" loading="lazy" alt="Boxer punch machine lit up at night" />
+          </a>
+
+          <a class="gallery-card" href="Assets/IMG_3529.jpeg" data-full="Assets/IMG_3529.jpeg" aria-label="Arcade room with air hockey and cranes">
+            <img src="Assets/IMG_3529.jpeg" loading="lazy" alt="Arcade room with air hockey and crane machines" />
+          </a>
+
+          <a class="gallery-card" href="Assets/IMG_3389.jpeg" data-full="Assets/IMG_3389.jpeg" aria-label="Gamer Quest and Ducky Treasure at Sweet Parlor">
+            <img src="Assets/IMG_3389.jpeg" loading="lazy" alt="Gamer Quest and Ducky Treasure at Sweet Parlor" />
+          </a>
         </div>
+      </div>
+
+      <!-- Lightbox viewer -->
+      <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+        <button class="close" id="lbClose" aria-label="Close">Close ✕</button>
+        <img id="lbImg" alt="" />
       </div>
     </section>
 
@@ -660,20 +670,16 @@
       </div>
     </section>
 
-    <!-- CONTACT (revamped graphic style) -->
+    <!-- CONTACT -->
     <section class="cta-section" id="contact">
       <div class="contact-graphic">
-        <!-- floating confetti background for this section only -->
         <div class="contact-confetti" aria-hidden="true"></div>
 
         <div class="contact-wrap">
-          <!-- Left: Machine image -->
           <div class="contact-side machine-side" aria-hidden="true">
-            <!-- use your machine image; adjust filename if needed -->
             <img src="Assets/IMG_3485.jpeg" alt="" />
           </div>
 
-          <!-- Center: Form -->
           <div class="contact-form">
             <h2 class="contact-title">
               Ready to Get Started?<br />
@@ -704,7 +710,6 @@
             </form>
           </div>
 
-          <!-- Right: Mascot image -->
           <div class="contact-side mascot-side" aria-hidden="true">
             <img src="Assets/mascot.png" alt="" />
           </div>
@@ -736,7 +741,7 @@
       document.querySelectorAll('.reveal').forEach(el=> el.classList.add('in'));
     }
 
-    // Disable magnetic hover on touch devices for stability
+    // Disable magnetic hover on touch devices
     const isTouch = matchMedia('(hover:none)').matches || 'ontouchstart' in window;
 
     // Magnetic button hover (desktop only)
@@ -750,7 +755,7 @@
       });
     }
 
-    // Confetti background (lighter on small screens)
+    // Confetti bg
     (function(){
       const canvas = document.getElementById('confetti');
       if(!canvas) return;
@@ -771,7 +776,7 @@
       addEventListener('resize', size, {passive:true}); size(); if(!reduced) tick();
     })();
 
-    // ===== Reviews data + carousel =====
+    // Reviews carousel
     const reviews = [
       { name: "Vinny", venue: "Vinny’s NY Pizza & Pasta", rating: 5, quote: "Machine has been a hit here! Customers, especially families, love it!" },
       { name: "Joe", venue: "Pizza Margherita", rating: 5, quote: "Our regulars love the machine — awesome add for a family spot." },
@@ -838,7 +843,7 @@
 
     go(0); play();
 
-    // ===== Claw machine interactivity (tilt + click pulse on halo) =====
+    // About image interactivity
     (function(){
       const wrap = document.getElementById('aboutMachine');
       if(!wrap) return;
@@ -854,7 +859,6 @@
       function reset(){ wrap.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg)'; }
 
       if(!window.matchMedia || !matchMedia('(prefers-reduced-motion: reduce)').matches){
-        // only enable tilt on non-touch to avoid scroll jitter
         if(!('ontouchstart' in window)){
           wrap.addEventListener('mousemove', move);
           wrap.addEventListener('mouseleave', reset);
@@ -868,7 +872,7 @@
       wrap.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); wrap.classList.toggle('pulse'); }});
     })();
 
-    // ===== Three Steps interactions =====
+    // Steps interactions
     (function(){
       const row  = document.getElementById('stepsXRow');
       if(!row) return;
@@ -890,6 +894,31 @@
           if(e.key==='Enter' || e.key===' ' || e.key==='Spacebar'){ e.preventDefault(); setActive(i); }
         });
       });
+    })();
+
+    // ===== Simple Lightbox for Gallery =====
+    (function(){
+      const grid = document.getElementById('galleryGrid');
+      const lb   = document.getElementById('lightbox');
+      const img  = document.getElementById('lbImg');
+      const close= document.getElementById('lbClose');
+
+      if(!grid || !lb) return;
+
+      grid.addEventListener('click', (e)=>{
+        const a = e.target.closest('a.gallery-card');
+        if(!a) return;
+        e.preventDefault();
+        const src = a.dataset.full || a.href;
+        img.src = src;
+        img.alt = a.querySelector('img')?.alt || 'Photo';
+        lb.classList.add('on');
+      });
+
+      function hide(){ lb.classList.remove('on'); img.src=''; }
+      close.addEventListener('click', hide);
+      lb.addEventListener('click', (e)=>{ if(e.target===lb) hide(); });
+      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hide(); });
     })();
   </script>
 </body>
