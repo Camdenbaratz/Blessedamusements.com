@@ -146,6 +146,23 @@
 
   .band{padding:32px 20px}
 
+  /* ==== NEW: Stats band under hero ==== */
+  .stats{
+    max-width:1200px; margin:0 auto 6px; padding:0 20px;
+  }
+  .stats-grid{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;
+  }
+  .stat{
+    background:linear-gradient(180deg,#ffffff,#f7fbff);
+    border:1px solid rgba(9,25,49,.10); border-radius:16px; box-shadow:var(--shadow);
+    padding:14px; text-align:center;
+  }
+  .stat .num{font-size:clamp(22px,6dvw,30px); font-weight:900; line-height:1.1}
+  .stat .lbl{color:var(--muted); font-weight:700}
+  @media (max-width:720px){ .stats-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:420px){ .stats-grid{ grid-template-columns:1fr; } }
+
   /* ==== REVIEWS ==== */
   #reviews{padding:40px 20px}
   .reviews-wrap{max-width:1200px;margin:0 auto}
@@ -464,6 +481,14 @@
     .contact-wrap{ grid-template-columns:1fr; text-align:center; }
     .contact-side{ display:none; }
   }
+
+  /* === Floating contact dock (mobile-first) === */
+  .dock{
+    position:fixed; inset:auto 0 calc(8px + var(--safe-bottom)) 0; z-index:40;
+    display:flex; gap:10px; justify-content:center; pointer-events:none;
+  }
+  .dock .btn{ pointer-events:auto; box-shadow:0 14px 40px rgba(9,25,49,.22); }
+  @media (min-width:860px){ .dock{ display:none; } }
 </style>
 </head>
 <body>
@@ -490,9 +515,9 @@
       <div class="hero-inner">
         <div>
           <h1 class="hero-title">Blessed Amusements</h1>
-          <div class="serve">Serving the entire Northern Virginia Area (NOVA)</div>
+          <div class="serve">Young Entrepreneur Bringing Arcade Fun to Northern Virginia 🕹️</div>
           <p class="sub">
-            We’re an amusement / arcade-based business providing claw machines and other
+            Blessed Amusements is an amusement / arcade-based business providing claw machines and other
             crowd-pleasing games for your location. We handle install, stocking, and service —
             you enjoy happier customers and extra revenue.
           </p>
@@ -505,6 +530,24 @@
           <div class="machine-glow" aria-hidden="true"></div>
           <img class="claw" src="Assets/claw-hero.png" alt="" />
           <div class="machine-floor" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW: quick stats to add punch -->
+    <section class="stats" aria-label="Fast facts">
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat">
+          <div class="num" data-target="3">0</div>
+          <div class="lbl">Simple Steps</div>
+        </div>
+        <div class="stat">
+          <div class="num" data-target="5">0.0</div>
+          <div class="lbl">Avg. Rating</div>
+        </div>
+        <div class="stat">
+          <div class="num" data-target="0">$0</div>
+          <div class="lbl">Setup Cost</div>
         </div>
       </div>
     </section>
@@ -726,6 +769,13 @@
     </footer>
   </div><!-- /.page -->
 
+  <!-- Floating contact dock (mobile) -->
+  <div class="dock" aria-hidden="false">
+    <a class="btn" href="tel:+1-000-000-0000">Call <span class="shine"></span></a>
+    <a class="btn secondary" href="sms:+1-000-000-0000">Text</a>
+    <a class="btn secondary" href="mailto:info@blessedamusements.com">Email</a>
+  </div>
+
   <script>
     // Year
     document.getElementById('yr').textContent = new Date().getFullYear();
@@ -776,7 +826,7 @@
       addEventListener('resize', size, {passive:true}); size(); if(!reduced) tick();
     })();
 
-    // Reviews carousel
+    // Reviews data
     const reviews = [
       { name: "Vinny", venue: "Vinny’s NY Pizza & Pasta", rating: 5, quote: "Machine has been a hit here! Customers, especially families, love it!" },
       { name: "Joe", venue: "Pizza Margherita", rating: 5, quote: "Our regulars love the machine — awesome add for a family spot." },
@@ -784,6 +834,7 @@
       { name: "Stephen", venue: "Red Robin", rating: 5, quote: "Camden quickly became part of the Red Robin family. He checks in, keeps the machine running great, and really cares about people." }
     ];
 
+    // Carousel render
     const track = document.getElementById('reviewTrack');
     const dots  = document.getElementById('dots');
     const avg   = (reviews.reduce((a,b)=>a+b.rating,0)/reviews.length).toFixed(1);
@@ -919,6 +970,43 @@
       close.addEventListener('click', hide);
       lb.addEventListener('click', (e)=>{ if(e.target===lb) hide(); });
       document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hide(); });
+    })();
+
+    // === Animate stats numbers for extra “pop” ===
+    (function(){
+      const grid = document.getElementById('statsGrid');
+      if(!grid) return;
+      function animate(el, target, prefix='', suffix=''){
+        const isMoney = (prefix==='$');
+        const start = isMoney ? 0 : 0;
+        const end = Number(target);
+        const dur = 900;
+        const t0 = performance.now();
+        function tick(t){
+          const p = Math.min(1, (t - t0)/dur);
+          const val = start + (end - start) * p;
+          el.textContent = prefix + (isMoney ? Math.round(val) : (el.dataset.dec ? val.toFixed(1) : Math.round(val))) + suffix;
+          if(p<1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+      const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            grid.querySelectorAll('.num').forEach(n=>{
+              const tgt = n.getAttribute('data-target');
+              if(n.textContent.trim() === '0' || n.textContent.trim() === '0.0' || n.textContent.trim() === '$0'){
+                if(tgt === '0' && n.textContent.includes('$')) animate(n, 0, '$');
+                else if(n.textContent.includes('$')) animate(n, tgt, '$');
+                else if(n.textContent.includes('.')) { n.dataset.dec = '1'; animate(n, tgt); }
+                else animate(n, tgt);
+              }
+            });
+            observer.disconnect();
+          }
+        });
+      }, {threshold:.25});
+      observer.observe(grid);
     })();
   </script>
 </body>
