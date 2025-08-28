@@ -30,7 +30,7 @@
       radial-gradient(1200px 800px at 85% -15%, rgba(124,240,255,.45), transparent 60%),
       radial-gradient(1000px 700px at -15% 20%, rgba(77,137,255,.28), transparent 60%),
       linear-gradient(180deg,#d8ecff 0%, #cfe6ff 40%, #e6f4ff 100%);
-    overflow-x:hidden;
+    overflow-x:hidden; /* Prevent iOS horizontal jiggle */
     -webkit-text-size-adjust:100%;
   }
 
@@ -95,8 +95,10 @@
   .hero-inner{
     max-width:1200px;margin:0 auto;
     padding: clamp(52px, 8svw, 96px) 20px 64px;
-    display:grid; grid-template-columns:1.1fr .9fr; gap:22px; align-items:center
+    display:grid; grid-template-columns:1.1fr .9fr; gap:22px; align-items:center;
   }
+  /* Prevent grid children from forcing overflow on iOS */
+  .hero-inner > *{ min-width:0; }
 
   h1.hero-title{
     color:#00e6ff; -webkit-text-stroke:2px rgba(0,0,0,.85);
@@ -147,12 +149,8 @@
   .band{padding:32px 20px}
 
   /* ==== NEW: Stats band under hero ==== */
-  .stats{
-    max-width:1200px; margin:0 auto 6px; padding:0 20px;
-  }
-  .stats-grid{
-    display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;
-  }
+  .stats{ max-width:1200px; margin:0 auto 6px; padding:0 20px; }
+  .stats-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; }
   .stat{
     background:linear-gradient(180deg,#ffffff,#f7fbff);
     border:1px solid rgba(9,25,49,.10); border-radius:16px; box-shadow:var(--shadow);
@@ -207,6 +205,7 @@
     display:grid;grid-template-columns:1.1fr .9fr;
     gap:20px;align-items:center
   }
+  #about .about-grid > *{ min-width:0; } /* prevent overflow */
   #about .duo{ display:flex;align-items:flex-end;justify-content:flex-start; gap:6px; flex-wrap:nowrap; }
   .aura-wrap{
     position:relative; display:inline-block; border-radius:16px; overflow:visible;
@@ -269,6 +268,9 @@
     max-width:1200px; margin:0 auto;
     display:grid; grid-template-columns:1.2fr .8fr; gap:22px; align-items:center;
   }
+  /* Prevent grid overflow on iOS Safari */
+  .stepsX-wrap > *{ min-width:0; }
+
   .stepsX-kicker{margin:0 0 6px; text-transform:uppercase; letter-spacing:.12em; opacity:.85; font-weight:800}
   .stepsX-title{
     margin:0 0 18px; font-size:clamp(26px,8dvw,52px); line-height:1.07;
@@ -346,7 +348,7 @@
   .cta-panel .row{display:flex;gap:10px;align-items:center}
   .cta-panel input,.cta-panel textarea{
     padding:12px 14px;border-radius:12px;border:1px solid rgba(9,25,49,.14);background:#ffffff;color:var(--text);
-    font-size:16px;
+    font-size:16px; width:100%;
   }
   .cta-panel button{border:none}
   .fine{font-size:12px;color:#66769a}
@@ -381,8 +383,9 @@
   .lightbox img{ max-width:92vw; max-height:88vh; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,.55); }
   .lightbox .close{ position:absolute; top:12px; right:14px; background:#fff; border:1px solid rgba(0,0,0,.2); border-radius:10px; padding:8px 10px; font-weight:800; cursor:pointer; }
 
-  /* Responsive */
-  @media (max-width: 1024px){ .gallery-grid{ grid-template-columns: repeat(3, minmax(0,1fr)); } }
+  /* ========= RESPONSIVE FIXES ========= */
+
+  /* Collapse hero/grid sections early */
   @media (max-width: 960px){
     .hero-inner{grid-template-columns:1fr; padding-bottom:40px}
     .claw{margin:20px auto 0; max-height:440px}
@@ -392,6 +395,34 @@
     #about .mascot{flex-basis:42%; max-width:42%}
     .cta-wrap{grid-template-columns:1fr}
   }
+
+  /* Fix “3 Simple Steps” cut-off on iOS:
+     - Make it single-column
+     - Remove sticky (problematic with overflow)
+     - Relax section overflow to show full art */
+  @media (max-width: 1024px){
+    .stepsX{ overflow:visible; }
+    .stepsX-wrap{ grid-template-columns:1fr; }
+    .stepsX-side{ position:static; justify-self:center; }
+    .stepsX-side img{ width:min(520px, 85vw); }
+    .stepsX-glow{ display:none; } /* avoid odd clipping on mobile */
+  }
+  @media (max-width: 720px){
+    .stepsX-row{ grid-template-columns:1fr; }
+  }
+
+  /* Contact section: collapse to single column (already at 1000px),
+     now also stack inputs on narrow phones to prevent side crop */
+  @media (max-width:1000px){
+    .contact-wrap{ grid-template-columns:1fr; text-align:center; }
+    .contact-side{ display:none; }
+  }
+  @media (max-width:560px){
+    .contact-form .row{ display:grid; grid-template-columns:1fr; }
+  }
+
+  /* Gallery responsiveness */
+  @media (max-width: 1024px){ .gallery-grid{ grid-template-columns: repeat(3, minmax(0,1fr)); } }
   @media (max-width: 720px){ .gallery-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
   @media (max-width: 420px){ .gallery-grid{ grid-template-columns: 1fr; } }
 
@@ -463,6 +494,7 @@
     background:rgba(255,255,255,.08);
     color:#fff; font-size:16px;
     backdrop-filter: blur(8px);
+    width:100%;
   }
   .contact-form input::placeholder,
   .contact-form textarea::placeholder{ color:#d2daf0; }
@@ -475,11 +507,6 @@
     width:100%; justify-content:center; font-size:18px; padding:14px 16px;
     background:linear-gradient(90deg,var(--brand),var(--accent));
     box-shadow:0 10px 34px rgba(32,255,160,.35);
-  }
-
-  @media (max-width:1000px){
-    .contact-wrap{ grid-template-columns:1fr; text-align:center; }
-    .contact-side{ display:none; }
   }
 
   /* === Floating contact dock (mobile-first) === */
@@ -628,31 +655,24 @@
         </div>
 
         <div class="gallery-grid" id="galleryGrid">
-          <!-- Use your uploaded images. Keep filenames or adjust the src paths. -->
           <a class="gallery-card" href="Assets/IMG_3526.jpeg" data-full="Assets/IMG_3526.jpeg" aria-label="Magic Cut mini with Switch prize">
             <img src="Assets/IMG_3526.jpeg" loading="lazy" alt="Magic Cut mini with Nintendo Switch prize" />
           </a>
-
           <a class="gallery-card" href="Assets/IMG_3409.png" data-full="Assets/IMG_3409.png" aria-label="Pin It and Gamer Claw side by side">
             <img src="Assets/IMG_3409.png" loading="lazy" alt="Pin It and Gamer Claw side by side" />
           </a>
-
           <a class="gallery-card" href="Assets/IMG_3403.png" data-full="Assets/IMG_3403.png" aria-label="Spaced Out Treasure with restaurant mascot">
             <img src="Assets/IMG_3403.png" loading="lazy" alt="Spaced Out Treasure with restaurant mascot" />
           </a>
-
           <a class="gallery-card" href="Assets/IMG_3383.jpeg" data-full="Assets/IMG_3383.jpeg" aria-label="MegaMini and Magic Cut at mall">
             <img src="Assets/IMG_3383.jpeg" loading="lazy" alt="MegaMini and Magic Cut at a mall" />
           </a>
-
           <a class="gallery-card" href="Assets/IMG_3418.png" data-full="Assets/IMG_3418.png" aria-label="Boxer punch machine at night">
             <img src="Assets/IMG_3418.png" loading="lazy" alt="Boxer punch machine lit up at night" />
           </a>
-
           <a class="gallery-card" href="Assets/IMG_3529.jpeg" data-full="Assets/IMG_3529.jpeg" aria-label="Arcade room with air hockey and cranes">
             <img src="Assets/IMG_3529.jpeg" loading="lazy" alt="Arcade room with air hockey and crane machines" />
           </a>
-
           <a class="gallery-card" href="Assets/IMG_3389.jpeg" data-full="Assets/IMG_3389.jpeg" aria-label="Gamer Quest and Ducky Treasure at Sweet Parlor">
             <img src="Assets/IMG_3389.jpeg" loading="lazy" alt="Gamer Quest and Ducky Treasure at Sweet Parlor" />
           </a>
